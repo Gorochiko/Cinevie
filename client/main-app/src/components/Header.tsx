@@ -11,6 +11,7 @@ export default function Header() {
             </Link>
          </div>
 
+
          <nav className="hidden md:flex space-x-10 text-lg font-bold">
             {["Movies", "Branches", "Promotions", "Support"].map((item) => (
                <Link
@@ -31,6 +32,7 @@ export default function Header() {
             </button>
          </Link>
 
+         {/* Mobile Menu */}
          <div className="md:hidden">
             <button className="text-white text-3xl hover:text-yellow-300">☰</button>
          </div>
