@@ -1,5 +1,5 @@
 
-import  Link  from "next/link";
+import Link from "next/link";
 
 
 function BodyFooter() {
@@ -77,7 +77,7 @@ function BodyFooter() {
           </li>
         </ul>
       </div>
-      
+
     </div>
   );
 }

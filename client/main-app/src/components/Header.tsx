@@ -1,72 +1,41 @@
-  
-   import Link from "next/link"
-   import Image from "next/image"
-   export default function Header(){
-      return(
-         <div className="flex justify-between sm:flex-row items-center px-8 bg-gradient-to-r from-red-500 via-blue-500 to-white text-white   top-0 left-0 right-0 backdrop-filter backdrop-blur-xl">
-         <div className="flex items-center">
-         <Link href="/">
-            <Image src="/logocinevie.svg" 
-                  width={50}
-                  height={50}
-                  className="w-[65px] h-[auto]" 
-                  alt="Icon" 
-            />
+import Link from "next/link";
+import Image from "next/image";
+
+export default function Header() {
+   return (
+      <header className="flex justify-between items-center px-1 sm:px-4 lg:px-12 py-0 bg-gradient-to-r from-red-500 via-blue-500 to-white text-white shadow-2xl border-b-2 border-white/30">
+
+         <div className="flex h-[auto] items-center transform transition-all hover:scale-105">
+            <Link href="/">
+               <Image src="/logocinevie.svg" width={30} height={30} alt="Logo" className="w-[65px] drop-shadow-lg" />
+            </Link>
+         </div>
+
+
+         <nav className="hidden md:flex space-x-10 text-lg font-bold">
+            {["Movies", "Branches", "Promotions", "Support"].map((item) => (
+               <Link
+                  key={item}
+                  href={`/${item.toLowerCase()}`}
+                  className="relative group transition-all duration-300"
+               >
+                  <span className="group-hover:text-yellow-300">{item}</span>
+                  <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-yellow-300 transition-all duration-300 group-hover:w-full"></span>
+               </Link>
+            ))}
+         </nav>
+
+         <Link href="/login">
+            <button className="bg-red-500 text-white font-semibold px-6 py-2 rounded-full flex items-center gap-2 hover:bg-blue-500 hover:shadow-[0_0_20px_#3b82f6] transition-all duration-300">
+               <Image src="/iconUser.svg" width={22} height={22} alt="User" />
+               <span>Sign in</span>
+            </button>
          </Link>
-         </div>
 
-         {/* Navigation */}
-         <ul className="hidden md:flex space-x-8">
-         <li>
-            <Link
-               href="/movies"
-               className="text-lg font-medium hover:text-red-700 transition duration-200"
-            >
-               Movies
-            </Link>
-         </li>
-         <li>
-            <Link
-               href="/branches"
-               className="text-lg font-medium hover:text-blue-700 transition duration-200"
-            >
-               Branches
-            </Link>
-         </li>
-         <li>
-            <Link
-               href="/promotions"
-               className="text-lg font-medium hover:text-red-700 transition duration-200"
-            >
-               Promotions
-            </Link>
-         </li>
-         <li>
-            <Link
-               href="/support"
-               className="text-lg font-medium hover:text-blue-700 transition duration-200"
-            >
-               Support
-            </Link>
-         </li>
-         </ul>
-
-         <div className="flex items-center space-x-4">
-         
-            <Link href="/auth/login">
-               <button className="bg-red-500 text-white rounded-full px-6 py-2 flex items-center hover:bg-blue-500 hover:shadow-lg transition-all duration-300">
-               <i className="fas fa-user mr-2">
-                  <Image src="/iconUser.svg" 
-                  width={20} 
-                  height={20}
-                   alt="iconUser"
-                  />
-               </i>
-               <span className="font-semibold">Sign in</span>
-               </button>
-            </Link>
-         
+         {/* Mobile Menu */}
+         <div className="md:hidden">
+            <button className="text-white text-3xl hover:text-yellow-300">☰</button>
          </div>
-      </div>
-      )
-   }
+      </header>
+   );
+}
