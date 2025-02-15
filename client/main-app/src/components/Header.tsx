@@ -1,7 +1,9 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 
 export default function Header() {
+   const navItem = ["Movies", "Branches", "Promotions", "Support"];
    return (
       <header className="flex justify-between items-center px-1 sm:px-4 lg:px-12 py-0 bg-gradient-to-r from-red-500 via-blue-500 to-white text-white shadow-2xl border-b-2 border-white/30">
 
@@ -13,14 +15,14 @@ export default function Header() {
 
 
          <nav className="hidden md:flex space-x-10 text-lg font-bold">
-            {["Movies", "Branches", "Promotions", "Support"].map((item) => (
+            {navItem.map((item) => (
                <Link
                   key={item}
                   href={`/${item.toLowerCase()}`}
-                  className="relative group transition-all duration-300"
+                  className="relative group  "
                >
                   <span className="group-hover:text-yellow-300">{item}</span>
-                  <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-yellow-300 transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-yellow-300  duration-300 group-hover:w-full"></span>
                </Link>
             ))}
          </nav>
