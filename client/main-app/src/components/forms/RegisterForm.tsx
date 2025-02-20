@@ -3,10 +3,8 @@
 import Link from "next/link";
 import {
   CardTitle,
-  CardDescription,
   CardHeader,
   CardContent,
-  CardFooter,
   Card,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -20,8 +18,9 @@ export function RegisterForm() {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-
+  
   const handleSubmit = (e: React.FormEvent) => {
+
     e.preventDefault();
     if (password !== confirmPassword) {
       alert("Mật khẩu xác nhận không khớp!");

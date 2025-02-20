@@ -1,39 +1,43 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+"use client";
+import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import { BreadcrumbCollapsed } from "@/components/breadcrumb-app"
+import { User } from 'lucide-react';
+import { Video } from 'lucide-react';
+import { Clapperboard } from 'lucide-react';
+import AdminHeader from '@/components/dashboard/headerAdmin'
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
+
     <SidebarProvider>
       <AppSidebar items={
-            [{
-            title: "Film",
-            url: "",
-            icon: undefined, 
-            items: [
-              { title: "Action", url: "/dashboard/Flim" },
-              { title: "Comedy", url: "/dashboard/comedy" },
-            ],
-          },
-          {
-            title: "Showtimes",
-            url: "/#",
-            icon: undefined, 
-           
-          },
-          {
-            title: "Customer",
-            url: "/#",
-            icon: undefined
-           
-          }
+        [{
+          title: "Film",
+          url: "/flim",
+          icon: Clapperboard,
+
+        },
+        {
+          title: "Showtimes",
+          url: "/showtime",
+          icon: Video,
+        },
+        {
+          title: "Customer",
+          url: "/customer",
+          icon: User,
+
+        }
         ]
-    } />
-      <main className="flex flex-col w-full h-full">
-  
-        <SidebarTrigger />
-        <div className="p-4">{children}</div> 
+      } />
+
+      <main className=" flex flex-col w-full h-full">
+        <div className="w-full h-full  bg-gradient-to-b from-[#C68FE6] to-white  ">
+          <AdminHeader />
+          <div className=" p-4 rounded-xl  bg-white ">
+            {children}
+          </div>
+        </div>
       </main>
-      
     </SidebarProvider>
   )
-}
+} 

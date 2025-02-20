@@ -2,7 +2,6 @@ import axios from 'axios';
 import { AxiosResponse, AxiosInstance } from 'axios';
 
 
-
 export class APIError extends Error {
     constructor(
       message: string,
@@ -21,13 +20,28 @@ export const API: AxiosInstance = axios.create({
     timeout: 5000,
 });
 
-API.interceptors.request.use((config) => {
+
+
+// API.interceptors.request.use(
+//     (config) => {
+//       return getSession().then((session) => {
+//         if (session?.user?.exp && session.user.exp * 1000 < Date.now()) {
+//           console.log("Token expired, logging out...");
+//           signOut();
+//           return Promise.reject(new Error("Token expired"));
+//         }
   
-    return config;
-});
+//         if (session?.user?.access_token) {
+//           config.headers.Authorization = `Bearer ${session.user.access_token}`;
+//         }
+        
+//         return config;
+//       });
+//     },
+//     (error) => Promise.reject(error)
+//   );
 
 
-// Custom error class for API errors
 
 
 

@@ -5,6 +5,7 @@ import Credentials from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
 
 
+
 export class InvalidCredentials extends CredentialsSignin {
     code: string;
     constructor(error: string) {
@@ -24,7 +25,7 @@ declare module "next-auth/jwt" {
     email: string;
     firstName?: string;
     lastName?: string;
-    access_token: string;
+    access_token: string|null;
   }
 }
 
@@ -39,16 +40,16 @@ interface UserType  {
     __v: number
 }
 
-
 declare module "next-auth" {
     interface User {
-      access_token: string;
+      access_token: string|null;
       exp: number;
     }
     interface Session {
       user: User & DefaultSession["user"];
     }
   }
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     Credentials({
@@ -70,6 +71,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           if (!response?.access_token) {
             throw new Error("Không nhận được token xác thực.");
           }
+      
 
           const user = await fetchData<UserType>("/auth/me", {
             headers: { Authorization: `Bearer ${response.access_token}` },
@@ -95,18 +97,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: '/login',
   },
   callbacks: {
-    async session({ session, token }) {
-      if (token) {
-        session.user = {
+    authorized:async ({auth})=>{
+      return !!auth;
+    },
+    session: ({ session, token }) => {
+      if (token.exp && token.exp*1000-30000 < Date.now()) {
+        console.log("Token expired, logging out...");
+        signOut(); 
+      }
+      return {
+        ...session,
+        user: {
           ...session.user,
           id: token.sub!,
-          access_token: token.access_token as string,
+          access_token: token.access_token || null,
           exp: token.exp!,
-        };
-      }
-      return session;
+        },
+      };
     },
-    async jwt({ token, user }) {
+  
+    async jwt ({ token, user }) {
       if (user) {
         token.sub = user.id;
         token.access_token = user.access_token;
@@ -116,5 +126,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   },
   secret: process.env.AUTH_SECRET,
-  session: { strategy: "jwt" },
+  session: { strategy: "jwt",maxAge: 60 * 60, },
 });
