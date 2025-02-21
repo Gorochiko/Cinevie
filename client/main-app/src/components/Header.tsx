@@ -5,11 +5,11 @@ import Image from "next/image";
 export default function Header() {
    const navItem = ["Movies", "Branches", "Promotions", "Support"];
    return (
-      <header className="flex justify-between items-center px-1 sm:px-4 lg:px-12 py-0 bg-gradient-to-r from-red-500 via-blue-500 to-white text-white shadow-2xl border-b-2 border-white/30">
+      <header className="flex justify-between items-center px-1 sm:px-4 lg:px-12 py-0 bg-gradient-to-r from-[#1230AE] to-[#C68FE6] text-white shadow-2xl border-b-2 border-white/30">
 
          <div className="flex h-[auto] items-center transform transition-all hover:scale-105">
             <Link href="/">
-               <Image src="/logocinevie.svg" width={30} height={30} alt="Logo" className="w-[65px] drop-shadow-lg" />
+               <Image src="/lg1.png" width={30} height={30} alt="Logo" className="w-[65px] drop-shadow-lg animate-wiggle" />
             </Link>
          </div>
 
@@ -28,7 +28,7 @@ export default function Header() {
          </nav>
 
          <Link href="/login">
-            <button className="bg-red-500 text-white font-semibold px-6 py-2 rounded-full flex items-center gap-2 hover:bg-blue-500 hover:shadow-[0_0_20px_#3b82f6] transition-all duration-300">
+            <button className="bg-gradient-to-r from-[#FFD700] to-[#FF8C00] hover:from-[#FFC700] hover:to-[#FF7F00] hover:scale-95 text-white font-semibold px-6 py-2 rounded-full flex items-center gap-2 hover:bg-white hover:shadow-[0_0_20px_#3b82f6] transition-all drop-shadow-glow duration-300">
                <Image src="/iconUser.svg" width={22} height={22} alt="User" />
                <span>Sign in</span>
             </button>
