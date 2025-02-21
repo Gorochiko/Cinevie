@@ -25,7 +25,7 @@ export  async function login(username: string, password: string) {
 
 export const register = async (user: usertype)=>{
   const result = await postData<response>("/auth/signUp",user,undefined);
-  return result.error ? {error:result.message}: {success:true};
+  return result.error ? {error:result.error}: {success:true};
   }
   
 
