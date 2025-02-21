@@ -1,85 +1,172 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import {
-  CardTitle,
-  CardHeader,
-  CardContent,
-  Card,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import type React from "react"
+
+import Link from "next/link"
+import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { useState } from "react"
+import { register } from "@/lib/actions"
+import { useRouter } from "next/navigation"
+import { useToast } from "@/hooks/use-toast"
+import { motion } from "framer-motion"
 
 export function RegisterForm() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  
-  const handleSubmit = (e: React.FormEvent) => {
+  const { toast } = useToast()
+  const [firstName, setFirstName] = useState("")
+  const [email, setEmail] = useState("")
+  const [lastName, setLastname] = useState("")
+  const [password, setPassword] = useState("")
+  const [rePassword, setRepassword] = useState("")
+  const router = useRouter()
 
-    e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Mật khẩu xác nhận không khớp!");
-      return;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const result = await register({
+        firstName,
+        email,
+        lastName,
+        password,
+        rePassword,
+      })
+      console.log("Registration result:", result)
+      toast({ variant: "default", title: "Success", description: "Registration successful!" })
+      router.push("/login")
+    } catch (error: any) {
+      if (error) {
+        toast({ variant: "destructive", title: "Error", description: error.message })
+      }
     }
-    console.log("Registering with:", { name, email, phone, password });
-  };
+  }
 
   return (
-    <div className="w-full flex min-h-screen bg-gradient-to-r from-[#1230AE] to-[#C68FE6] p-4 items-center justify-center">
+    <div className="w-full flex min-h-screen bg-gradient-to-br from-[#1230AE] via-[#4A0E8F] to-[#C68FE6] p-4 items-center justify-center overflow-hidden">
       {/* Left Section */}
-      <div className="w-1/2 flex flex-col justify-center text-white px-16 space-y-4">
+      <motion.div
+        initial={{ opacity: 0, x: -50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-1/2 flex flex-col justify-center text-white px-16 space-y-6"
+      >
         <h1 className="text-6xl font-extrabold drop-shadow-lg">
-          Chào mừng đến với 
-          <span className="bg-gradient-to-r from-[#FFD700] to-[#FFFFFF] bg-clip-text text-transparent animate-pulse drop-shadow-glow">Cinevie+</span>
+          Chào mừng đến với
+          <span className="bg-gradient-to-r from-[#FFD700] to-[#FFFFFF] bg-clip-text text-transparent animate-pulse drop-shadow-glow ml-2">
+            Cinevie+
+          </span>
         </h1>
-        <p className="text-lg opacity-90 leading-relaxed">
+        <p className="text-xl opacity-90 leading-relaxed">
           Đăng ký ngay để trải nghiệm điện ảnh tuyệt vời với những bộ phim hấp dẫn nhất!
         </p>
-      </div>
-      
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.5, type: "spring", stiffness: 260, damping: 20 }}
+        >
+          <Button className="mt-4 bg-white text-[#1230AE] hover:bg-opacity-90 transition-all duration-300 text-lg px-8 py-3 rounded-full">
+            Khám phá ngay
+          </Button>
+        </motion.div>
+      </motion.div>
+
       {/* Right Section */}
-      <div className="w-1/2 flex justify-center items-center">
-        <Card className="w-full max-w-md bg-white shadow-xl rounded-3xl p-8 text-gray-900">
+      <motion.div
+        initial={{ opacity: 0, x: 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-1/2 flex justify-center items-center"
+      >
+        <Card className="w-full max-w-md bg-white bg-opacity-10 backdrop-blur-lg shadow-2xl rounded-3xl p-8 text-white">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold">Đăng ký</CardTitle>
           </CardHeader>
           <CardContent>
             <form className="space-y-4" onSubmit={handleSubmit}>
-              <div className="space-y-3">
-                <Label htmlFor="name" className="text-gray-700">Họ và Tên</Label>
-                <Input id="name" type="text" required value={name} onChange={(e) => setName(e.target.value)} className="bg-white text-gray-900 border-gray-300 rounded-lg px-4 py-2" />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                  <Label  className="text-white">
+                    Họ
+                  </Label>
+                  <Input
+                    id="firstName"
+                    type="text"
+                    required
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    className="  text-white border-transparent border-white rounded-lg px-4 py-2"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label  className="text-white">
+                    Tên
+                  </Label>
+                  <Input
+                    id="lastName"
+                    type="text"
+                    required
+                    value={lastName}
+                    onChange={(e) => setLastname(e.target.value)}
+                    className="text-white border-transparent border-white rounded-lg px-4 py-2"
+                  />
+                </div>
               </div>
-              <div className="space-y-3">
-                <Label htmlFor="email" className="text-gray-700">Gmail</Label>
-                <Input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white text-gray-900 border-gray-300 rounded-lg px-4 py-2" />
+              <div className="space-y-2">
+                <Label  className="text-white">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="text-white border-transparent border-white rounded-lg px-4 py-2"
+                />
               </div>
-              <div className="space-y-3">
-                <Label htmlFor="phone" className="text-gray-700">Số điện thoại</Label>
-                <Input id="phone" type="tel" required value={phone} onChange={(e) => setPhone(e.target.value)} className="bg-white text-gray-900 border-gray-300 rounded-lg px-4 py-2" />
+              <div className="space-y-2">
+                <Label  className="text-white">
+                  Mật khẩu
+                </Label>
+                <Input
+                  id="password"
+                  type="password"
+                  required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="text-white border-transparent border-white rounded-lg px-4 py-2"
+                />
               </div>
-              <div className="space-y-3">
-                <Label htmlFor="password" className="text-gray-700">Mật khẩu</Label>
-                <Input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className="bg-white text-gray-900 border-gray-300 rounded-lg px-4 py-2" />
+              <div className="space-y-2">
+                <Label  className="text-white">
+                  Xác nhận mật khẩu
+                </Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  required
+                  value={rePassword}
+                  onChange={(e) => setRepassword(e.target.value)}
+                  className="text-white border-transparent border-white rounded-lg px-4 py-2"
+                />
               </div>
-              <div className="space-y-3">
-                <Label htmlFor="confirmPassword" className="text-gray-700">Xác nhận mật khẩu</Label>
-                <Input id="confirmPassword" type="password" required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className="bg-white text-gray-900 border-gray-300 rounded-lg px-4 py-2" />
+              <div className="flex justify-between items-center text-sm mt-4">
+                <Link href="/login" className="text-white hover:underline transition-all duration-300">
+                  Đã có tài khoản?
+                </Link>
               </div>
-              <div className="flex justify-between items-center text-sm">
-                <Link href="login" className="text-blue-600 hover:underline">Đã có tài khoản?</Link>
-              </div>
-              <Button type="submit" className="w-full bg-gradient-to-r from-[#FFD700] to-[#FF8C00] hover:from-[#FFC700] hover:to-[#FF7F00] text-white font-semibold py-3 rounded-lg">
+              <Button
+                type="submit"
+                className="w-full bg-gradient-to-r from-[#FFD700] to-[#FF8C00] hover:from-[#FFC700] hover:to-[#FF7F00] text-white font-semibold py-3 rounded-lg mt-6 transition-all duration-300 transform hover:scale-105"
+              >
                 Đăng ký
               </Button>
             </form>
           </CardContent>
         </Card>
-      </div>
+      </motion.div>
     </div>
-  );
+  )
 }
+
