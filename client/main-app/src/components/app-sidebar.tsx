@@ -45,7 +45,7 @@ export function AppSidebar({ items }: AppSidebarProps) {
             <SidebarContent className="bg-gradient-to-r from-[#1230AE] to-[#C68FE6]  text-white shadow-lg">
                 <SidebarGroup>
                     <Link href="/dashboard" className="justify-items-center border-l-indigo-50 w-full rounded-2xl border-black">
-                        <Image src="/logocinevie.svg" width={50} height={50} className="w-[65px] h-[auto]" alt="Icon" />
+                        <Image src="/lg1.png" width={50} height={50} className="w-[65px] h-[auto]" alt="Icon" />
                     </Link>
                     <SidebarGroupContent className="border-l-indigo-50 mt-2 p-2 rounded-2xl">
                         <SidebarMenu>

@@ -5,6 +5,7 @@ import { Bell, Search, Menu, X, ChevronDown } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { SidebarTrigger } from "../ui/sidebar"
 import Image from "next/image"
+import { signOut } from "next-auth/react"
 const AdminHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
@@ -25,7 +26,7 @@ const AdminHeader = () => {
               transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease:"backInOut"}}
               className="w-10 h-10 rounded-full flex items-center sm:justify-center"
             >
-              <Image src="/logocinevie.svg" width={50} height={50} alt="icon" />
+              <Image src="/lg1.png" width={50} height={50} alt="icon" />
             </motion.div>
             <span className="text-2xl font-extrabold">Dashboard</span>
           </div>
@@ -75,7 +76,7 @@ const AdminHeader = () => {
                     <a href="#" className="block px-4 py-2 hover:bg-purple-100">
                       Profile
                     </a>
-                    <a href="#" className="block px-4 py-2 hover:bg-purple-100">
+                    <a onClick={()=> signOut({callbackUrl:'/login'})} className="block px-4 py-2 hover:bg-purple-100">
                       Logout
                     </a>
                   </motion.div>
