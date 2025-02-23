@@ -1,7 +1,7 @@
 "use client";
 import { signIn } from "next-auth/react";
 import { postData } from "@/services/api";
-import { error } from "console";
+
 interface usertype{
     firstName:string,
     lastName:string,
