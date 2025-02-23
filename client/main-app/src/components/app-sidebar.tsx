@@ -17,18 +17,18 @@ export function AppSidebar() {
    const data={ 
     navcontent:  [{
         title: "Film",
-        url: "/flim",
+        url: "/flims",
         icon: Clapperboard,
 
       },
       {
         title: "Showtimes",
-        url: "/showtime",
+        url: "/showtimes",
         icon: Video,
       },
       {
         title: "Customer",
-        url: "/customer",
+        url: "/customers",
         icon: User,
 
       }

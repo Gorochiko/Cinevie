@@ -38,7 +38,7 @@ export default function NavContent({
       const { isCollapsed } = useSidebar(); 
     return(
 <SidebarGroup>
-                    <Link href="/dashboard" className="justify-items-center border-l-indigo-50 w-full rounded-2xl border-black">
+                    <Link href="/dashboards" className="justify-items-center border-l-indigo-50 w-full rounded-2xl border-black">
                         <Image src="/lg1.png" width={50} height={50} className="w-[65px] h-[auto]" alt="Icon" />
                     </Link>
                     <SidebarGroupContent className="border-l-indigo-50 mt-2 p-2 rounded-2xl">
