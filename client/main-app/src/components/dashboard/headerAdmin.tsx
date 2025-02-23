@@ -46,9 +46,9 @@ const AdminHeader = () => {
               <input
                 type="text"
                 placeholder="Search..."
-                className="bg-purple-600 text-white placeholder-purple-300 rounded-full py-1 px-4 focus:outline-none focus:ring-2 focus:ring-purple-300"
+                className=" text-black placeholder-purple-300 rounded-full py-1 px-4 focus:outline-none focus:ring-2 focus:ring-purple-300"
               />
-              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-300" size={18} />
+              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-950" size={18} />
             </div>
             <button className="relative hover:text-purple-200 transition-colors duration-200">
               <Bell size={24} />
@@ -116,9 +116,9 @@ const AdminHeader = () => {
                   <input
                     type="text"
                     placeholder="Search..."
-                    className="w-full bg-purple-600 text-white placeholder-purple-300 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-purple-300"
+                    className="w-full text-white placeholder-purple-300 rounded-full py-2 px-4 focus:outline-none focus:ring-2 focus:ring-purple-300"
                   />
-                  <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-purple-300" size={18} />
+                  <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white" size={18} />
                 </div>
                 <div className="flex items-center justify-between">
                   <button className="relative hover:text-purple-200 transition-colors duration-200">
