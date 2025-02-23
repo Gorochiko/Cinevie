@@ -52,11 +52,9 @@ export const API: AxiosInstance = axios.create({
 
 const getAuthSession = async () => {
     try {
-        // For client-side requests
         if (typeof window !== 'undefined') {
             return await getSession();
         }
-        // For server-side requests
         return await auth();
     } catch (error) {
         console.error('Session fetch error:', error);
