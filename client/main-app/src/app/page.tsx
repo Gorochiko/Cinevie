@@ -1,24 +1,31 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Slideshow } from "@/components/Slideshow";
-import { SlideFood } from "@/components/SlideFood";
-
+import { RecommendMovie } from "@/components/RecommendMovie";
+import { MovieGenres } from "@/components/MovieGenres";
+import { Promotion } from "@/components/Promotion";
+// import { SlideFood } from "@/components/SlideFood";
 
 export default function Home() {
   return (
-    <div>
+    <div className="bg-gray-100 min-h-screen">
       <Header />
-      <div className="flex justify-center items-center">
-        <div className=" w-3/5">
-          <Slideshow></Slideshow>
+        <div className="w-full p-5 animate-fadeIns">
+          <Slideshow />
         </div>
-        <div className="w-2/5">
-          <SlideFood></SlideFood>
+        <div className="w-full bg-gradient-to-r from-[#1230AE] to-[#C68FE6] ">
+          <RecommendMovie/>
         </div>
-      </div>
-      
+        <div className="w-full p-7">
+          <MovieGenres/>
+        </div>
+        <div className="w-full p-7">
+          <Promotion/>
+        </div>
+      {/* <div className="w-2/5 pr-10 animate-slideUp">
+          <SlideFood />
+      </div> */}
       <Footer />
-
     </div>
   );
 }

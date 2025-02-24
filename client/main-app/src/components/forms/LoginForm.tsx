@@ -26,7 +26,7 @@ export default function LoginForm() {
       toast({ variant: "destructive", title: "Lỗi", description: result?.error });
     } else {
       setLoading(false);
-      router.push("/dashboard");
+      router.push("/dashboards");
     }
   },3000)
 }
