@@ -28,7 +28,7 @@ export class FlimsService {
         timeLength:createFlimDto.timeLength,
         year: createFlimDto.year,
         onStage:createFlimDto.onStage,
-        description:createFlimDto.desciption,
+        description:createFlimDto.description,
         image:createFlimDto.image,
       })
       return createFlim;
@@ -52,33 +52,17 @@ export class FlimsService {
    * @returns result, metadata
    */
   
-  async findAll(query: string, current: number, pageSize: number) {
-    const { filter, sort } = aqp(query);
-    //bỏ các tham số không cần thiết
-    if (filter.current) delete filter.current;
-    if (filter.pageSize) delete filter.pageSize;
-    //Gán giá trị mặc định nếu current hoặc pageSize không được truyền
-    if (!current) current = 1;
-    if (!pageSize) pageSize = 10;
+  async findAll() {
+ 
     //Đếm tổng số lượng bản ghi
-    const totalItems = await this.flimModel.countDocuments(filter);
-    //Tính toán tổng số trang
-    const totalPage = Math.ceil(totalItems / pageSize);
-    // Tính số bản ghi cần bỏ qua
-    const skip = (current - 1) * pageSize;
-    //Lấy các kết quả theo trang và sắp xếp
+   
+
     const results = await this.flimModel
-      .find(filter)
-      .limit(pageSize)
-      .skip(skip)
-      .sort(sort as any);
+      .find()
+      if (!results) {
+        throw new Error('Movie not found');
+      }
     return { 
-      meta:{
-        current:current,
-        pageSize:pageSize,
-        pages:totalPage,
-        total:totalItems,
-      },
       results
       };
   }
@@ -98,7 +82,10 @@ export class FlimsService {
 
 
 
-  checkFlimexitst = async(title:string) =>
-await this.flimModel.exists({title:title});
+  async checkFlimexitst(title: string): Promise<boolean> {
+    const flim = await this.flimModel.findOne({ title }).exec();
+    return flim !== null;
+  }
+  
   
 }

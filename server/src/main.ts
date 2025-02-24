@@ -4,9 +4,16 @@ import { ValidationPipe } from '@nestjs/common';
 import { AllConfigType } from './config/config.type';
 import { ConfigService } from '@nestjs/config';
 import { useContainer } from 'class-validator';
+import * as express from 'express';
+import  path,{join}  from 'path';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
+  app.use('/uploads', express.static(path.join(__dirname, '..', 'public', 'uploads')));
+  app.use('/uploads', express.static(join(__dirname, '..', 'public/uploads')));
+  app.enableCors({
+    origin: 'http://localhost:3000',
+  });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.enableShutdownHooks();
   const configService = app.get(ConfigService<AllConfigType>);

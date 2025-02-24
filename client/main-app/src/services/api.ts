@@ -2,6 +2,7 @@ import axios from 'axios';
 import { AxiosError, AxiosResponse, AxiosInstance } from 'axios';
 import { getSession, signOut } from 'next-auth/react';
 import { auth } from "@/lib/auth";
+import { headers } from 'next/headers';
 
 export class APIError extends Error {
     constructor(
@@ -106,22 +107,38 @@ interface ApiResponse<T> {
     message?: string;
 }
 
-export const fetchData = async <T>(endpoint: string, config: { headers: { Authorization: string; }; }): Promise<T> => {
+export const fetchData = async <T>(
+    endpoint: string,
+    config: { headers?: { Authorization?: string }; params?: Record<string, any> }
+  ): Promise<T> => {
     try {
-        const response: AxiosResponse<ApiResponse<T>> = await API.get(endpoint, config);
-        return response.data as T;
+      const response: AxiosResponse<ApiResponse<T>> = await API.get(endpoint, config);
+      return response.data as T;
     } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            console.error('Lỗi khi lấy dữ liệu:', error.response.data.message);
-        }
-        throw error;
+      if (axios.isAxiosError(error)) {
+        console.error("Lỗi khi lấy dữ liệu:", error.response?.data || error.message);
+        throw new APIError(
+          error.response?.data?.message || "Lỗi không xác định",
+          error.response?.status || 500,
+          error.response?.data
+        );
+      }
+      console.error("Lỗi không xác định:", error);
+      throw new APIError("Lỗi không xác định", 500);
     }
-};
+  };
 
 // Hàm gọi API POST
 export const postData = async <T>(endpoint: string, data: Record<string, any>, requireAuth = true): Promise<T> => {
     try {
-        const config = requireAuth ? {} : { headers: { Authorization: '' } };
+        const isFormdata =  data instanceof FormData;
+        const config = {
+            headers: {
+                ...(requireAuth ? {} : { Authorization: '' }),
+                ...(isFormdata ? { 'Content-Type': 'multipart/form-data' } : {}), // Không đặt Content-Type nếu không phải FormData
+            },
+        };
+        
         const response: AxiosResponse<ApiResponse<T>> = await API.post(endpoint, data, config);
         return response.data as T;
     } catch (error) {

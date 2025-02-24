@@ -11,13 +11,13 @@ export class Flim {
     age: string;
 
     @Prop({required:true})
-    timeLength:number;
+    timeLength:string;
 
     @Prop({required: true})
-    year: number;
+    year: string;
 
     @Prop({require:true})
-    onStage: Date;
+    onStage: string;
 
     @Prop({required:true}) 
     description:string;
