@@ -3,6 +3,7 @@ import { signIn } from "next-auth/react";
 import { APIError, fetchData, postData } from "@/services/api";
 import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
 import { Underline } from "lucide-react";
+import { Session } from "inspector";
 
 interface usertype {
   firstName: string,
@@ -68,6 +69,12 @@ export const createFilms = async (films:FormData) => {
     throw error;
   }
 };
+
+
+export const verify = async (verificationCode:string, _id:any) => {
+  const result = await postData<response>("/auth/verify", {verificationCode, _id}, undefined);
+  return result.error ? { error: result.error } : { success: true };
+}
 
 
 

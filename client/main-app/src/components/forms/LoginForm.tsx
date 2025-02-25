@@ -22,9 +22,15 @@ export default function LoginForm() {
     setLoading(true)
     setTimeout(async()=>{
     const result = await login(username, password);
+    console.log(result)
     if (result.error) {
+      if(result.error==="Account is not activity"){
+        router.push("/otp")
+      }
       toast({ variant: "destructive", title: "Lỗi", description: result?.error });
+      
     } else {
+     
       setLoading(false);
       router.push("/dashboards");
     }

@@ -204,7 +204,7 @@ export class AuthService {
     if(!updateUser){
       throw new BadRequestException('Update code failed');
     }
-    //send mail
+  
     this.mailerService
       .sendMail({
         to: user.email,
