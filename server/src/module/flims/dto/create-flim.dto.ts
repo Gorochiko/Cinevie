@@ -1,4 +1,5 @@
-import { IsString, IsDate, IsNumber, IsNotEmpty } from "class-validator";
+import { Type } from "class-transformer";
+import { IsString, IsDate, IsNumber, IsNotEmpty, IsOptional } from "class-validator";
 
 
 export class CreateFlimDto {
@@ -8,26 +9,25 @@ export class CreateFlimDto {
     title: string
 
     @IsNotEmpty()
-    @IsNumber()
-    age: number
+    @IsString()
+    age: string
 
     @IsNotEmpty()
-    @IsNumber()
-    timeLength:number
+    @IsString()
+    timeLength:string
 
     @IsNotEmpty()
-    @IsNumber()
-    year:number
+    @IsString()
+    year:string
     
     @IsNotEmpty()
-    @IsDate()
-    onStage:Date
+    @IsString()
+    onStage:string
 
     @IsNotEmpty()
     @IsString()
-    desciption:string
+    description:string
 
-    @IsNotEmpty()
-    @IsString()
-    image:string
+    @IsOptional()
+    image?:string
 }

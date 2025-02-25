@@ -9,7 +9,7 @@ import { UserModule } from './module/user/user.module';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { FlimsModule } from './module/flims/flims.module';
-
+import { MulterModule } from '@nestjs/platform-express';
 const infrastructureDatabaseModule = MongooseModule.forRootAsync({
   useClass: MongooseConfigService,
 });
@@ -22,6 +22,9 @@ const infrastructureDatabaseModule = MongooseModule.forRootAsync({
         appConfig,
       ],
       envFilePath: ['.env'],
+    }),
+    MulterModule.register({
+      dest: './public/uploads', // Thư mục lưu file
     }),
     infrastructureDatabaseModule,
     AuthModule,

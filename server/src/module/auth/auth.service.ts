@@ -220,7 +220,6 @@ export class AuthService {
   }
 
   /**
-   * 
    * @param forgotPasswordDto 
    * call method reVerify
    * if reVerify failed throw BadRequestException
@@ -276,8 +275,6 @@ export class AuthService {
     }
     return { message: 'Reset password successfully' };
   }
-
-
 
 
   async refreshToken(
