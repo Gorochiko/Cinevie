@@ -132,7 +132,7 @@ export default function FilmManagement() {
                                                     className="rounded-md shadow-md object-cover"
                                                 />
                                             </TableCell>
-                                            <TableCell className="font-medium">{film.title}</TableCell>
+                                            <TableCell className="font-semibold">{film.title}</TableCell>
                                             <TableCell className="font-medium hidden md:table-cell">{film.year}</TableCell>
                                             <TableCell className="hidden md:table-cell max-w-xs truncate">{film.description}</TableCell>
                                             <TableCell className="hidden sm:table-cell">

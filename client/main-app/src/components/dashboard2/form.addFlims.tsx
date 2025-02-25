@@ -1,13 +1,14 @@
 "use client"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { PlusCircle, Upload, X } from "lucide-react"
 import Image from "next/image"
 import { createFilms } from "@/lib/actions"
+import { toast, useToast } from "@/hooks/use-toast"
 
 export default function FormAddMovie() {
     const [title, setTitle] = useState("")
@@ -34,11 +35,11 @@ export default function FormAddMovie() {
         setImage(null)
         setImagePreview(null)
     }
-
+    const {toast} = useToast();
     const handleSubmit = async () => {
         try {
             setLoading(true);
-    
+            
             const formData = new FormData();
             formData.append("title", title);
             formData.append("description", description);
@@ -50,11 +51,8 @@ export default function FormAddMovie() {
             if (image) {
                 formData.append("image", image); // Gửi file ảnh
             }
-
-            console.log("Dữ liệu gửi đi:", Object.fromEntries(formData.entries()));
             const result = await createFilms(formData);
-            console.log("Phim đã được thêm:", result);
-    
+            toast({ variant: "default", title: "Successfully", description: "Created" });
             setTitle("");
             setYear("");
             setDescription("");
@@ -137,7 +135,9 @@ export default function FormAddMovie() {
                     </div>
                 </div>
                 <DialogFooter className="flex justify-between mt-4">
-                    <Button variant="secondary">Cancel</Button>
+                    <DialogClose >
+                        <Button variant={"secondary"}>Cancel</Button>
+                        </DialogClose>
                     <Button onClick={handleSubmit} disabled={loading} className="bg-blue-600 text-white">
                         {loading ? "Adding..." : "Add Movie"}
                     </Button>

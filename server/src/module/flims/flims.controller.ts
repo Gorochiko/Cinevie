@@ -7,6 +7,7 @@ import { extname } from 'path';
 import { Express } from 'express';
 import { UpdateFlimDto } from './dto/update-flim.dto';
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { ObjectId } from 'mongoose';
 @Controller('films')
 export class FlimsController {
   constructor(private readonly flimsService: FlimsService) { }
@@ -26,8 +27,7 @@ export class FlimsController {
     @Body() createFilmDto: CreateFlimDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    console.log(createFilmDto);
-    console.log(file)
+    
     if (!file) {
       throw new BadRequestException('No file uploaded');
     }
@@ -49,11 +49,11 @@ export class FlimsController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateFlimDto: UpdateFlimDto) {
-    return this.flimsService.update(+id, updateFlimDto);
+    return this.flimsService.update(id, updateFlimDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.flimsService.remove(+id);
+  remove(@Param('id') _id: string) {
+    return this.flimsService.remove(_id);
   }
 }

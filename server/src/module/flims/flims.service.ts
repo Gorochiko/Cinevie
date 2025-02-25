@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateFlimDto } from './dto/create-flim.dto';
 import { UpdateFlimDto } from './dto/update-flim.dto';
 import { Flim } from './schemas/flim.schema';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import aqp from 'api-query-params';
 import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
@@ -37,46 +37,33 @@ export class FlimsService {
     }
   }
 
-/**
-   * Find all users with pagination.
-   *
-   * @param page - The page number to retrieve.
-   * @param limitPage - The number of users per page.
-   * Promise User[] or undefined total and totalPage
-   * Step 1: validate page<=0 and limitPage<=0
-   * Step 2: skip Calculate the number of documents to skip based on the current number of pages and the number of documents per page.
-   * Step 3: Find all User with Pagination and select filed core
-   * Step 4: countDocuments is total user
-   * Step 5: Math ceil totalPage
-   * Step 6: return users and total and totalPage
-   * @returns result, metadata
+ /**
+   * @param results
+   * Step 1 : find all in database.
+   * Step 2 : if not found throw new Error
+   * Step 3 : return resuluts
    */
-  
   async findAll() {
- 
-    //Đếm tổng số lượng bản ghi
-   
-
     const results = await this.flimModel
       .find()
       if (!results) {
         throw new Error('Movie not found');
       }
-    return { 
-      results
-      };
+    return {results};
   }
 
   findOne(id: number) {
     return `This action returns a #${id} flim`;
   }
 
-  update(id: number, updateFlimDto: UpdateFlimDto) {
-    return `This action updates a #${id} flim`;
+  update(id: string, updateFlimDto: UpdateFlimDto) {
+    const results = this.flimModel.findByIdAndUpdate(id, updateFlimDto);
+    return results;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} flim`;
+  remove(_id: string) {
+    const results = this.flimModel.findByIdAndDelete({_id:_id})
+    return results ;
   }
 
 
