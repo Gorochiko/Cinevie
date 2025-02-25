@@ -33,8 +33,8 @@ export function RegisterForm() {
         rePassword,
       })
       console.log("Registration result:", result)
-      toast({ variant: "default", title: "Success", description: "Registration successful!" })
-      router.push("/login")
+      toast({ variant: "default", title: "Please", description: "Please enter the code in email" })
+      router.push("/otp")
     } catch (error: any) {
       if (error) {
         toast({ variant: "destructive", title: "Error", description: error.message })

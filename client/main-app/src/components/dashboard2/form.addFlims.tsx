@@ -138,7 +138,7 @@ export default function FormAddMovie() {
                     <DialogClose >
                         <Button variant={"secondary"}>Cancel</Button>
                         </DialogClose>
-                    <Button onClick={handleSubmit} disabled={loading} className="bg-blue-600 text-white">
+                    <Button onClick={handleSubmit} disabled={loading} className="bg-gradient-to-r from-red-400 to-amber-500 text-white">
                         {loading ? "Adding..." : "Add Movie"}
                     </Button>
                 </DialogFooter>
