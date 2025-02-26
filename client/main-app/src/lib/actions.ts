@@ -15,18 +15,12 @@ interface usertype {
 interface response {
   message: string,
   error?: { message: string },
+  userId?: string,
 }
 
 
 interface flimRes {
-  meta: {
-    current: number;
-    pageSize: number;
-    pages: number;
-    total: number;
-  };
   results: any[];
-
 }
 
 
@@ -42,7 +36,7 @@ export async function login(username: string, password: string) {
 
 export const register = async (user: usertype) => {
   const result = await postData<response>("/auth/signUp", user, undefined);
-  return result.error ? { error: result.error } : { success: true };
+  return result.error ? { error: result.error } : result;
 }
 
 export const getFilms = async () => {
@@ -71,9 +65,9 @@ export const createFilms = async (films:FormData) => {
 };
 
 
-export const verify = async (verificationCode:string, _id:any) => {
-  const result = await postData<response>("/auth/verify", {verificationCode, _id}, undefined);
-  return result.error ? { error: result.error } : { success: true };
+export const verify = async (verificationCode:string, email:string) => {
+  const result = await postData<response>("/auth/verify", {verificationCode:verificationCode, email:email}, undefined);
+  return result.error ? { error: result.error } : result?.message;
 }
 
 

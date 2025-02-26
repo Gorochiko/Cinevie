@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-
 import Link from "next/link"
 import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
@@ -33,8 +32,11 @@ export function RegisterForm() {
         rePassword,
       })
       console.log("Registration result:", result)
+      if (result?.error) {
+        toast({ variant: "destructive", title: "Error", description: result.error.message })
+      }
       toast({ variant: "default", title: "Success", description: "Registration successful!" })
-      router.push("/otp")
+      router.push(`/otp?email=${email}`)
     } catch (error: any) {
       if (error) {
         toast({ variant: "destructive", title: "Error", description: error.message })

@@ -135,10 +135,9 @@ export const postData = async <T>(endpoint: string, data: Record<string, any>, r
         const config = {
             headers: {
                 ...(requireAuth ? {} : { Authorization: '' }),
-                ...(isFormdata ? { 'Content-Type': 'multipart/form-data' } : {}), // Không đặt Content-Type nếu không phải FormData
+                ...(isFormdata ? { 'Content-Type': 'multipart/form-data' } : {}),  
             },
         };
-        
         const response: AxiosResponse<ApiResponse<T>> = await API.post(endpoint, data, config);
         return response.data as T;
     } catch (error) {

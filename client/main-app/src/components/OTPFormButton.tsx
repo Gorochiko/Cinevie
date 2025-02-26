@@ -1,8 +1,11 @@
 
 import { Button } from "@/components/ui/button";
 import { CardContent, CardTitle } from "@/components/ui/card";
-
-export default function OTPFormButton({ handleVerify }: { handleVerify: () => void }) {
+interface OTPFormButtonProps {
+  handleVerify: () => void;
+  isLoading: boolean;
+}
+export default function OTPFormButton({ handleVerify, isLoading }: OTPFormButtonProps) {
   return (
     <CardContent>
       <div className="p-5 flex justify-between">

@@ -157,7 +157,8 @@ export class AuthService {
   async handleActivityAccount(
     verifyInfo: CodeAuthDto,
   ): Promise<{ message: string }> {
-    const user = await this.userService.findUserByID(verifyInfo._id);
+    const user = await this.userService.findUserByEmail(verifyInfo.email);
+    console.log(user);
     if (!user) {
       throw new BadRequestException('Invalid user');
     }
@@ -171,7 +172,7 @@ export class AuthService {
         const updateUserDto = new UpdateUserDto();
         updateUserDto.isActive = true;
         updateUserDto.codeId = '';
-        await this.userService.update(verifyInfo._id, updateUserDto);
+        await this.userService.update(user._id.toString(), updateUserDto);
       } else {
         throw new BadRequestException('Your code is incorrect');
       }
@@ -204,7 +205,7 @@ export class AuthService {
     if(!updateUser){
       throw new BadRequestException('Update code failed');
     }
-  
+    //send mail
     this.mailerService
       .sendMail({
         to: user.email,
