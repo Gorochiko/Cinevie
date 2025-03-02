@@ -10,6 +10,8 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { MailerModule } from '@nestjs-modules/mailer';
 import { FlimsModule } from './module/flims/flims.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { TheaterModule } from './module/theater/theater.module';
+import { RoomModule } from './module/room/room.module';
 const infrastructureDatabaseModule = MongooseModule.forRootAsync({
   useClass: MongooseConfigService,
 });
@@ -30,6 +32,8 @@ const infrastructureDatabaseModule = MongooseModule.forRootAsync({
     AuthModule,
     UserModule,
     FlimsModule,
+    TheaterModule,
+    RoomModule,
     MailerModule.forRootAsync({
     imports: [ConfigModule],
     useFactory: async (configService:ConfigService) => ({
@@ -58,7 +62,8 @@ const infrastructureDatabaseModule = MongooseModule.forRootAsync({
     }),
     inject: [ConfigService],
   }),
-    FlimsModule,
+   
+  
   ],
 })
 export class AppModule {}

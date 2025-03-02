@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateFlimDto } from './dto/create-flim.dto';
 import { UpdateFlimDto } from './dto/update-flim.dto';
 import { Flim } from './schemas/flim.schema';
@@ -19,7 +19,7 @@ export class FlimsService {
     try {
       const checkFlim = await this.checkFlimexitst(createFlimDto.title);
       if(checkFlim){
-        throw new BadRequestException("Flim Exist");
+        throw new BadRequestException(`Flim ${createFlimDto.title} Exist`);
       }
       
       const createFlim = await this.flimModel.create({
@@ -52,22 +52,30 @@ export class FlimsService {
     return {results};
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} flim`;
+  async findOne(id: string) {
+    const flim = await this.flimModel.findById(id).exec();
+    if (!flim) {
+      throw new NotFoundException(`not found with ID: ${id}`);
+    }
+    return flim;
   }
 
-  update(id: string, updateFlimDto: UpdateFlimDto) {
-    const results = this.flimModel.findByIdAndUpdate(id, updateFlimDto);
-    return results;
+  async update(id: string, updateFlimDto: UpdateFlimDto) {
+    const updatedFlim = await this.flimModel.findByIdAndUpdate(id, updateFlimDto, { new: true }).exec();
+    if (!updatedFlim) {
+      throw new NotFoundException(`Không tìm thấy phim để cập nhật với ID: ${id}`);
+    }
+    return updatedFlim;
   }
 
-  remove(_id: string) {
-    const results = this.flimModel.findByIdAndDelete({_id:_id})
-    return results ;
+
+  async remove(id: string) {
+    const deletedFlim = await this.flimModel.findByIdAndDelete(id).exec();
+    if (!deletedFlim) {
+      throw new NotFoundException(`Not found with ID : ${id}`);
+    }
+    return { message: 'Deleted', deletedFlim };
   }
-
-
-
 
   async checkFlimexitst(title: string): Promise<boolean> {
     const flim = await this.flimModel.findOne({ title }).exec();

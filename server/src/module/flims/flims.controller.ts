@@ -44,7 +44,7 @@ export class FlimsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.flimsService.findOne(+id);
+    return this.flimsService.findOne(id);
   }
 
   @Patch(':id')
@@ -53,7 +53,7 @@ export class FlimsController {
   }
 
   @Delete(':id')
-  remove(@Param('id') _id: string) {
-    return this.flimsService.remove(_id);
+  remove(@Param('id') id: string) {
+    return this.flimsService.remove(id);
   }
 }
