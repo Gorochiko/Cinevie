@@ -2,7 +2,7 @@ import axios from 'axios';
 import { AxiosError, AxiosResponse, AxiosInstance } from 'axios';
 import { getSession, signOut } from 'next-auth/react';
 import { auth } from "@/lib/auth";
-import { headers } from 'next/headers';
+
 
 export class APIError extends Error {
     constructor(
@@ -143,6 +143,39 @@ export const postData = async <T>(endpoint: string, data: Record<string, any>, r
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             console.error('Lỗi khi gửi dữ liệu:', error.response.data.message);
+        }
+        throw error;
+    }
+};
+
+export const patchData = async <T>(endpoint: string, data: Record<string, any>, requireAuth = true): Promise<T> => {
+    try {
+        const response: AxiosResponse<ApiResponse<T>> = await API.patch(endpoint, data, {
+            headers: {
+                ...(requireAuth ? {} : { Authorization: '' }),
+            },
+        });
+        return response.data as T;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            console.error('Lỗi khi gửi dữ liệu:', error.response.data.message);
+        }
+        throw error;
+    }
+}
+
+
+export const deleteData = async <T>(endpoint: string, requireAuth = true): Promise<T> => {
+    try {
+        const response: AxiosResponse<ApiResponse<T>> = await API.delete(endpoint, {
+            headers: {
+                ...(requireAuth ? {} : { Authorization: '' }),
+            },
+        });
+        return response.data as T;
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            console.error('Lỗi khi xóa dữ liệu:', error.response.data.message);
         }
         throw error;
     }

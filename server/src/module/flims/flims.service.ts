@@ -60,13 +60,18 @@ export class FlimsService {
     return flim;
   }
 
-  async update(id: string, updateFlimDto: UpdateFlimDto) {
-    const updatedFlim = await this.flimModel.findByIdAndUpdate(id, updateFlimDto, { new: true }).exec();
-    if (!updatedFlim) {
-      throw new NotFoundException(`Không tìm thấy phim để cập nhật với ID: ${id}`);
+  async update(id: string, updateFilmDto: UpdateFlimDto) {
+    const updatedFilm = await this.flimModel.findByIdAndUpdate(
+        id,
+        updateFilmDto,
+        { new: true }
+    ).exec();
+
+    if (!updatedFilm) {
+        throw new NotFoundException(`Không tìm thấy phim để cập nhật với id: ${id}`);
     }
-    return updatedFlim;
-  }
+    return updatedFilm;
+}
 
 
   async remove(id: string) {

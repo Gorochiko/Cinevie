@@ -1,9 +1,7 @@
-"use client";
+// Code by: Truong Vu
 import { signIn } from "next-auth/react";
-import { APIError, fetchData, postData } from "@/services/api";
-import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
-import { Underline } from "lucide-react";
-import { Session } from "inspector";
+import { APIError, fetchData, patchData, postData } from "@/services/api";
+
 
 interface usertype {
   firstName: string,
@@ -68,6 +66,23 @@ export const createFilms = async (films:FormData) => {
 export const verify = async (verificationCode:string, email:string) => {
   const result = await postData<response>("/auth/verify", {verificationCode:verificationCode, email:email}, undefined);
   return result.error ? { error: result.error } : result?.message;
+}
+
+
+
+export const updateFilmsAPI = async (id:string,films:any) => {
+  try {
+   
+    const response = await patchData(`/films/update-films/${id}`, films,true);
+    if (!response) {
+      throw new APIError("Lỗi khi cập nhật phim");
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Lỗi khi cập nhật phim:", error);
+    throw error;
+  }
 }
 
 

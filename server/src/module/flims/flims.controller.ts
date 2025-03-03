@@ -47,7 +47,7 @@ export class FlimsController {
     return this.flimsService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch('update-films/:id')
   update(@Param('id') id: string, @Body() updateFlimDto: UpdateFlimDto) {
     return this.flimsService.update(id, updateFlimDto);
   }
