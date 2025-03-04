@@ -16,7 +16,7 @@ export class APIError extends Error {
 }
 
 
-// Define public routes configuration without /api prefix
+
 const PUBLIC_ROUTES = [
     '/auth/signin',
     '/auth/re-verify',
@@ -24,14 +24,13 @@ const PUBLIC_ROUTES = [
     '/auth/verify',
     '/auth/signUp',
     '/auth/signout',
+    '/films/getFilms',
 ] as const;
 
-// Helper to check if route is public
-const isPublicRoute = (url: string): boolean => {
 
+const isPublicRoute = (url: string): boolean => {
     const normalizedUrl = url.replace(/^\/api/, '');
     return PUBLIC_ROUTES.some(route => {
-        // Handle wildcard routes (e.g., /public/*)
         if (route.endsWith('*')) {
             const baseRoute = route.slice(0, -1);
             return normalizedUrl.startsWith(baseRoute);
@@ -75,7 +74,6 @@ API.interceptors.request.use(
         const session = await getAuthSession();
         if (!session || !session.user || !session?.user.access_token) {
             throw new APIError('No authentication token found', 401);
-
         }
         else
             config.headers = config.headers || {};

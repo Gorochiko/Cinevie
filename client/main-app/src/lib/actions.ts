@@ -2,7 +2,9 @@
 import { signIn } from "next-auth/react";
 import { APIError, fetchData, patchData, postData } from "@/services/api";
 
-
+/**
+ * The mask of user type
+ */
 interface usertype {
   firstName: string,
   lastName: string,
@@ -10,6 +12,10 @@ interface usertype {
   password: string,
   rePassword: string,
 }
+
+/**
+ * The mask of response
+ */
 interface response {
   message: string,
   error?: { message: string },
@@ -17,11 +23,25 @@ interface response {
 }
 
 
+/**
+ * The mask of film response
+ */
 interface flimRes {
   results: any[];
 }
 
 
+
+
+/**
+ * 
+ * @param username 
+ * @param password 
+ * Step1: Call signIn from next-auth
+ * Step2: Check if response has error, return error code
+ * Step3: Return success
+ * @returns 
+ */
 export async function login(username: string, password: string) {
   const response = await signIn("credentials", {
     redirect: false,
@@ -32,11 +52,27 @@ export async function login(username: string, password: string) {
 }
 
 
+
+/**
+ * 
+ * @param user 
+ * Step1: Call postData to register user
+ * Step2: Check if response has error, return error code
+ * Step3: Return success
+ * @returns 
+ */
 export const register = async (user: usertype) => {
   const result = await postData<response>("/auth/signUp", user, undefined);
   return result.error ? { error: result.error } : result;
 }
 
+
+/**
+ * Step1: Call fetchData to get films
+ * Step2: Check if response has error, return error code
+ * Step3: Return success
+ * @returns results
+ */
 export const getFilms = async () => {
   try {
    const results = await fetchData<flimRes>("/films/getFilms", {})
@@ -47,14 +83,22 @@ export const getFilms = async () => {
   }
 };
 
+
+
+/**
+ * 
+ * @param films 
+ * Step1: Call postData to create films
+ * Step2: Check if response has error, return error code
+ * Step3: Return success
+ * @returns 
+ */
 export const createFilms = async (films:FormData) => {
   try {
     const response = await postData("/films/add-films", films,true);
-
     if (!response) {
       throw new APIError("Lỗi khi thêm phim");
     }
-
     return response;
   } catch (error) {
     console.error("Lỗi khi thêm phim:", error);
@@ -63,6 +107,17 @@ export const createFilms = async (films:FormData) => {
 };
 
 
+
+
+/**
+ * 
+ * @param verificationCode 
+ * @param email 
+ * Step1: Call postData to verify user
+ * Step2: Check if response has error, return error code
+ * Step3: Return success
+ * @returns 
+ */
 export const verify = async (verificationCode:string, email:string) => {
   const result = await postData<response>("/auth/verify", {verificationCode:verificationCode, email:email}, undefined);
   return result.error ? { error: result.error } : result?.message;
@@ -70,14 +125,22 @@ export const verify = async (verificationCode:string, email:string) => {
 
 
 
+
+/**
+ * 
+ * @param id 
+ * @param films
+ * Step1: Call patchData to update films
+ * Step2: Check if response has error, return error code
+ * Step3: Return success 
+ * @returns 
+ */
 export const updateFilmsAPI = async (id:string,films:any) => {
   try {
-   
     const response = await patchData(`/films/update-films/${id}`, films,true);
     if (!response) {
       throw new APIError("Lỗi khi cập nhật phim");
     }
-
     return response;
   } catch (error) {
     console.error("Lỗi khi cập nhật phim:", error);

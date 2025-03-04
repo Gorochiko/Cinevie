@@ -14,7 +14,7 @@ const AdminHeader = () => {
   const toggleProfile = () => setIsProfileOpen(!isProfileOpen)
 
   return (
-    <header className="bg-[#C68FE6] flex flex-grow   text-white shadow-lg">
+    <header className="bg-[#C68FE6] flex flex-grow     text-white shadow-lg">
        <SidebarTrigger />
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center justify-between">

@@ -7,9 +7,11 @@ import {
 import { ChevronRight, type LucideIcon } from "lucide-react";
 import { User } from 'lucide-react';
 import { Video } from 'lucide-react';
+import { Theater } from 'lucide-react';
 import { Clapperboard } from 'lucide-react';
 import React from "react";
 import NavContent from "./ui/nav.content";
+
 
 
 export function AppSidebar() {
@@ -30,8 +32,12 @@ export function AppSidebar() {
         title: "Customer",
         url: "/customers",
         icon: User,
-
-      }
+      },
+      {
+        title: "Branchs",
+        url: "/theaters",
+        icon: Theater
+      },
       ]}
     return (
         <Sidebar>
