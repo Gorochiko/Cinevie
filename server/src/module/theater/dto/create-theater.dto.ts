@@ -9,4 +9,7 @@ export class CreateTheaterDto {
     @IsString()
     @IsNotEmpty()
     address: string;
+
+    @IsOptional()
+    rooms?: Types.ObjectId[];
   }

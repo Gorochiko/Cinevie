@@ -22,6 +22,11 @@ interface response {
   userId?: string,
 }
 
+interface theater {
+  name: string,
+  address: string,
+}
+
 
 /**
  * The mask of film response
@@ -148,5 +153,40 @@ export const updateFilmsAPI = async (id:string,films:any) => {
   }
 }
 
+export const createTheater = async (theater:theater) => {
+  try {
+    const response = await postData("/theaters/add-theaters", theater,true);
+    if (!response) {
+      throw new APIError("Lỗi khi thêm rạp");
+    }
+    return response;
+  } catch (error) {
+    console.error("Lỗi khi thêm rạp:", error);
+    throw error;
+  }
+}
 
+export const getTheaters = async () => {
+  try {
+   const results = await fetchData("/theaters/findtheater", {})
+   return results
+  } catch (error) {
+    console.error("Lỗi khi lấy danh sách rạp:", error);
+    throw error;
+  }
+};
+
+
+export const createRoom = async (room:any) => {
+  try {
+    const response = await postData("/rooms/addRoom", room,true);
+    if (!response) {
+      throw new APIError("Lỗi khi thêm phòng");
+    }
+    return response;
+  } catch (error) {
+    console.error("Lỗi khi thêm phòng:", error);
+    throw error;
+  }
+}
 

@@ -1,0 +1,201 @@
+"use client"
+
+import { useState } from "react"
+import { Plus, MapPin, Film, Building2 } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import AddRoomDialog from "./AddRoomDialog";
+import AddBranchDialog from "./AddBranchDialog"
+import BranchList from "./BranchList"
+import { CinemaBranch, ScreeningRoom } from "@/types"
+
+
+export default function CinemaBranchManagement() {
+  const [branches, setBranches] = useState<CinemaBranch[]>([])
+
+  const [selectedBranch, setSelectedBranch] = useState<CinemaBranch | null>(null)
+  const [newBranch, setNewBranch] = useState({
+    name: "",
+    address: ""
+   
+  })
+  const [newRoom, setNewRoom] = useState<ScreeningRoom>({
+    name: "",
+    seats: [''],
+  })
+
+  const [addBranchOpen, setAddBranchOpen] = useState(false)
+  const [addRoomOpen, setAddRoomOpen] = useState(false)
+  const [branchDetailsOpen, setBranchDetailsOpen] = useState(false)
+
+  const handleAddBranch = () => {
+    setBranches([...branches])
+    setNewBranch({ name: "", address: ""})
+    setAddBranchOpen(false)
+  }
+
+  const handleAddRoom = () => {
+    if (!selectedBranch) return
+
+
+    const updatedBranches = branches.map((branch) => {
+      if (branch.id === selectedBranch.id) {
+        return {
+          ...branch,
+          rooms: [...branch.rooms? branch.rooms : []],
+        }
+      }
+      return branch
+    })
+
+    setBranches(updatedBranches)
+    setNewRoom({ name: "", seats: [''] })
+    setAddRoomOpen(false)
+  }
+
+  const openAddRoomDialog = (branch: CinemaBranch) => {
+    setSelectedBranch(branch)
+    setAddRoomOpen(true)
+  }
+
+  const openBranchDetails = (branch: CinemaBranch) => {
+    setSelectedBranch(branch)
+    setBranchDetailsOpen(true)
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-semibold">Danh sách chi nhánh</h2>
+        {/* Add Branch Dialog */}
+        <AddBranchDialog
+          addBranchOpen={addBranchOpen}
+          setAddBranchOpen={setAddBranchOpen}
+          newBranch={newBranch}
+          setNewBranch={setNewBranch}
+          onBranchAdded={handleAddBranch}
+        />
+      </div>
+
+
+      {/* Branch List */}
+      <BranchList branches={branches}
+        openBranchDetails={openBranchDetails}
+        openAddRoomDialog={openAddRoomDialog}
+      />
+
+
+      {/* Add Room Dialog */}
+      <AddRoomDialog
+        addRoomOpen={addRoomOpen}
+        setAddRoomOpen={setAddRoomOpen}
+        selectedBranch={selectedBranch}
+        newRoom={newRoom}
+        setNewRoom={setNewRoom}
+        handleAddRoom={handleAddRoom}
+      />
+
+
+      {/* Branch Details Dialog */}
+      <Dialog open={branchDetailsOpen} onOpenChange={setBranchDetailsOpen}>
+        <DialogContent className="sm:max-w-[700px]">
+          {selectedBranch && (
+            <>
+              <DialogHeader>
+                <DialogTitle>{selectedBranch.name}</DialogTitle>
+                <DialogDescription className="flex items-center mt-1">
+                  <MapPin className="h-4 w-4 mr-1" />
+                  {selectedBranch.address}
+                </DialogDescription>
+              </DialogHeader>
+              <Tabs defaultValue="info" className="mt-4">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="info">Thông tin</TabsTrigger>
+                  <TabsTrigger value="rooms">Phòng chiếu ({selectedBranch.rooms?.length})</TabsTrigger>
+                </TabsList>
+                <TabsContent value="info" className="space-y-4 mt-4">
+                 
+                  <div>
+                    <h3 className="font-medium mb-2">Tổng số phòng chiếu</h3>
+                    <div className="flex items-center">
+                      <Building2 className="h-5 w-5 mr-2" />
+                      <span>{selectedBranch.rooms?.length} phòng</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-end">
+                    <Button onClick={() => openAddRoomDialog(selectedBranch)}>
+                      <Plus className="mr-2 h-4 w-4" /> Thêm phòng chiếu
+                    </Button>
+                  </div>
+                </TabsContent>
+                <TabsContent value="rooms" className="mt-4">
+                  <div className="space-y-4">
+                    {selectedBranch.rooms?.length === 0 ? (
+                      <div className="text-center py-8">
+                        <Film className="h-10 w-10 mx-auto text-muted-foreground mb-4" />
+                        <p className="text-muted-foreground">Chưa có phòng chiếu nào</p>
+                        <Button className="mt-4" onClick={() => openAddRoomDialog(selectedBranch)}>
+                          <Plus className="mr-2 h-4 w-4" /> Thêm phòng chiếu
+                        </Button>
+                      </div>
+                    ) : (
+                      <>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          {selectedBranch.rooms?.map((room) => (
+                            <Card key={room.id}>
+                              <CardHeader className="pb-2">
+                                <CardTitle className="text-lg">{room.name}</CardTitle>
+                             
+                              </CardHeader>
+                              <CardContent>
+                                <div className="flex items-center">
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="mr-2"
+                                  >
+                                    <path d="M19 7H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z" />
+                                    <path d="M2 12h20" />
+                                    <path d="M7 12v7" />
+                                    <path d="M17 12v7" />
+                                  </svg>
+                             
+                                </div>
+                              </CardContent>
+                            </Card>
+                          ))}
+                        </div>
+                        <div className="flex justify-end">
+                          <Button onClick={() => openAddRoomDialog(selectedBranch)}>
+                            <Plus className="mr-2 h-4 w-4" /> Thêm phòng chiếu
+                          </Button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </TabsContent>
+              </Tabs>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}
+

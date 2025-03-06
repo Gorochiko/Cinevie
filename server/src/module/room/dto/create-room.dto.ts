@@ -1,17 +1,21 @@
-import { IsArray, IsNotEmpty, IsObject, IsOptional, IsString } from "class-validator";
-
+import { IsArray, IsEnum, IsInt, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateRoomDto {
-    @IsString()
-    @IsNotEmpty()
-    name: string;
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-    @IsString()
-    @IsNotEmpty()
-    theater: string;
+  @IsInt()
+  @IsNotEmpty()
+  capacity: number; 
 
-    @IsArray()
-    @IsOptional()
-    @IsString({ each: true })
-    seats?: string[];
+
+  @IsEnum(['2D', '3D', 'IMAX', '4DX'])
+  @IsOptional()
+  screenType?: string;
+  
+  @IsArray()
+  @IsOptional()
+  @IsString({ each: true })
+  seats?: string[]; 
 }

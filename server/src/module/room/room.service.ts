@@ -9,13 +9,29 @@ import { TheaterService } from '../theater/theater.service';
 export class RoomService {
   constructor(@InjectModel(Room.name) private roomModel: Model<Room>,private theaterService: TheaterService,) {}
   async create(roomData: CreateRoomDto): Promise<Room> {
-    const theater = await this.theaterService.findOne(roomData.theater);
-    if (!theater) {
-      throw new NotFoundException('Theater không tồn tại');
-    }
-    return this.roomModel.create(roomData);
+    const generatedSeats = roomData.seats || this.generateSeats(roomData.capacity);
+    const newRoom = new this.roomModel({
+      name: roomData.name,
+      capacity: roomData.capacity,
+      screenType: roomData.screenType || '2D', 
+      seats: generatedSeats.map(seat => ({ seatNumber: seat, status: 'available' })),
+      isActive: true,
+    });
+    return newRoom.save();
   }
 
+  public generateSeats(capacity: number): string[] {
+    const seats: string[] = [];
+    const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'];
+    let seatCount = 0;
+    for (let row of rows) {
+      for (let i = 1; i <= 15 && seatCount < capacity; i++) {
+        seats.push(`${row}${i}`);
+        seatCount++;
+      }
+    }
+    return seats;
+}
   async findAll(): Promise<Room[]> {
     return this.roomModel.find().populate('theater').exec();
   }
