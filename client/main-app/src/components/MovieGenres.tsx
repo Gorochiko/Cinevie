@@ -51,7 +51,11 @@ export function MovieGenres() {
 
   return (
     <div className="relative w-full max-w-5xl mx-auto my-4">
-      <h2 className="text-2xl font-bold mb-4">Movie Genres</h2>
+      <h2 className="text-3xl font-bold text-center uppercase tracking-wide relative mb-4">
+        <span className="before:absolute before:left-0 before:top-1/2 before:w-24 before:h-0.5 before:bg-black before:-translate-y-1/2"></span>
+        <span className="mx-4">Movie Genres</span>
+        <span className="after:absolute after:right-0 after:top-1/2 after:w-24 after:h-0.5 after:bg-black after:-translate-y-1/2"></span>
+      </h2>
 
       <div className="relative">
         {/* Left Button */}
@@ -84,8 +88,7 @@ export function MovieGenres() {
         {/* Right Button */}
         <Button
           className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 hover:bg-gray-600 text-white p-2 rounded-full z-10"
-          onClick={scrollRight}
-        >
+          onClick={scrollRight}> 
           <ChevronRight />
         </Button>
       </div>

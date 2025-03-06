@@ -51,7 +51,11 @@ export function Promotion() {
 
   return (
     <div className="relative w-full max-w-7xl mx-auto my-6">
-      <h2 className="text-2xl font-bold mb-4">Exclusive Promotions</h2>
+      <h2 className="text-3xl font-bold text-center uppercase tracking-wide relative mb-4">
+        <span className="before:absolute before:left-0 before:top-1/2 before:w-24 before:h-0.5 before:bg-black before:-translate-y-1/2"></span>
+        <span className="mx-4">Exclusive Promotions</span>
+        <span className="after:absolute after:right-0 after:top-1/2 after:w-24 after:h-0.5 after:bg-black after:-translate-y-1/2"></span>
+      </h2>
 
       <div className="relative">
         {/* Left Button */}
@@ -65,15 +69,15 @@ export function Promotion() {
         {/* Slider */}
         <div ref={sliderRef} className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar px-8">
           {promotions.map((promo, i) => (
-            <Card key={i} className="min-w-[280px] flex-shrink-0 rounded-lg overflow-hidden relative">
+            <Card key={i} className="min-w-[280px] flex-shrink-0 rounded-lg group overflow-hidden relative">
               <Image
                 src={promo.image}
                 width={280}
                 height={350}
                 alt={promo.title}
-                className="w-full h-[250px] object-cover brightness-75"
+                className="w-full h-[250px] object-cover group-hover:scale-110 hover:brightness-50 transition-transform duration-700"
               />
-              <CardContent className="absolute bottom-3 left-3 text-white">
+              <CardContent className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <h3 className="text-lg font-semibold">{promo.title}</h3>
                 <p className="text-sm">{promo.description}</p>
               </CardContent>

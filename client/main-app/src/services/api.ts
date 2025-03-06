@@ -24,6 +24,7 @@ const PUBLIC_ROUTES = [
     '/auth/verify',
     '/auth/signUp',
     '/auth/signout',
+    '/films/getFilms'
 ] as const;
 
 // Helper to check if route is public
