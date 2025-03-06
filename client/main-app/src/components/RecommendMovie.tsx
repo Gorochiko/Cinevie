@@ -22,7 +22,7 @@ export function RecommendMovie() {
   const [films, setFilms] = useState<Film[]>([]);
   const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(false);
-  const itemsPerPage = 6;
+  const itemsPerPage = 5;
 
   useEffect(() => {
     const fetchFilms = async () => {
@@ -30,6 +30,7 @@ export function RecommendMovie() {
       try {
         const response = await getFilms();
         setFilms(response.results || []);
+        console.log(response,"usafihosahoiahoiasfhoisaf");
       } catch (error) {
         console.error("❌ Lỗi khi lấy danh sách phim:", error);
       }
@@ -54,12 +55,16 @@ export function RecommendMovie() {
 
   return (
     <div className="relative w-full max-w-7xl mx-auto p-7 my-4">
-      <h2 className="text-3xl text-white font-bold mb-6">Recommended Movies</h2>
+      <h2 className="text-3xl font-bold text-center uppercase tracking-wide relative mb-4">
+        <span className="before:absolute before:left-0 before:top-1/2 before:w-24 before:h-0.5 before:bg-white before:-translate-y-1/2"></span>
+        <span className="mx-4 text-white">Movie Selection</span>
+        <span className="after:absolute after:right-0 after:top-1/2 after:w-24 after:h-0.5 after:bg-white after:-translate-y-1/2"></span>
+      </h2>
 
       <div className="relative overflow-hidden">
         {/* Slider */}
         <div className="flex gap-4 transition-transform duration-500" style={{ transform: `translateX(-${index * 100}%)` }}>
-          {films.slice(index * itemsPerPage, index * itemsPerPage + itemsPerPage).map((film, i) => (
+          {films.slice(index * itemsPerPage, index * itemsPerPage + itemsPerPage).map((film) => (
             <Card key={film._id} className="relative w-1/5 flex-shrink-0 overflow-hidden  rounded-lg group">
               <CardContent className="p-0">
                 <Image
