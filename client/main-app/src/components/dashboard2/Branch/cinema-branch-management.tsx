@@ -17,6 +17,7 @@ import AddRoomDialog from "./AddRoomDialog";
 import AddBranchDialog from "./AddBranchDialog"
 import BranchList from "./BranchList"
 import { CinemaBranch, ScreeningRoom } from "@/types"
+import { toast } from "@/hooks/use-toast"
 
 
 export default function CinemaBranchManagement() {
@@ -30,7 +31,7 @@ export default function CinemaBranchManagement() {
   })
   const [newRoom, setNewRoom] = useState<ScreeningRoom>({
     name: "",
-    seats: [''],
+    capacity: 0,
   })
 
   const [addBranchOpen, setAddBranchOpen] = useState(false)
@@ -44,11 +45,9 @@ export default function CinemaBranchManagement() {
   }
 
   const handleAddRoom = () => {
-    if (!selectedBranch) return
-
-
+    if (!selectedBranch?._id) return toast({title:'Không tìm thấy phòng'})
     const updatedBranches = branches.map((branch) => {
-      if (branch.id === selectedBranch.id) {
+      if (branch._id === selectedBranch._id) {
         return {
           ...branch,
           rooms: [...branch.rooms? branch.rooms : []],
@@ -58,7 +57,7 @@ export default function CinemaBranchManagement() {
     })
 
     setBranches(updatedBranches)
-    setNewRoom({ name: "", seats: [''] })
+    setNewRoom({ name: "", capacity: 0})
     setAddRoomOpen(false)
   }
 
@@ -99,6 +98,7 @@ export default function CinemaBranchManagement() {
         addRoomOpen={addRoomOpen}
         setAddRoomOpen={setAddRoomOpen}
         selectedBranch={selectedBranch}
+        theaterId={selectedBranch?._id}
         newRoom={newRoom}
         setNewRoom={setNewRoom}
         handleAddRoom={handleAddRoom}

@@ -63,7 +63,7 @@ export function Promotion() {
         </Button>
 
         {/* Slider */}
-        <div ref={sliderRef} className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar px-8">
+        <div ref={sliderRef} className="flex gap-4 overflow-x-hidden scroll-smooth no-scrollbar px-8">
           {promotions.map((promo, i) => (
             <Card key={i} className="min-w-[280px] flex-shrink-0 rounded-lg overflow-hidden relative">
               <Image

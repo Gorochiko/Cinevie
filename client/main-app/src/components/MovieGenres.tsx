@@ -63,7 +63,7 @@ export function MovieGenres() {
         </Button>
 
         {/* Slider */}
-        <div ref={sliderRef} className="flex gap-4 overflow-x-auto scroll-smooth no-scrollbar px-8">
+        <div ref={sliderRef} className="flex gap-4 overflow-hidden scroll-smooth no-scrollbar px-8">
           {genres.map((genre, i) => (
             <Card key={i} className="min-w-[220px] flex-shrink-0 rounded-lg overflow-hidden relative">
               <Image

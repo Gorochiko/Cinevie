@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function Header() {
    const navItem = ["Movies", "Branches", "Promotions", "Support"];
    return (
-      <header className="flex justify-between items-center px-1 sm:px-4 lg:px-12 py-0 bg-gradient-to-r from-[#1230AE] to-[#C68FE6] text-white shadow-2xl border-b-2 border-white/30">
+      <header className="fixed  top-0 left-0 right-0 z-10   flex justify-between  items-center px-1 sm:px-4 lg:px-12 py-0 bg-gradient-to-r from-[#1230AE] to-[#C68FE6] text-white shadow-2xl border-b-2 border-white/30">
 
          <div className="flex h-[auto] items-center transform transition-all hover:scale-105">
             <Link href="/">

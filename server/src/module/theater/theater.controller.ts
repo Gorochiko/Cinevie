@@ -2,6 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TheaterService } from './theater.service';
 import { CreateTheaterDto } from './dto/create-theater.dto';
 import { UpdateTheaterDto } from './dto/update-theater.dto';
+import { CreateRoomDto } from '../room/dto/create-room.dto';
 
 @Controller('theaters')
 export class TheaterController {
@@ -12,6 +13,11 @@ export class TheaterController {
     return this.theaterService.create(createTheaterDto);
   }
 
+  @Post('add-room/:id')
+  addRoomToTheater(@Param('id') threadId: string, @Body() createRoomDto:CreateRoomDto) {
+    return this.theaterService.addRoomToTheater(threadId, createRoomDto);
+  }
+
   @Get('findtheater')
   findAll() {
     return this.theaterService.findAll();
@@ -19,7 +25,7 @@ export class TheaterController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.theaterService.findOne(id);
+    return this.theaterService.findTheaterByID(id);
   }
   
   @Patch('update-theater/:id')

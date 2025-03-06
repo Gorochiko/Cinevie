@@ -132,7 +132,6 @@ export const verify = async (verificationCode:string, email:string) => {
 
 
 /**
- * 
  * @param id 
  * @param films
  * Step1: Call patchData to update films
@@ -177,9 +176,9 @@ export const getTheaters = async () => {
 };
 
 
-export const createRoom = async (room:any) => {
+export const createRoomToTheater = async (room:any, threaterId:string) => {
   try {
-    const response = await postData("/rooms/addRoom", room,true);
+    const response = await postData(`/theaters/add-room/${threaterId}`,room,true);
     if (!response) {
       throw new APIError("Lỗi khi thêm phòng");
     }
@@ -188,5 +187,6 @@ export const createRoom = async (room:any) => {
     console.error("Lỗi khi thêm phòng:", error);
     throw error;
   }
+
 }
 

@@ -13,9 +13,9 @@ export class CreateRoomDto {
   @IsEnum(['2D', '3D', 'IMAX', '4DX'])
   @IsOptional()
   screenType?: string;
-  
-  @IsArray()
+
   @IsOptional()
+  @IsArray()
   @IsString({ each: true })
   seats?: string[]; 
 }

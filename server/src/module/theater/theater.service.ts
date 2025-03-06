@@ -3,11 +3,15 @@ import { CreateTheaterDto } from './dto/create-theater.dto';
 import { UpdateTheaterDto } from './dto/update-theater.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Theater } from './schemas/theater.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
+import { RoomService } from '../room/room.service';
+import { CreateRoomDto } from '../room/dto/create-room.dto';
+import { Room } from '../room/schemas/room.schema';
 @Injectable()
 export class TheaterService {
-  constructor(@InjectModel(Theater.name) 
-  private theaterModel: Model<Theater>
+  constructor(
+  @InjectModel(Theater.name) private theaterModel: Model<Theater>,
+  private  roomService: RoomService
 ) {}
 
 
@@ -28,17 +32,37 @@ async create(theaterData: CreateTheaterDto): Promise<Theater> {
   const createdTheater = await this.theaterModel.create({
           name: theaterData.name,
           address: theaterData.address,
-
+          isActive: true,
   })
  return createdTheater;
+}
+
+
+async addRoomToTheater(theaterId: string , createRoomDto: CreateRoomDto): Promise<Theater|null> {
+  const theater = await this.theaterModel.findById(theaterId).exec();
+  console.log(theater);
+  if (!theater) {
+    throw new BadRequestException('Rạp không tồn tại');
+  }
+
+  const populatedTheater = await theater.populate<{ rooms: Room[] }>('rooms');
+  const roomExists = populatedTheater.rooms.some((room: Room) => room.name === createRoomDto.name);
+  if (roomExists) {
+    throw new ConflictException(`Phòng "${createRoomDto.name}" đã tồn tại trong rạp này`);
+  }
+
+  const newRoom = await this.roomService.createRoom(createRoomDto);
+  populatedTheater.rooms?.push(newRoom.id);
+  await populatedTheater.save();
+  return populatedTheater.toObject();
 }
 
 async findAll(): Promise<Theater[]> {
   return this.theaterModel.find().populate('rooms').exec();
 }
 
-async findOne(id: string): Promise<Theater|null> {
-  return this.theaterModel.findById(id).populate('rooms').exec();
+async findTheaterByID(id:string): Promise<Theater|null> {
+  return this.theaterModel.findById(id);
 }
 
 

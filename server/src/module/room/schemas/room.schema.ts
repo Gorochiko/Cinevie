@@ -9,7 +9,7 @@ interface Seat {
 
 @Schema({ timestamps: true })
 export class Room extends Document {
-  @Prop({ required: true, unique: true }) 
+  @Prop({ required: true }) 
   name: string; 
 
   @Prop({ type: [{ 

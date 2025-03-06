@@ -3,13 +3,14 @@ import { RoomService } from './room.service';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 
+
 @Controller('rooms')
 export class RoomController {
   constructor(private readonly roomService: RoomService) {}
 
   @Post('addRoom')
   create(@Body() createRoomDto: CreateRoomDto) {
-    return this.roomService.create(createRoomDto);
+    return this.roomService.createRoom(createRoomDto);
   }
 
   @Get('getAllRoom/:id')

@@ -11,5 +11,5 @@ export class CreateTheaterDto {
     address: string;
 
     @IsOptional()
-    rooms?: Types.ObjectId[];
+    isActive?: boolean;
   }

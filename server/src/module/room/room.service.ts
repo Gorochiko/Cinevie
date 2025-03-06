@@ -1,14 +1,19 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRoomDto } from './dto/create-room.dto';
 import { UpdateRoomDto } from './dto/update-room.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Room } from './schemas/room.schema';
-import { TheaterService } from '../theater/theater.service';
+
 @Injectable()
 export class RoomService {
-  constructor(@InjectModel(Room.name) private roomModel: Model<Room>,private theaterService: TheaterService,) {}
-  async create(roomData: CreateRoomDto): Promise<Room> {
+  constructor(
+    @InjectModel(Room.name) private roomModel: Model<Room>,
+ 
+) {}
+
+  async createRoom(roomData: CreateRoomDto): Promise<Room> {
+    
     const generatedSeats = roomData.seats || this.generateSeats(roomData.capacity);
     const newRoom = new this.roomModel({
       name: roomData.name,
@@ -17,15 +22,25 @@ export class RoomService {
       seats: generatedSeats.map(seat => ({ seatNumber: seat, status: 'available' })),
       isActive: true,
     });
+
     return newRoom.save();
+   
   }
+
+  // async checkExitstName(Roomname: string, roomData: CreateRoomDto) {
+  //   const nameExitst = await this.roomModel.findOne({ name: roomData.name }).exec();
+  //   if (nameExitst && nameExitst.name === Roomname) {
+  //     throw new ConflictException("phòng đã đã tồn tại");
+  //   }
+  //   return nameExitst;
+  // }
 
   public generateSeats(capacity: number): string[] {
     const seats: string[] = [];
-    const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O'];
+    const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'];
     let seatCount = 0;
     for (let row of rows) {
-      for (let i = 1; i <= 15 && seatCount < capacity; i++) {
+      for (let i = 1; i <= 10 && seatCount < capacity; i++) {
         seats.push(`${row}${i}`);
         seatCount++;
       }

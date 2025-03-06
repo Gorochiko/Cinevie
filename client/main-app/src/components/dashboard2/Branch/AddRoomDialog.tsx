@@ -2,11 +2,12 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import {createRoom} from "@/lib/actions";
-const AddRoomDialog = ({ addRoomOpen, setAddRoomOpen, selectedBranch, newRoom, setNewRoom, handleAddRoom }:any) => {
+import {createRoomToTheater} from "@/lib/actions";
+const AddRoomDialog = ({ addRoomOpen,theaterId, setAddRoomOpen, selectedBranch, newRoom, setNewRoom, handleAddRoom }:any) => {
   handleAddRoom = () => {
-    const roomdata = createRoom(newRoom);
+    const roomdata = createRoomToTheater(newRoom, theaterId );
     console.log("Thêm phòng thành công:", roomdata);
+    setAddRoomOpen(false)
   }
   return (
     <Dialog open={addRoomOpen} onOpenChange={setAddRoomOpen}>
@@ -30,8 +31,8 @@ const AddRoomDialog = ({ addRoomOpen, setAddRoomOpen, selectedBranch, newRoom, s
             <Input
               id="capacity"
               type=""
-              value={newRoom.seats || ""}
-              onChange={(e) => setNewRoom({ ...newRoom, seats: Number.parseInt(e.target.value) || 0 })}
+              value={newRoom.capacity || ""}
+              onChange={(e) => setNewRoom({ ...newRoom, capacity: Number.parseInt(e.target.value) || 0 })}
               placeholder="Nhập sức chứa"
             />
           </div>
