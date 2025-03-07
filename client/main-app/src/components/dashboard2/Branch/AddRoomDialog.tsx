@@ -3,10 +3,20 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {createRoomToTheater} from "@/lib/actions";
+import { toast } from "@/hooks/use-toast";
+import { error } from "console";
+import { API, APIError } from "@/services/api";
 const AddRoomDialog = ({ addRoomOpen,theaterId, setAddRoomOpen, selectedBranch, newRoom, setNewRoom, handleAddRoom }:any) => {
-  handleAddRoom = () => {
-    const roomdata = createRoomToTheater(newRoom, theaterId );
-    console.log("Thêm phòng thành công:", roomdata);
+  handleAddRoom = async () => {
+    try {
+      const roomdata = await createRoomToTheater(newRoom, theaterId);
+     if(roomdata){
+      toast({variant:'default', title:"Success", description:roomdata?.message})
+     }
+      setAddRoomOpen(false);
+    } catch (error:any) {
+      toast({ variant:'destructive', title: 'Lỗi', description: error.message });
+    }
     setAddRoomOpen(false)
   }
   return (

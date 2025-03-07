@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Plus, MapPin, Film, Building2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog,
@@ -32,6 +33,7 @@ export default function CinemaBranchManagement() {
   const [newRoom, setNewRoom] = useState<ScreeningRoom>({
     name: "",
     capacity: 0,
+
   })
 
   const [addBranchOpen, setAddBranchOpen] = useState(false)
@@ -123,7 +125,6 @@ export default function CinemaBranchManagement() {
                   <TabsTrigger value="rooms">Phòng chiếu ({selectedBranch.rooms?.length})</TabsTrigger>
                 </TabsList>
                 <TabsContent value="info" className="space-y-4 mt-4">
-                 
                   <div>
                     <h3 className="font-medium mb-2">Tổng số phòng chiếu</h3>
                     <div className="flex items-center">
@@ -175,7 +176,7 @@ export default function CinemaBranchManagement() {
                                     <path d="M7 12v7" />
                                     <path d="M17 12v7" />
                                   </svg>
-                             
+                                  <Badge variant="outline">{room.screenType}</Badge> 
                                 </div>
                               </CardContent>
                             </Card>

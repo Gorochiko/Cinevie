@@ -38,7 +38,7 @@ async create(theaterData: CreateTheaterDto): Promise<Theater> {
 }
 
 
-async addRoomToTheater(theaterId: string , createRoomDto: CreateRoomDto): Promise<Theater|null> {
+async addRoomToTheater(theaterId: string , createRoomDto: CreateRoomDto): Promise<{message:string}> {
   const theater = await this.theaterModel.findById(theaterId).exec();
   console.log(theater);
   if (!theater) {
@@ -54,7 +54,7 @@ async addRoomToTheater(theaterId: string , createRoomDto: CreateRoomDto): Promis
   const newRoom = await this.roomService.createRoom(createRoomDto);
   populatedTheater.rooms?.push(newRoom.id);
   await populatedTheater.save();
-  return populatedTheater.toObject();
+  return { message: `Phòng đã được thêm vào rạp ${theater.name} thành công` };
 }
 
 async findAll(): Promise<Theater[]> {
@@ -62,7 +62,7 @@ async findAll(): Promise<Theater[]> {
 }
 
 async findTheaterByID(id:string): Promise<Theater|null> {
-  return this.theaterModel.findById(id);
+  return this.theaterModel.findById(id) ;
 }
 
 

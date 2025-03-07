@@ -58,6 +58,8 @@ export async function login(username: string, password: string) {
 
 
 
+
+
 /**
  * 
  * @param user 
@@ -70,6 +72,10 @@ export const register = async (user: usertype) => {
   const result = await postData<response>("/auth/signUp", user, undefined);
   return result.error ? { error: result.error } : result;
 }
+
+
+
+
 
 
 /**
@@ -90,8 +96,10 @@ export const getFilms = async () => {
 
 
 
-/**
- * 
+
+
+
+/** 
  * @param films 
  * Step1: Call postData to create films
  * Step2: Check if response has error, return error code
@@ -114,6 +122,10 @@ export const createFilms = async (films:FormData) => {
 
 
 
+
+
+
+
 /**
  * 
  * @param verificationCode 
@@ -127,6 +139,10 @@ export const verify = async (verificationCode:string, email:string) => {
   const result = await postData<response>("/auth/verify", {verificationCode:verificationCode, email:email}, undefined);
   return result.error ? { error: result.error } : result?.message;
 }
+
+
+
+
 
 
 
@@ -152,6 +168,9 @@ export const updateFilmsAPI = async (id:string,films:any) => {
   }
 }
 
+
+
+
 export const createTheater = async (theater:theater) => {
   try {
     const response = await postData("/theaters/add-theaters", theater,true);
@@ -165,6 +184,11 @@ export const createTheater = async (theater:theater) => {
   }
 }
 
+
+
+
+
+
 export const getTheaters = async () => {
   try {
    const results = await fetchData("/theaters/findtheater", {})
@@ -176,9 +200,13 @@ export const getTheaters = async () => {
 };
 
 
+
+
+
+
 export const createRoomToTheater = async (room:any, threaterId:string) => {
   try {
-    const response = await postData(`/theaters/add-room/${threaterId}`,room,true);
+    const response = await postData<response>(`/theaters/add-room/${threaterId}`,room,true);
     if (!response) {
       throw new APIError("Lỗi khi thêm phòng");
     }

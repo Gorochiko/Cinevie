@@ -2,7 +2,7 @@ export interface ScreeningRoom {
   id?: string;
   name: string;
   capacity: number;
-
+  screenType?:string
 }
 
 export interface CinemaBranch {
