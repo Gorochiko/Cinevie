@@ -7,21 +7,26 @@ import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuIte
 import { MoreHorizontal, MapPin, Film } from "lucide-react";
 import { CinemaBranch } from "@/types";
 
-const BranchList = ({ openBranchDetails, openAddRoomDialog }: any) => {
+
+const BranchList = ({ openBranchDetails, openAddRoomDialog  }: any) => {
   const [branches, setBranches] = useState<CinemaBranch[]>([]);
 
-  useEffect(() => {
-    const fetchBranches = async () => {
-      try {
-        const data = await getTheaters() as CinemaBranch[]; 
-        setBranches(data);
-      } catch (error) {
-        console.error("Lỗi khi lấy danh sách chi nhánh:", error);
-      }
-    };
+  const fetchBranches = async () => {
+    try {
+      const data = await getTheaters() as CinemaBranch[];
+      setBranches(data);
+    } catch (error) {
+      console.error("Lỗi khi lấy danh sách chi nhánh:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchBranches();
   }, []);
+
+
+
+
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

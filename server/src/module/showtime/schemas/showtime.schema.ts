@@ -7,8 +7,8 @@ export class Showtime extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Flim', required: true })
   film: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: 'Room', required: true })
-  room: Types.ObjectId;
+  @Prop({ type: Types.ObjectId, ref: 'Theater', required: true })
+  theater: Types.ObjectId;
 
   @Prop({ required: true })
   startTime: Date;

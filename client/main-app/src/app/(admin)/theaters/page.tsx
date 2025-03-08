@@ -2,7 +2,7 @@ import CinemaBranchManagement from "@/components/dashboard2/Branch/cinema-branch
 import { Card, CardContent } from "@/components/ui/card"
 
 
-export default function Home() {
+export default function TheaterPage() {
   return (
     <main className="container mx-auto py-10 px-6 min-h-screen bg-white text-black relative">
       {/* Hiệu ứng background bokeh */}

@@ -13,10 +13,10 @@ export default async function Layout({ children }: { children: React.ReactNode }
       <main className=" flex flex-col w-full h-full">
         <div className="w-full h-full  bg-gradient-to-b from-[#C68FE6] to-white  ">
           <Toaster/>
-          <div className="fixed top-0 md:left-64 left-0 right-0 z-10">
+          <div className=" sticky top-0 z-50  ">
           <AdminHeader />
           </div>
-          <div className=" p-4 rounded-xl mt-16  bg-white ">
+          <div className=" p-4 rounded-xl   bg-white ">
             {children}
           </div>
         </div>

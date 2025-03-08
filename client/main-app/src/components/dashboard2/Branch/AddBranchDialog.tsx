@@ -6,7 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import { createTheater } from "@/lib/actions";
+import { toast } from "@/hooks/use-toast";
+
+import { APIError } from "@/services/api";
 const AddBranchDialog = ({ addBranchOpen, setAddBranchOpen,onBranchAdded  }:any) => {
+
   const [newBranch, setNewBranch] = useState({
     name: "",
     address: ""
@@ -15,11 +19,12 @@ const AddBranchDialog = ({ addBranchOpen, setAddBranchOpen,onBranchAdded  }:any)
   const handleAddBranch = async () => {
     try {
       const response = await createTheater(newBranch);
-      console.log("Thêm rạp thành công:", response);
+
+      toast({variant:"default", description:"Thêm rạp thành công"})
       onBranchAdded(response); 
       setAddBranchOpen(false); 
-    } catch (error) {
-      console.error("Lỗi khi thêm chi nhánh:", error);
+    } catch (error: any) {
+      toast({variant:"destructive", title: 'Lỗi' , description:error?.message})
     }
   };
   return (

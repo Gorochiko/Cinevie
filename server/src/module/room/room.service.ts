@@ -11,7 +11,13 @@ export class RoomService {
     @InjectModel(Room.name) private roomModel: Model<Room>,
  
 ) {}
-
+/** Lời hứa trả vè Kiểu Room Object
+ * @param roomData  
+ * Step 1 : genarateSeat with capacity value
+ * Step 2 : add new room 
+ * Step 3 : Save
+ * @returns newRoom
+ */
   async createRoom(roomData: CreateRoomDto): Promise<Room> {
     
     const generatedSeats = roomData.seats || this.generateSeats(roomData.capacity);
@@ -35,6 +41,8 @@ export class RoomService {
   //   return nameExitst;
   // }
 
+
+  
   public generateSeats(capacity: number): string[] {
     const seats: string[] = [];
     const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'];

@@ -19,7 +19,7 @@ import AddBranchDialog from "./AddBranchDialog"
 import BranchList from "./BranchList"
 import { CinemaBranch, ScreeningRoom } from "@/types"
 import { toast } from "@/hooks/use-toast"
-
+import { getTheaters } from "@/lib/actions"
 
 export default function CinemaBranchManagement() {
   const [branches, setBranches] = useState<CinemaBranch[]>([])
@@ -176,7 +176,7 @@ export default function CinemaBranchManagement() {
                                     <path d="M7 12v7" />
                                     <path d="M17 12v7" />
                                   </svg>
-                                  <Badge variant="outline">{room.screenType}</Badge> 
+                                  <Badge variant="destructive">{room.screenType}</Badge> 
                                 </div>
                               </CardContent>
                             </Card>

@@ -25,9 +25,13 @@ export class TheaterService {
  * @returns createdTheater
  */
 async create(theaterData: CreateTheaterDto): Promise<Theater> {
-  const existingTheater = await this.theaterModel.findOne({ name: theaterData.name }).exec();
-  if (existingTheater) {
-    throw new ConflictException(`Tên rạp '${theaterData.name}' đã tồn tại tại địa chỉ '${existingTheater.address}'`);
+  const checkAddress = await this.theaterModel.findOne({ address: theaterData.address }).exec();
+  if (checkAddress) {
+    throw new ConflictException(`Địa chỉ ${theaterData.address} đã tồn tại ở rạp ${checkAddress.name}`);
+  }
+  const checkName = await this.theaterModel.findOne({ name: theaterData.name }).exec();
+  if (checkName) {
+    throw new ConflictException(`Rạp ${theaterData.name} đã tồn tại`);
   }
   const createdTheater = await this.theaterModel.create({
           name: theaterData.name,
@@ -38,36 +42,40 @@ async create(theaterData: CreateTheaterDto): Promise<Theater> {
 }
 
 
+
+/**
+ * 
+ * @param theaterId 
+ * @param createRoomDto
+ * Step 1 : Find by ID docbuments theater
+ * Step 2 : if response !theater throw BadRequest
+ * Step 3 :   
+ * @returns 
+ */
 async addRoomToTheater(theaterId: string , createRoomDto: CreateRoomDto): Promise<{message:string}> {
   const theater = await this.theaterModel.findById(theaterId).exec();
-  console.log(theater);
   if (!theater) {
-    throw new BadRequestException('Rạp không tồn tại');
+    throw new BadRequestException('Threater not exist');
   }
-
   const populatedTheater = await theater.populate<{ rooms: Room[] }>('rooms');
   const roomExists = populatedTheater.rooms.some((room: Room) => room.name === createRoomDto.name);
   if (roomExists) {
-    throw new ConflictException(`Phòng "${createRoomDto.name}" đã tồn tại trong rạp này`);
+    throw new ConflictException(`Room "${createRoomDto.name}" already existed in ${theater.name}`);
   }
-
   const newRoom = await this.roomService.createRoom(createRoomDto);
   populatedTheater.rooms?.push(newRoom.id);
   await populatedTheater.save();
-  return { message: `Phòng đã được thêm vào rạp ${theater.name} thành công` };
+  return { message: `Room already created in ${theater.name}` };
 }
-
 async findAll(): Promise<Theater[]> {
   return this.theaterModel.find().populate('rooms').exec();
 }
-
 async findTheaterByID(id:string): Promise<Theater|null> {
   return this.theaterModel.findById(id) ;
 }
 
 
 /**
- * 
  * @param id 
  * @param updateData 
  * Step1: Kiểm tra xem rạp đã tồn tại chưa
