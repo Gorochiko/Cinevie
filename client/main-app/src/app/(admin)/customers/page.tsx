@@ -8,6 +8,5 @@ export default function CustomerPage(){
             </div>
             <CustomerTable></CustomerTable>
         </div>
-        
     );
 }
