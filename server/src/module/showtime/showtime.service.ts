@@ -12,8 +12,8 @@ export class ShowtimeService {
   private showtimeModel: Model<Showtime>,
     private roomService: RoomService,
     private flimService: FlimsService
-
   ) { }
+
 
   /**
    * 
@@ -24,8 +24,8 @@ export class ShowtimeService {
    * step 4: return createdShowtime
    * @returns 
    */
-  async create(createShowtimeDto: CreateShowtimeDto) {
-    const room = await this.roomService.findOne(createShowtimeDto.room);
+  async create(createShowtimeDto: CreateShowtimeDto):Promise<{message:string}> {
+    const room = await this.roomService.findOne(createShowtimeDto.theater);
     if (!room) {
       throw new NotFoundException('Room not found');
     }
@@ -33,21 +33,20 @@ export class ShowtimeService {
     if (!flim) {
       throw new NotFoundException('Flim not found');
     }
-    const createdShowtime = this.showtimeModel.create(
+    await this.showtimeModel.create(
       {
         films: createShowtimeDto.films,
-        room: createShowtimeDto.room,
+        room: createShowtimeDto.theater,
         startTime: createShowtimeDto.startTime,
         endTime: createShowtimeDto.endTime,
       }
     );
-    return createdShowtime;
+    return {message:"Created showtime"};
   }
 
 
-
+  
   /**
-   * 
    * @returns 
    * Step 1 : find all in database.
    * Step 2 : if not found throw new Error
@@ -56,6 +55,9 @@ export class ShowtimeService {
   async findAll() {
     return this.showtimeModel.find().populate('room').populate('film').exec();
   }
+
+
+
 
 
   /**
@@ -76,6 +78,11 @@ export class ShowtimeService {
     return showtime;
   }
 
+
+
+
+
+  
   /**
    * 
    * @param id 
@@ -92,6 +99,9 @@ export class ShowtimeService {
     }
     return updatedShowtime;
   }
+
+
+
 
   /**
    * 

@@ -8,7 +8,7 @@ import { MoreHorizontal, MapPin, Film } from "lucide-react";
 import { CinemaBranch } from "@/types";
 
 
-const BranchList = ({ openBranchDetails, openAddRoomDialog  }: any) => {
+const BranchList = ({ openBranchDetails, openAddRoomDialog }: any) => {
   const [branches, setBranches] = useState<CinemaBranch[]>([]);
 
   const fetchBranches = async () => {
@@ -19,7 +19,6 @@ const BranchList = ({ openBranchDetails, openAddRoomDialog  }: any) => {
       console.error("Lỗi khi lấy danh sách chi nhánh:", error);
     }
   };
-
   useEffect(() => {
     fetchBranches();
   }, []);
@@ -58,7 +57,14 @@ const BranchList = ({ openBranchDetails, openAddRoomDialog  }: any) => {
                 <Film className="h-4 w-4 mr-2" />
                 <span className="font-medium">Phòng chiếu: {branch.rooms?.length ?? 0}</span>
               </div>
-             
+              <div className="flex flex-wrap gap-2">
+                {branch.rooms?.slice(0, 3).map((room) => (
+                  <Badge key={room.id} variant="destructive">
+                    {room.name}/{room.screenType}
+                  </Badge>
+                ))}
+                {branch.rooms && branch.rooms?.length > 3 && <Badge  variant="secondary">+{branch.rooms?.length - 3}</Badge>}
+              </div>
             </div>
           </CardContent>
           <CardFooter className="pt-1">

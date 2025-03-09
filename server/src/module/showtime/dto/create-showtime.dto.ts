@@ -7,10 +7,9 @@ export class CreateShowtimeDto {
 @IsMongoId()
 films: string;
 
-
 @IsNotEmpty()
 @IsMongoId()
-room: string;
+theater: string;
 
 @IsString()
 @IsNotEmpty()

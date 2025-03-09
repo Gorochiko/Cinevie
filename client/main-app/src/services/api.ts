@@ -62,6 +62,8 @@ const getAuthSession = async () => {
     }
 };
 
+
+
 API.interceptors.request.use(
     async (config) => {
         // Skip auth for public routes
@@ -84,6 +86,7 @@ API.interceptors.request.use(
 );
 
 
+
 API.interceptors.response.use(
     (response) => response,
     (error: AxiosError<{ message?: string }>) => {
@@ -100,10 +103,14 @@ API.interceptors.response.use(
 );
 
 
+
 interface ApiResponse<T> {
     data: T;
     message?: string;
 }
+
+
+
 
 export const fetchData = async <T>(
     endpoint: string,
@@ -126,6 +133,11 @@ export const fetchData = async <T>(
     }
   };
 
+
+
+
+
+
 // Hàm gọi API POST
 export const postData = async <T>(endpoint: string, data: Record<string, any>, requireAuth = true): Promise<T> => {
     try {
@@ -146,6 +158,10 @@ export const postData = async <T>(endpoint: string, data: Record<string, any>, r
     }
 };
 
+
+
+
+
 export const patchData = async <T>(endpoint: string, data: Record<string, any>, requireAuth = true): Promise<T> => {
     try {
         const response: AxiosResponse<ApiResponse<T>> = await API.patch(endpoint, data, {
@@ -161,6 +177,10 @@ export const patchData = async <T>(endpoint: string, data: Record<string, any>, 
         throw error;
     }
 }
+
+
+
+
 
 
 export const deleteData = async <T>(endpoint: string, requireAuth = true): Promise<T> => {

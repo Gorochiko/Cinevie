@@ -8,13 +8,11 @@ import { useState } from "react";
 import { createTheater } from "@/lib/actions";
 import { toast } from "@/hooks/use-toast";
 
-import { APIError } from "@/services/api";
 const AddBranchDialog = ({ addBranchOpen, setAddBranchOpen,onBranchAdded  }:any) => {
 
   const [newBranch, setNewBranch] = useState({
     name: "",
     address: ""
-   
   });
   const handleAddBranch = async () => {
     try {
@@ -64,7 +62,7 @@ const AddBranchDialog = ({ addBranchOpen, setAddBranchOpen,onBranchAdded  }:any)
           <Button variant="outline" onClick={() => setAddBranchOpen(false)}>
             Hủy
           </Button>
-          <Button onClick={handleAddBranch}>Thêm chi nhánh</Button>
+          <Button className="bg-gradient-to-r from-rose-400 to-red-700" onClick={handleAddBranch}>Thêm chi nhánh</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

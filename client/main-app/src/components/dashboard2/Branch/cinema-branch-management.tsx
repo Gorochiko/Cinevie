@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Plus, MapPin, Film, Building2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
   Dialog,
   DialogContent,
@@ -20,6 +20,7 @@ import BranchList from "./BranchList"
 import { CinemaBranch, ScreeningRoom } from "@/types"
 import { toast } from "@/hooks/use-toast"
 import { getTheaters } from "@/lib/actions"
+import { Clapperboard } from "lucide-react";
 
 export default function CinemaBranchManagement() {
   const [branches, setBranches] = useState<CinemaBranch[]>([])
@@ -122,7 +123,7 @@ export default function CinemaBranchManagement() {
               <Tabs defaultValue="info" className="mt-4">
                 <TabsList className="grid w-full grid-cols-2">
                   <TabsTrigger value="info">Thông tin</TabsTrigger>
-                  <TabsTrigger value="rooms">Phòng chiếu ({selectedBranch.rooms?.length})</TabsTrigger>
+                  <TabsTrigger value="rooms">Phòng chiếu ({selectedBranch.rooms ? selectedBranch.rooms.length : null})</TabsTrigger>
                 </TabsList>
                 <TabsContent value="info" className="space-y-4 mt-4">
                   <div>
@@ -150,32 +151,15 @@ export default function CinemaBranchManagement() {
                       </div>
                     ) : (
                       <>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="  w-auto grid grid-cols-1 md:grid-cols-2 gap-4">
                           {selectedBranch.rooms?.map((room) => (
                             <Card key={room.id}>
                               <CardHeader className="pb-2">
                                 <CardTitle className="text-lg">{room.name}</CardTitle>
-                             
                               </CardHeader>
                               <CardContent>
                                 <div className="flex items-center">
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    className="mr-2"
-                                  >
-                                    <path d="M19 7H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z" />
-                                    <path d="M2 12h20" />
-                                    <path d="M7 12v7" />
-                                    <path d="M17 12v7" />
-                                  </svg>
+                                  <Clapperboard/>
                                   <Badge variant="destructive">{room.screenType}</Badge> 
                                 </div>
                               </CardContent>

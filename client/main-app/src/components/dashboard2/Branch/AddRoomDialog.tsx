@@ -4,8 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import {createRoomToTheater} from "@/lib/actions";
 import { toast } from "@/hooks/use-toast";
-import { error } from "console";
-import { API, APIError } from "@/services/api";
+
 const AddRoomDialog = ({ addRoomOpen,theaterId, setAddRoomOpen, selectedBranch, newRoom, setNewRoom, handleAddRoom }:any) => {
   handleAddRoom = async () => {
     try {

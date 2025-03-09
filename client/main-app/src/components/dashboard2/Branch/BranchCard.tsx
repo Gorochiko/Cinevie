@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { MapPin, MoreHorizontal } from "lucide-react"
@@ -13,7 +15,7 @@ interface BranchCardProps {
 
 const BranchCard: React.FC<BranchCardProps> = ({ branch, onViewDetails, onAddRoom }) => {
   return (
-    <Card key={branch.id} className="overflow-hidden">
+    <Card key={branch._id} className="overflow-hidden">
       <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
           <CardTitle className="text-xl">{branch.name}</CardTitle>
@@ -37,15 +39,15 @@ const BranchCard: React.FC<BranchCardProps> = ({ branch, onViewDetails, onAddRoo
       <CardContent>
         <div className="mt-2">
           <div className="flex items-center mb-2">
-            <span className="font-medium">Phòng chiếu: {branch.rooms.length}</span>
+            <span className="font-medium">Phòng chiếu: {branch.rooms?.length}</span>
           </div>
           <div className="flex flex-wrap gap-2">
-            {branch.rooms.slice(0, 3).map((room) => (
+            {branch.rooms?.slice(0, 3).map((room) => (
               <Badge key={room.id} variant="outline">
-                {room.name} ({room.type})
+                {room.name} 
               </Badge>
             ))}
-            {branch.rooms.length > 3 && <Badge variant="outline">+{branch.rooms.length - 3}</Badge>}
+            {branch.rooms && branch.rooms?.length > 3 && <Badge variant="outline">+{branch.rooms?.length - 3}</Badge>}
           </div>
         </div>
       </CardContent>

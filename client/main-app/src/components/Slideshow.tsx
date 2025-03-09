@@ -17,7 +17,7 @@ export function Slideshow() {
   React.useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
-    }, 3000); // Chuyển ảnh sau 3 giây
+    }, 3000);
 
     return () => clearInterval(interval);
   }, []);

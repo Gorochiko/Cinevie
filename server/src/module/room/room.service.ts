@@ -11,6 +11,9 @@ export class RoomService {
     @InjectModel(Room.name) private roomModel: Model<Room>,
  
 ) {}
+
+
+
 /** Lời hứa trả vè Kiểu Room Object
  * @param roomData  
  * Step 1 : genarateSeat with capacity value
@@ -33,6 +36,7 @@ export class RoomService {
    
   }
 
+  
   // async checkExitstName(Roomname: string, roomData: CreateRoomDto) {
   //   const nameExitst = await this.roomModel.findOne({ name: roomData.name }).exec();
   //   if (nameExitst && nameExitst.name === Roomname) {
