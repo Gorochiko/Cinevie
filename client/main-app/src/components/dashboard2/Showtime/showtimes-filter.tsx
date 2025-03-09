@@ -16,12 +16,6 @@ import React from "react"
 export function ShowtimesFilter() {
     const [date, setDate] = React.useState<Date>()
 
-    const handleDateChange = (selected: Date | undefined) => {
-        if (selected) {
-            console.log("Ngày được chọn:", selected)
-            setDate(selected)
-        }
-    }
 
     return (
         <div className="flex flex-col gap-4 md:flex-row">
