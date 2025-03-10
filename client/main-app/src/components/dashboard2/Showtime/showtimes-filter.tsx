@@ -1,9 +1,6 @@
 "use client"
-
 import { Search } from "lucide-react"
 import { format } from "date-fns"
-import { vi } from "date-fns/locale"
-
 import { Calendar as CalendarIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
@@ -15,8 +12,6 @@ import React from "react"
 
 export function ShowtimesFilter() {
     const [date, setDate] = React.useState<Date>()
-
-
     return (
         <div className="flex flex-col gap-4 md:flex-row">
             <div className="flex-1 flex gap-2">
@@ -61,7 +56,7 @@ export function ShowtimesFilter() {
                     </PopoverContent>
                 </Popover>
                 <Button variant="outline">Lọc</Button>
-                <Button variant="ghost" onClick={() => setDate(undefined)}>Đặt lại</Button>
+                <Button variant="gradient" onClick={() => setDate(undefined)}>Đặt lại</Button>
             </div>
         </div>
     )

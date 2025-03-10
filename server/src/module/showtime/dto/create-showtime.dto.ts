@@ -11,11 +11,20 @@ films: string;
 @IsMongoId()
 theater: string;
 
-@IsString()
 @IsNotEmpty()
-startTime: string;
+rooms: string
+
+@IsNotEmpty()
+dateAction: Date;
+
+@IsNotEmpty()
+price:number;
 
 @IsString()
 @IsNotEmpty()
-endTime: string;
+startTime: Date;
+
+@IsString()
+@IsNotEmpty()
+endTime: Date;
 }
