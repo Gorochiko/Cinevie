@@ -71,7 +71,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
     resolver: zodResolver(formSchema),
     defaultValues: showtime || {
       movieId: "",
-      theaterId: "",
+      theaterId: "",  
       room: "",
       startTime: "",
       endTime: "",
@@ -289,19 +289,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
                 )}
               />
 
-              <FormField
-                control={form.control}
-                name="totalSeats"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Tổng số ghế</FormLabel>
-                    <FormControl>
-                      <Input {...field} type="number" min="1" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+          
 
               <FormField
                 control={form.control}

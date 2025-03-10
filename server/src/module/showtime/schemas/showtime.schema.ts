@@ -9,13 +9,22 @@ export class Showtime extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Theater', required: true })
   theater: Types.ObjectId;
 
+  @Prop({ type: [Types.ObjectId], ref: 'Room', required: false, default: [] })
+   rooms: Types.ObjectId ;
+
   @Prop({ required: true })
   startTime: Date;
+
+  @Prop({required:true})
+  dateAction: Date;
 
   @Prop({ required: true })
   endTime: Date;
 
-  @Prop({Type:String ,enum:['active','closed'] , default:'active'})
+  @Prop({required:true})
+  price: number;
+
+  @Prop({Type:String , enum:['active','closed'] , default:'active'})
   status:string;
 }
 

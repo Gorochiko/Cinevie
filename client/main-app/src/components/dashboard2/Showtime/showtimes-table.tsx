@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Calendar, Clock, Edit, MapPin, MoreHorizontal, Trash2, Users } from "lucide-react"
 import { format } from "date-fns"
 import { vi } from "date-fns/locale"
-
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -160,7 +159,6 @@ export function ShowtimesTable() {
     setSelectedShowtime(id)
     setShowDeleteDialog(true)
   }
-
   const confirmDelete = () => {
     console.log(`Deleting showtime with ID: ${selectedShowtime}`)
     setShowDeleteDialog(false)

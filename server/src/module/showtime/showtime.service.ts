@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateShowtimeDto } from './dto/create-showtime.dto';
 import { UpdateShowtimeDto } from './dto/update-showtime.dto';
 import { Showtime } from './schemas/showtime.schema';
@@ -15,8 +15,8 @@ export class ShowtimeService {
   ) { }
 
 
+
   /**
-   * 
    * @param createShowtimeDto 
    * step 1: check room if not found throw NotFoundException
    * step 2: check flim if not found throw NotFoundException
@@ -25,6 +25,9 @@ export class ShowtimeService {
    * @returns 
    */
   async create(createShowtimeDto: CreateShowtimeDto):Promise<{message:string}> {
+    if(createShowtimeDto.price<0){
+        throw new ConflictException('Giá tiền không được để trống')
+    }
     const room = await this.roomService.findOne(createShowtimeDto.theater);
     if (!room) {
       throw new NotFoundException('Room not found');
@@ -36,7 +39,9 @@ export class ShowtimeService {
     await this.showtimeModel.create(
       {
         films: createShowtimeDto.films,
-        room: createShowtimeDto.theater,
+        theater:createShowtimeDto.theater,
+        room: createShowtimeDto.rooms,
+        dateAction: createShowtimeDto.dateAction,
         startTime: createShowtimeDto.startTime,
         endTime: createShowtimeDto.endTime,
       }
@@ -55,9 +60,6 @@ export class ShowtimeService {
   async findAll() {
     return this.showtimeModel.find().populate('room').populate('film').exec();
   }
-
-
-
 
 
   /**
