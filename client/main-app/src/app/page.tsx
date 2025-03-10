@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <div className="bg-gray-100  min-h-screen">
       <Header />
-      <div className="z-20 pt-20">
+      <div className="z-20 ">
         <div className="w-full p-5  animate-fadeIns">
           <Slideshow />
         </div>
