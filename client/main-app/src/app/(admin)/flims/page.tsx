@@ -27,16 +27,7 @@ import {
     PaginationLink,
 } from "@/components/ui/pagination";
 import { useMemo } from "react";
-    interface Film {
-        _id: string;
-        title: string;
-        description: string;
-        age: number;
-        timeLength: number;
-        year: number;
-        onStage: string;
-        image: string;
-    }
+import {Film} from "@/types/index"
 
 export default function FilmManagement() {
     const [searchTerm, setSearchTerm] = useState("");

@@ -9,7 +9,7 @@ export class Showtime extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Theater', required: true })
   theater: Types.ObjectId;
 
-  @Prop({ type: [Types.ObjectId], ref: 'Room', required: false, default: [] })
+  @Prop({ type: Types.ObjectId, ref: 'Room', required: true })
    rooms: Types.ObjectId ;
 
   @Prop({ required: true })
@@ -22,10 +22,10 @@ export class Showtime extends Document {
   endTime: Date;
 
   @Prop({required:true})
-  price: number;
+  price: string;
 
   @Prop({Type:String , enum:['active','closed'] , default:'active'})
-  status:string;
+  status?:string;
 }
 
 export const ShowtimeSchema = SchemaFactory.createForClass(Showtime);

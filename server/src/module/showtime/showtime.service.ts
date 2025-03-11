@@ -5,13 +5,15 @@ import { Showtime } from './schemas/showtime.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { FlimsService } from '../flims/flims.service';
 import { Model } from 'mongoose';
+import { TheaterService } from '../theater/theater.service';
 import { RoomService } from '../room/room.service';
 @Injectable()
 export class ShowtimeService {
   constructor(@InjectModel(Showtime.name)
   private showtimeModel: Model<Showtime>,
     private roomService: RoomService,
-    private flimService: FlimsService
+    private flimService: FlimsService,
+    private theaterService : TheaterService
   ) { }
 
 
@@ -25,10 +27,15 @@ export class ShowtimeService {
    * @returns 
    */
   async create(createShowtimeDto: CreateShowtimeDto):Promise<{message:string}> {
-    if(createShowtimeDto.price<0){
-        throw new ConflictException('Giá tiền không được để trống')
+ 
+    if(!createShowtimeDto.price){
+      throw new ConflictException('Giá tiền không được để trống')
     }
-    const room = await this.roomService.findOne(createShowtimeDto.theater);
+    const theater = await this.theaterService.findTheaterByID(createShowtimeDto.theater);
+    if(!theater){
+      throw new NotFoundException('Theater not found')
+    }
+    const room = await this.roomService.findOne(createShowtimeDto.rooms);
     if (!room) {
       throw new NotFoundException('Room not found');
     }
@@ -40,7 +47,8 @@ export class ShowtimeService {
       {
         films: createShowtimeDto.films,
         theater:createShowtimeDto.theater,
-        room: createShowtimeDto.rooms,
+        rooms: createShowtimeDto.rooms,
+        price:createShowtimeDto.price,
         dateAction: createShowtimeDto.dateAction,
         startTime: createShowtimeDto.startTime,
         endTime: createShowtimeDto.endTime,
@@ -58,7 +66,7 @@ export class ShowtimeService {
    * Step 3 : return resuluts
    */
   async findAll() {
-    return this.showtimeModel.find().populate('room').populate('film').exec();
+    return this.showtimeModel.find().populate('rooms').populate('films').populate('theater').exec();
   }
 
 
@@ -73,7 +81,7 @@ export class ShowtimeService {
    * @returns 
    */
   async findOne(id: string) {
-    const showtime = await this.showtimeModel.findById(id).populate('room').populate('film').exec();
+    const showtime = await this.showtimeModel.findById(id).populate('room').populate('films').exec();
     if (!showtime) {
       throw new NotFoundException('Showtime not found');
     }

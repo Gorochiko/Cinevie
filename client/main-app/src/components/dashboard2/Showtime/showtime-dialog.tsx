@@ -1,12 +1,9 @@
 "use client"
-
 import type React from "react"
-
-import { useState } from "react"
-import { CalendarIcon, Clock, Save } from "lucide-react"
+import { useEffect, useState } from "react"
+import { CalendarIcon, Clock, FileMusic, Save } from "lucide-react"
 import { format } from "date-fns"
 import { vi } from "date-fns/locale"
-
 import { Button } from "@/components/ui/button"
 import { Calendar } from "@/components/ui/calendar"
 import {
@@ -26,36 +23,29 @@ import { cn } from "@/lib/utils"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { showtimeType } from "@/types"
+import { createShowtimes, getFilms, getTheaters } from "@/lib/actions"
+import { CinemaBranch } from "@/types";
+import { toast } from "@/hooks/use-toast"
+import { Film } from "@/types/index"
 
-// Sample data
-const movies = [
-  { id: "1", title: "Avengers: Endgame" },
-  { id: "2", title: "Tenet" },
-  { id: "3", title: "Dune" },
-  { id: "4", title: "Spider-Man: No Way Home" },
-  { id: "5", title: "The Batman" },
-]
 
-const theaters = [
-  { id: "1", name: "CGV Aeon Mall", rooms: ["Phòng 1", "Phòng 2", "Phòng 3"] },
-  { id: "2", name: "CGV Vincom", rooms: ["Phòng 1", "Phòng 2"] },
-  { id: "3", name: "Lotte Cinema", rooms: ["Phòng 1", "Phòng 2", "Phòng 3", "Phòng 4", "Phòng 5"] },
-  { id: "4", name: "BHD Star", rooms: ["Phòng 1", "Phòng 2", "Phòng 3"] },
-]
+
+
+
 
 const formSchema = z.object({
-  movieId: z.string({ required_error: "Vui lòng chọn phim" }),
-  theaterId: z.string({ required_error: "Vui lòng chọn rạp" }),
-  room: z.string({ required_error: "Vui lòng chọn phòng" }),
-  date: z.date({ required_error: "Vui lòng chọn ngày chiếu" }),
-  startTime: z.string({ required_error: "Vui lòng nhập giờ bắt đầu" }),
-  endTime: z.string({ required_error: "Vui lòng nhập giờ kết thúc" }),
-  price: z.string().min(1, "Vui lòng nhập giá vé"),
-  totalSeats: z.string().min(1, "Vui lòng nhập tổng số ghế"),
-  status: z.enum(["active", "sold-out"], { required_error: "Vui lòng chọn trạng thái" }),
-})
+  films: z.string({ required_error: "Vui lòng chọn phim" }), // Sử dụng string vì frontend sẽ gửi ID
+  theater: z.string({ required_error: "Vui lòng chọn rạp" }), // Sử dụng string vì frontend sẽ gửi ID
+  rooms: z.string({ required_error: "Vui lòng chọn phòng" }), // Sử dụng string vì frontend sẽ gửi ID
+  dateAction: z.date({ required_error: "Vui lòng chọn ngày chiếu" }),
+  startTime: z.string({ required_error: "Vui lòng nhập giờ bắt đầu" }), // Giữ nguyên kiểu string để xử lý input time
+  endTime: z.string({ required_error: "Vui lòng nhập giờ kết thúc" }), // Giữ nguyên kiểu string để xử lý input time
+  price: z.string().min(1, "Vui lòng nhập giá vé"), // Kiểu number
+  status: z.string().optional(), // Trạng thái có thể là optional
+});
 
-type FormValues = z.infer<typeof formSchema>
+// type FormValues = z.infer<typeof formSchema>
 
 interface ShowtimeDialogProps {
   children: React.ReactNode
@@ -63,50 +53,85 @@ interface ShowtimeDialogProps {
 }
 
 export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
+  const [branches, setBranches] = useState<CinemaBranch[]>([]);
+  const fetchBranches = async () => {
+    try {
+      const data = await getTheaters() as CinemaBranch[];
+      setBranches(data);
+    } catch (error: any) {
+      toast({ variant: "destructive", title: "Error", description: error.message });
+    }
+  };
+  useEffect(() => {
+    fetchBranches();
+  }, []);
   const [open, setOpen] = useState(false)
   const [selectedTheaterId, setSelectedTheaterId] = useState<string>("")
   const isEditing = !!showtime
-
-  const form = useForm<FormValues>({
+  const [films, setFilms] = useState<Film[]>([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchFilms = async () => {
+      setLoading(true);
+      try {
+        const response = await getFilms();
+        setFilms(response.results || []);
+      } catch (error:any) {
+        throw new Error(error);
+      }
+      setLoading(false);
+    };
+    fetchFilms();
+  }, []);
+  const form = useForm<showtimeType>({
     resolver: zodResolver(formSchema),
     defaultValues: showtime || {
-      movieId: "",
-      theaterId: "",  
-      room: "",
-      startTime: "",
-      endTime: "",
-      price: "",
-      totalSeats: "",
-      status: "active",
+      films: "",
+      theater: "",
+      rooms: "",
+      price: "", // Giá trị mặc định là số
+      dateAction: new Date(), // Ngày mặc định là ngày hiện tại
+      startTime: "00:00",// Giờ mặc định (ví dụ: "00:00")
+      endTime: "00:00", // Giờ mặc định (ví dụ: "00:00")
+      status: 'active', // Trạng thái mặc định
     },
-  })
+  });
 
-  // Get available rooms based on selected theater
-  const availableRooms = theaters.find((theater) => theater.id === selectedTheaterId)?.rooms || []
+
+  const availableRooms = branches.find((theater) => theater._id === selectedTheaterId)?.rooms || []
 
   // Handle theater change to update available rooms
   const handleTheaterChange = (value: string) => {
     setSelectedTheaterId(value)
-    form.setValue("room", "")
+    form.setValue("rooms", "")
   }
 
-  // Set initial theater ID if editing
+
   useState(() => {
     if (showtime?.theaterId) {
       setSelectedTheaterId(showtime.theaterId)
     }
   })
 
-  function onSubmit(data: FormValues) {
-    console.log("Form submitted:", data)
-
-    // In a real application, you would save the data to your backend here
-
-    // Close the dialog
-    setOpen(false)
-
-    // Reset the form
+ async function onSubmit (data: showtimeType)  {
+  try {
+    const dateString = data.dateAction.toISOString().split('T')[0];
+    console.log(availableRooms);
+    const formattedData = {
+      ...data,
+      rooms:data.rooms,
+      startTime: new Date(`${dateString}T${data.startTime}:00`), 
+      endTime: new Date(`${dateString}T${data.endTime}:00`), 
+    };
+  
+    const res = await createShowtimes(formattedData)
+    
+    setOpen(false);
     form.reset()
+  } catch (error:any) {
+    toast({variant:"destructive", title:"Error", description:error.message})
+  }
+    
   }
 
   return (
@@ -125,7 +150,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <FormField
                 control={form.control}
-                name="movieId"
+                name="films"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Phim</FormLabel>
@@ -136,8 +161,8 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {movies.map((movie) => (
-                          <SelectItem key={movie.id} value={movie.id}>
+                        {films.map((movie) => (
+                          <SelectItem key={movie._id} value={movie._id}>
                             {movie.title}
                           </SelectItem>
                         ))}
@@ -150,7 +175,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
 
               <FormField
                 control={form.control}
-                name="theaterId"
+                name="theater"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Rạp</FormLabel>
@@ -167,8 +192,8 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {theaters.map((theater) => (
-                          <SelectItem key={theater.id} value={theater.id}>
+                        {branches.map((theater) => (
+                          <SelectItem key={theater._id} value={theater._id}>
                             {theater.name}
                           </SelectItem>
                         ))}
@@ -181,7 +206,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
 
               <FormField
                 control={form.control}
-                name="room"
+                name="rooms"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Phòng</FormLabel>
@@ -193,8 +218,8 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
                       </FormControl>
                       <SelectContent>
                         {availableRooms.map((room) => (
-                          <SelectItem key={room} value={room}>
-                            {room}
+                          <SelectItem key={room._id} value={room._id}>
+                            {room.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -206,7 +231,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
 
               <FormField
                 control={form.control}
-                name="date"
+                name="dateAction"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
                     <FormLabel>Ngày chiếu</FormLabel>
@@ -247,7 +272,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
                       <FormLabel>Giờ bắt đầu</FormLabel>
                       <div className="relative">
                         <FormControl>
-                          <Input {...field} type="time" />
+                          <Input {...field} type="time" value={field.value || "00:00"} />
                         </FormControl>
                         <Clock className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
                       </div>
@@ -264,7 +289,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
                       <FormLabel>Giờ kết thúc</FormLabel>
                       <div className="relative">
                         <FormControl>
-                          <Input {...field} type="time" />
+                          <Input {...field} type="time" value={field.value || "00:00"} />
                         </FormControl>
                         <Clock className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
                       </div>
@@ -289,29 +314,9 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
                 )}
               />
 
-          
 
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Trạng thái</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Chọn trạng thái" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="active">Đang bán</SelectItem>
-                        <SelectItem value="sold-out">Hết vé</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
+
             </div>
 
             <DialogFooter>

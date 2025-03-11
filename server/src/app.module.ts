@@ -12,6 +12,7 @@ import { FlimsModule } from './module/flims/flims.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { TheaterModule } from './module/theater/theater.module';
 import { RoomModule } from './module/room/room.module';
+import { ShowtimeModule } from './module/showtime/showtime.module';
 const infrastructureDatabaseModule = MongooseModule.forRootAsync({
   useClass: MongooseConfigService,
 });
@@ -34,6 +35,7 @@ const infrastructureDatabaseModule = MongooseModule.forRootAsync({
     FlimsModule,
     TheaterModule,
     RoomModule,
+    ShowtimeModule,
     MailerModule.forRootAsync({
     imports: [ConfigModule],
     useFactory: async (configService:ConfigService) => ({

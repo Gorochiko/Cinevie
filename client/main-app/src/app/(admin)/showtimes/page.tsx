@@ -1,11 +1,15 @@
+
 import { PlusCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ShowtimesTable } from "@/components/dashboard2/Showtime/showtimes-table"
 import { ShowtimesFilter } from "@/components/dashboard2/Showtime/showtimes-filter"
 import { ShowtimeDialog } from "@/components/dashboard2/Showtime/showtime-dialog"
+import { getShowTime } from "@/lib/actions"
+import { Showtime } from "@/types"
 
-export default function ShowtimesPage() {
+export default async  function ShowtimesPage() {
+  const showtimes: Showtime[] = await getShowTime() as Showtime[]; // Gọi API trực tiếp
   return (
     <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-6">
@@ -24,7 +28,8 @@ export default function ShowtimesPage() {
         <CardHeader>
           <CardTitle>Lịch chiếu phim</CardTitle>
           <CardDescription>
-            Có tổng cộng <span className="font-medium">253</span> lịch chiếu trong hệ thống
+           
+        Có tổng cộng <span className="font-medium">{showtimes?.length}</span> lịch chiếu trong hệ thống
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6">

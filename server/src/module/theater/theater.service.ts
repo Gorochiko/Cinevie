@@ -70,8 +70,12 @@ async addRoomToTheater(theaterId: string , createRoomDto: CreateRoomDto): Promis
 async findAll(): Promise<Theater[]> {
   return this.theaterModel.find().populate('rooms').exec();
 }
+
+
+
+
 async findTheaterByID(id:string): Promise<Theater|null> {
-  return this.theaterModel.findById(id) ;
+  return this.theaterModel.findById(id).populate('rooms').exec() ;
 }
 
 

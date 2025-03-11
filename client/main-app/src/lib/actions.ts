@@ -1,7 +1,7 @@
 // Code by: Truong Vu
 import { signIn } from "next-auth/react";
 import { APIError, fetchData, patchData, postData } from "@/services/api";
-
+import { showtimeType } from "@/types";
 /**
  * The mask of user type
  */
@@ -12,6 +12,9 @@ interface usertype {
   password: string,
   rePassword: string,
 }
+
+
+
 
 /**
  * The mask of response
@@ -212,9 +215,32 @@ export const createRoomToTheater = async (room:any, threaterId:string) => {
     }
     return response;
   } catch (error) {
-    console.error("Lỗi khi thêm phòng:", error);
-    throw error;
+    throw new Error('Lỗi khi thêm phòng')
+    
   }
+}
 
+
+
+
+export const createShowtimes = async (showtime: showtimeType )=>{
+  try{
+    const res = await postData<response>('showtime/addShowtime',showtime,true);
+    if(!res){
+      throw new APIError("Lỗi khi thêm suất chiếu")
+    }
+    return res;
+  }catch(error:any){
+    throw new Error(error.message)
+  }
+}
+
+export const getShowTime = async()=>{
+  try {
+    const res= await fetchData('showtime/findAlltime', {});
+    return res;
+  } catch (error:any) {
+    throw new Error(error)
+  }
 }
 

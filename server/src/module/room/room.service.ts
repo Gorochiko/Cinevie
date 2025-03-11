@@ -22,9 +22,6 @@ export class RoomService {
  * @returns newRoom
  */
 
-  
-
-
   async createRoom(roomData: CreateRoomDto): Promise<Room> {
     const generatedSeats = roomData.seats || this.generateSeats(roomData.capacity);
     const newRoom = new this.roomModel({
@@ -64,7 +61,7 @@ export class RoomService {
   }
 
   async findOne(id: string): Promise<Room> {
-    const room = await this.roomModel.findById(id).populate('theater').exec();
+    const room = await this.roomModel.findById(id).exec();
     if (!room) {
       throw new NotFoundException('Room not found');
     }

@@ -1,5 +1,5 @@
 
-import { IsString,  IsNotEmpty, IsMongoId,  } from "class-validator";
+import { IsString,  IsNotEmpty, IsMongoId, IsOptional,  } from "class-validator";
 
 export class CreateShowtimeDto {
 @IsNotEmpty()
@@ -10,14 +10,16 @@ films: string;
 @IsMongoId()
 theater: string;
 
+@IsString()
 @IsNotEmpty()
 rooms: string
 
 @IsNotEmpty()
 dateAction: Date;
 
+@IsString()
 @IsNotEmpty()
-price:number;
+price:string;
 
 @IsString()
 @IsNotEmpty()
@@ -26,4 +28,8 @@ startTime: Date;
 @IsString()
 @IsNotEmpty()
 endTime: Date;
+
+
+@IsOptional()
+status:string
 }

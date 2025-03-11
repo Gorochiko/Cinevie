@@ -7,5 +7,6 @@ import { Flim, FlimSchema } from './schemas/flim.schema';
    imports: [MongooseModule.forFeature([{ name: Flim.name, schema: FlimSchema }])],
   controllers: [FlimsController],
   providers: [FlimsService],
+  exports: [FlimsService],
 })
 export class FlimsModule {}
