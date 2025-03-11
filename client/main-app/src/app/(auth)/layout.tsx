@@ -1,15 +1,20 @@
-import { Toaster } from "@/components/ui/toaster"
-
-export default function AuthLayout({ children }: {
+import { Toaster } from "@/components/ui/toaster" 
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+export default async function AuthLayout({ children }: {
   readonly children: React.ReactNode;
 }) {
+  const session = await auth()
+  if (session) {
+    redirect('/')
+  }
   return (
     <html lang="en">
       <body>
-      <Toaster />
-     
+        
+
         <main>{children}</main>
-     
+        <Toaster />
       </body>
     </html>
   );

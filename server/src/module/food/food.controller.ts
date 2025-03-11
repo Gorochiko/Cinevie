@@ -1,13 +1,25 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
 import { FoodService } from './food.service';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
-
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 @Controller('food')
 export class FoodController {
   constructor(private readonly foodService: FoodService) {}
 
-  @Post()
+  @Post('add-foods')
+  @UseInterceptors(FileInterceptor('image', {
+      storage: diskStorage({
+        destination: './public/uploads',
+        filename: (req, file, callback) => {
+          const uniqueSuffix = `${Date.now()}-${file.originalname.replace(/\s+/g, '-')}`;
+          const ext = extname(file.originalname);
+          callback(null, uniqueSuffix);
+        },
+      }),
+    }))
   create(@Body() createFoodDto: CreateFoodDto) {
     return this.foodService.create(createFoodDto);
   }

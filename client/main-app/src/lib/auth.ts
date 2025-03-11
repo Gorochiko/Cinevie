@@ -101,7 +101,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       return !!auth;
     },
     session: ({ session, token }) => {
-      if (token.exp && token.exp*1000-30000 < Date.now()) {
+       if (token.exp && token.exp*1000-30000 < Date.now()) {
         console.log("Token expired, logging out...");
         signOut(); 
       }

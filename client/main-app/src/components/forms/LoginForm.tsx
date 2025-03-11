@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,7 +11,7 @@ import  Link  from "next/link";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 
-export default function LoginForm() {
+export default  function LoginForm() {
   const router = useRouter();
   const { toast } = useToast();
   const [username, setUsername] = useState("");
@@ -28,10 +28,10 @@ export default function LoginForm() {
         router.push("/otp")
       }
       toast({ variant: "destructive", title: "Lỗi", description: result?.error });
-      
-    } else {
-     
       setLoading(false);
+    } else {
+      setLoading(false);
+      toast({variant:"success" , title:" Wellcome back to the CINEVIE+"})
       router.push("/dashboards");
     }
   },3000)

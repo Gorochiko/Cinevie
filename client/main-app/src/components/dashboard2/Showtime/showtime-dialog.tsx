@@ -35,21 +35,21 @@ import { Film } from "@/types/index"
 
 
 const formSchema = z.object({
-  films: z.string({ required_error: "Vui lòng chọn phim" }), // Sử dụng string vì frontend sẽ gửi ID
-  theater: z.string({ required_error: "Vui lòng chọn rạp" }), // Sử dụng string vì frontend sẽ gửi ID
-  rooms: z.string({ required_error: "Vui lòng chọn phòng" }), // Sử dụng string vì frontend sẽ gửi ID
+  films: z.string({ required_error: "Vui lòng chọn phim" }), 
+  theater: z.string({ required_error: "Vui lòng chọn rạp" }), 
+    rooms: z.string({ required_error: "Vui lòng chọn phòng" }),
   dateAction: z.date({ required_error: "Vui lòng chọn ngày chiếu" }),
-  startTime: z.string({ required_error: "Vui lòng nhập giờ bắt đầu" }), // Giữ nguyên kiểu string để xử lý input time
-  endTime: z.string({ required_error: "Vui lòng nhập giờ kết thúc" }), // Giữ nguyên kiểu string để xử lý input time
-  price: z.string().min(1, "Vui lòng nhập giá vé"), // Kiểu number
-  status: z.string().optional(), // Trạng thái có thể là optional
+  startTime: z.string({ required_error: "Vui lòng nhập giờ bắt đầu" }),
+  endTime: z.string({ required_error: "Vui lòng nhập giờ kết thúc" }), 
+  price: z.string().min(1, "Vui lòng nhập giá vé"), 
+  status: z.string().optional(), 
 });
 
-// type FormValues = z.infer<typeof formSchema>
+
 
 interface ShowtimeDialogProps {
   children: React.ReactNode
-  showtime?: any // Optional showtime data for editing
+  showtime?: any 
 }
 
 export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {

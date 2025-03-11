@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, MapPin, Film } from "lucide-react";
 import { CinemaBranch } from "@/types";
+import { toast } from "@/hooks/use-toast";
 
 
 const BranchList = ({ openBranchDetails, openAddRoomDialog }: any) => {
@@ -15,8 +16,8 @@ const BranchList = ({ openBranchDetails, openAddRoomDialog }: any) => {
     try {
       const data = await getTheaters() as CinemaBranch[];
       setBranches(data);
-    } catch (error) {
-      console.error("Lỗi khi lấy danh sách chi nhánh:", error);
+    } catch (error:any){
+      toast({variant:"destructive", title:"Error", description:error?.message})
     }
   };
   useEffect(() => {
@@ -59,7 +60,7 @@ const BranchList = ({ openBranchDetails, openAddRoomDialog }: any) => {
               </div>
               <div className="flex flex-wrap gap-2">
                 {branch.rooms?.slice(0, 3).map((room) => (
-                  <Badge key={room.id} variant="destructive">
+                  <Badge key={room._id} variant="destructive">
                     {room.name}/{room.screenType}
                   </Badge>
                 ))}

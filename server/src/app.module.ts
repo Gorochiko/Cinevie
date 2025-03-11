@@ -13,6 +13,7 @@ import { MulterModule } from '@nestjs/platform-express';
 import { TheaterModule } from './module/theater/theater.module';
 import { RoomModule } from './module/room/room.module';
 import { ShowtimeModule } from './module/showtime/showtime.module';
+import { FoodModule } from './module/food/food.module';
 const infrastructureDatabaseModule = MongooseModule.forRootAsync({
   useClass: MongooseConfigService,
 });
@@ -34,6 +35,7 @@ const infrastructureDatabaseModule = MongooseModule.forRootAsync({
     UserModule,
     FlimsModule,
     TheaterModule,
+    FoodModule,
     RoomModule,
     ShowtimeModule,
     MailerModule.forRootAsync({

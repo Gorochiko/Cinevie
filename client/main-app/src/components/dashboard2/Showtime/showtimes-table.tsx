@@ -25,8 +25,6 @@ import { Showtime } from "@/types/index"
 export function ShowtimesTable() {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [selectedShowtime, setSelectedShowtime] = useState<string | null>(null)
-
-
   const [showtimes, setShowtimes] = useState<Showtime[]>([])
 
   useEffect(() => {
