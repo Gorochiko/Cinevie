@@ -7,17 +7,23 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { PlusCircle, Upload, X } from "lucide-react"
 import Image from "next/image"
-import { createFilms } from "@/lib/actions"
+import { createFilms, createFoods } from "@/lib/actions"
+import { FoodItem } from "@/types"
 import { toast, useToast } from "@/hooks/use-toast"
 
-export default function FormAddMovie() {
-    const [title, setTitle] = useState("")
-    const [year, setYear] = useState("")
-    const [description, setDescription] = useState("")
-    const [age, setAge] = useState("")
-    const [onStage, setOnStage] = useState("")
-    const [timeLength, setTimeLength] = useState("")
-    const [image, setImage] = useState<File | null>(null)
+interface FormAddFoodProps {
+    open: boolean
+    onClose: () => void
+    onAdd: (food: Omit<FoodItem, "id">) => void
+    onUpdate: (updatedFood: FoodItem) => void
+    editingFood: FoodItem | null
+}
+
+export default function FormAddFood({ open, onClose, onAdd, onUpdate, editingFood }: FormAddFoodProps) {
+    const [titleFood, setTitleFood] = useState("")
+    const [price, setPrice] = useState("")
+    const [details, setDetails] = useState("")
+    const [imageFood, setImageFood] = useState<File | null>(null)
     const [imagePreview, setImagePreview] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
 
@@ -25,55 +31,44 @@ export default function FormAddMovie() {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0]
             if (file.type.startsWith("image/")) {
-                setImage(file)
+                setImageFood(file)
                 setImagePreview(URL.createObjectURL(file))
             }
         }
     }
 
     const removeImage = () => {
-        setImage(null)
+        setImageFood(null)
         setImagePreview(null)
     }
-    const {toast} = useToast();
+
+    const { toast } = useToast();
+
     const handleSubmit = async () => {
         try {
             setLoading(true);
-            
             const formData = new FormData();
-            formData.append("title", title);
-            formData.append("description", description);
-            formData.append("age", String(age)); // Chuyển thành string
-            formData.append("timeLength", String(timeLength)); // Chuyển thành string
-            formData.append("year", String(year)); // Chuyển thành string
-            formData.append("onStage", onStage);
-    
-            if (image) {
-                formData.append("image", image); // Gửi file ảnh
+            formData.append("titleFood", titleFood);
+            formData.append("details", details);
+            formData.append("price", price)
+            if (imageFood) {
+                formData.append("imageFood", imageFood);
             }
-            const result = await createFilms(formData);
+            await createFoods(formData);
             toast({ variant: "success", title: "Successfully", description: "Created" });
-            setTitle("");
-            setYear("");
-            setDescription("");
-            setAge("");
-            setOnStage("");
-            setTimeLength("");
+            setTitleFood("");
+            setDetails("");
             removeImage();
+            onClose(); 
         } catch (error: any) {
-            console.error("Lỗi khi thêm phim:", error.response?.data || error.message);
+            console.error("Lỗi khi thêm food:", error.response?.data || error.message);
         } finally {
             setLoading(false);
         }
     };
-    
+
     return (
-        <Dialog>
-            <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
-                    <PlusCircle className="w-4 h-4" />
-                </Button>
-            </DialogTrigger>
+        <Dialog open={open} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
                     <DialogTitle className="text-2xl font-semibold text-center">Add Movie</DialogTitle>
@@ -81,27 +76,17 @@ export default function FormAddMovie() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <Label htmlFor="title">Title</Label>
-                        <Input id="title" value={title} onChange={(e) => setTitle(e.target.value)} required placeholder="Movie title" />
+                        <Input id="title" value={titleFood} onChange={(e) => setTitleFood(e.target.value)} required placeholder="Movie title" />
                     </div>
+
                     <div>
-                        <Label htmlFor="year">Year</Label>
-                        <Input id="year" type="number" value={year} onChange={(e) => setYear(e.target.value)} required min="1900" max={new Date().getFullYear()} />
+                        <Label htmlFor="age">Price</Label>
+                        <Input id="age" type="number" value={price} onChange={(e) => setPrice(e.target.value)} required placeholder="e.g., 13" />
                     </div>
-                    <div>
-                        <Label htmlFor="age">Age Limit</Label>
-                        <Input id="age" type="number" value={age} onChange={(e) => setAge(e.target.value)} required placeholder="e.g., 13" />
-                    </div>
-                    <div>
-                        <Label htmlFor="timeLength">Time Length (minutes)</Label>
-                        <Input id="timeLength" type="number" value={timeLength} onChange={(e) => setTimeLength(e.target.value)} required placeholder="e.g., 150" />
-                    </div>
-                    <div className="col-span-full">
-                        <Label htmlFor="onStage">Release Date</Label>
-                        <Input id="onStage" type="date" value={onStage} onChange={(e) => setOnStage(e.target.value)} required />
-                    </div>
+
                     <div className="col-span-full">
                         <Label htmlFor="description">Description</Label>
-                        <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} required className="h-24" />
+                        <Textarea id="description" value={details} onChange={(e) => setDetails(e.target.value)} required className="h-24" />
                     </div>
                     <div className="col-span-full">
                         <Label htmlFor="image">Poster</Label>
@@ -135,11 +120,11 @@ export default function FormAddMovie() {
                     </div>
                 </div>
                 <DialogFooter className="flex justify-between mt-4">
-                    <DialogClose >
+                    <DialogClose>
                         <Button variant={"secondary"}>Cancel</Button>
-                        </DialogClose>
+                    </DialogClose>
                     <Button onClick={handleSubmit} disabled={loading} className="bg-gradient-to-r from-red-400 to-amber-500 text-white">
-                        {loading ? "Adding..." : "Add Movie"}
+                        {loading ? "Adding..." : "Add Food"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

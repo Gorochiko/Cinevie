@@ -55,3 +55,13 @@ export
     status: string;
     
   }
+
+  export interface FoodItem {
+    _id: string
+    titleFood: string
+    price: string
+    details: string
+    imageFood: string
+  }
+  
+  

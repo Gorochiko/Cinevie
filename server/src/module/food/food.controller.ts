@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
 import { FoodService } from './food.service';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
@@ -10,7 +10,7 @@ export class FoodController {
   constructor(private readonly foodService: FoodService) {}
 
   @Post('add-foods')
-  @UseInterceptors(FileInterceptor('image', {
+  @UseInterceptors(FileInterceptor('imageFood', {
       storage: diskStorage({
         destination: './public/uploads',
         filename: (req, file, callback) => {
@@ -20,7 +20,14 @@ export class FoodController {
         },
       }),
     }))
-  create(@Body() createFoodDto: CreateFoodDto) {
+  create(
+    @Body() createFoodDto: CreateFoodDto,
+      @UploadedFile() file: Express.Multer.File,
+    ) {
+      if (!file) {
+        throw new BadRequestException('No file uploaded');
+      }
+      createFoodDto.imageFood = `/uploads/${file.filename}`;
     return this.foodService.create(createFoodDto);
   }
 

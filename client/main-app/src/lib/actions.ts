@@ -122,6 +122,17 @@ export const createFilms = async (films:FormData) => {
   }
 };
 
+export const createFoods = async(foods:FormData)=>{
+  try {
+    const response = await postData("/food/add-foods", foods,true);
+    if (!response) {
+      throw new APIError("Lỗi khi thêm thức ăn");
+    }
+    return response;
+  } catch (error:any) {
+    throw new Error(error)
+  }
+}
 
 
 

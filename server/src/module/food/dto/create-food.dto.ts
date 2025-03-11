@@ -9,8 +9,8 @@ export class CreateFoodDto {
  @IsString()
  details:string
 
- @IsString()
- imageFood:string
+ @IsOptional()
+ imageFood?:string
 
  @IsOptional()
  @IsString()
