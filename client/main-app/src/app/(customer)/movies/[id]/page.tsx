@@ -27,7 +27,7 @@ export default function MovieDetails(){
                                 transform: "rotate(180deg)"
                             }}
                         >
-                            Movie Details
+                            Another Movies
                         </h2>   
                     </div>
                     <div>
