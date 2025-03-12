@@ -5,8 +5,6 @@ import { X, Play } from "lucide-react"
 
 export default function Trailer() {
   const [isOpen, setIsOpen] = useState(false)
-
-  // Handle ESC key press to close modal
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") setIsOpen(false)
@@ -20,8 +18,6 @@ export default function Trailer() {
       document.removeEventListener("keydown", handleEsc)
     }
   }, [isOpen])
-
-  // Prevent body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden"
@@ -36,12 +32,9 @@ export default function Trailer() {
 
   return (
     <div className="relative w-full my-8">
-      {/* Trailer thumbnail with overlay */}
       <div className="relative w-full max-w-5xl mx-auto rounded-xl overflow-hidden shadow-xl group">
-        {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent z-10"></div>
 
-        {/* Thumbnail image */}
         <div className="relative aspect-video w-full">
           <Image
             src="https://img.youtube.com/vi/bFRr7bv--70/maxresdefault.jpg"
@@ -63,22 +56,16 @@ export default function Trailer() {
           </div>
         </button>
 
-        {/* Optional: Title overlay */}
         <div className="absolute bottom-0 left-0 right-0 p-6 z-20">
           <h3 className="text-white text-2xl font-bold">Official Trailer</h3>
           <p className="text-white/80 mt-2">Click to watch the full trailer</p>
         </div>
       </div>
 
-      {/* Modal */}
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/90 z-50 backdrop-blur-sm transition-opacity duration-300 ease-in-out">
-          {/* Close overlay */}
           <div className="absolute inset-0" onClick={() => setIsOpen(false)}></div>
-
-          {/* Video container */}
-          <div className="relative w-full max-w-5xl mx-4 bg-black rounded-xl overflow-hidden shadow-2xl animate-fadeIn">
-            {/* Close button */}
+          <div className="relative w-full max-w-5xl mx-4 bg-black rounded-xl overflow-hidden shadow-2xl animate-fadeIn">}
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-4 right-4 z-30 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full transition-colors duration-200"
@@ -86,8 +73,6 @@ export default function Trailer() {
             >
               <X size={24} />
             </button>
-
-            {/* YouTube iframe */}
             <div className="aspect-video w-full">
               <iframe
                 width="100%"

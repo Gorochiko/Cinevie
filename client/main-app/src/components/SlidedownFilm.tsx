@@ -47,9 +47,6 @@ export default function SlidedownFilm() {
 
   return (
     <div className="relative w-full max-w-xs mx-auto p-5">
-
-      {/* Tiêu đề "Is Showing" */}
-      {/* Carousel Dọc - Hiển thị 2 phim cùng lúc */}
       <Carousel opts={{ align: "start" }} orientation="vertical" className="my-5 h-[500px]">
         <CarouselContent className="h-[500px]">
           {films.map((film) => (
@@ -60,7 +57,6 @@ export default function SlidedownFilm() {
                   onClick={() => router.push(`/movies/${film._id}`)}
                 >
                   <CardContent className="p-0 relative">
-                    {/* Ảnh phim */}
                     <Image
                       src={`http://localhost:8080${film.image}`}
                       alt={film.title}
