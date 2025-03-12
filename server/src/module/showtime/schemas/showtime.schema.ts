@@ -10,7 +10,7 @@ export class Showtime extends Document {
   theater: Types.ObjectId;
 
   @Prop({ type: Types.ObjectId, ref: 'Room', required: true })
-   rooms: Types.ObjectId ;
+   rooms: Types.ObjectId;
 
   @Prop({ required: true })
   startTime: Date;
@@ -21,6 +21,7 @@ export class Showtime extends Document {
   @Prop({ required: true })
   endTime: Date;
 
+  
   @Prop({required:true})
   price: string;
 

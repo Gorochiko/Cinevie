@@ -26,7 +26,6 @@ export default function MoviePage() {
 
   useEffect(() => {
     if (!id) return;
-
     async function fetchMovie() {
       try {
         setLoading(true);
@@ -41,7 +40,7 @@ export default function MoviePage() {
     }
 
     fetchMovie();
-  }, [id]);
+  }, []);
 
   if (loading) return <p className="text-center mt-10">Đang tải dữ liệu...</p>;
   if (!movieData) return <p className="text-center mt-10">Không tìm thấy phim.</p>;

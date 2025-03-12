@@ -191,6 +191,11 @@ export const updateFilmsAPI = async (id:string,films:any) => {
 }
 
 
+export const findByIDFilms = async(id:string)=>{
+  const res = await fetchData(`/films/${id}`, {})
+  return res;
+}
+
 
 
 export const createTheater = async (theater:theater) => {

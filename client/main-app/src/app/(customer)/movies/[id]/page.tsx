@@ -1,4 +1,4 @@
-"use client";   
+ 
 import FilmDetail from "@/components/FilmDetail";
 import SlidedownFilm from "@/components/SlidedownFilm";
 import Trailer from "@/components/Trailer";

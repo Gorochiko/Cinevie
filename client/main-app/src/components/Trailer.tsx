@@ -65,7 +65,7 @@ export default function Trailer() {
       {isOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/90 z-50 backdrop-blur-sm transition-opacity duration-300 ease-in-out">
           <div className="absolute inset-0" onClick={() => setIsOpen(false)}></div>
-          <div className="relative w-full max-w-5xl mx-4 bg-black rounded-xl overflow-hidden shadow-2xl animate-fadeIn">}
+          <div className="relative w-full max-w-5xl mx-4 bg-black rounded-xl overflow-hidden shadow-2xl animate-fadeIn">
             <button
               onClick={() => setIsOpen(false)}
               className="absolute top-4 right-4 z-30 bg-black/50 hover:bg-black/80 text-white p-2 rounded-full transition-colors duration-200"

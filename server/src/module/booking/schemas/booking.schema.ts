@@ -1,8 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
-
-
 @Schema({ timestamps: true }) 
 export class Booking extends Document {
     @Prop({ type: Types.ObjectId, ref: 'Showtime', required: true })
@@ -14,7 +12,7 @@ export class Booking extends Document {
     @Prop({type:Array})
     seats:string[]
 
-    @Prop({ type: Types.ObjectId, ref: 'Food', required: true })
+    @Prop({ type: Types.ObjectId, ref: 'Food', required: true , default:[]})
     food:Types.ObjectId
 
     @Prop({required:true})

@@ -13,6 +13,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { toast } from "@/hooks/use-toast";
 
 interface Film {
   _id: string;
@@ -34,8 +35,8 @@ export default function SlidedownFilm() {
       try {
         const response = await getFilms();
         setFilms(response.results || []);
-      } catch (error) {
-        console.error("❌ Lỗi khi lấy danh sách phim:", error);
+      } catch (error:any) {
+      toast({variant:"destructive", title:"Error", description:error.message})
       }
     };
     fetchFilms();
