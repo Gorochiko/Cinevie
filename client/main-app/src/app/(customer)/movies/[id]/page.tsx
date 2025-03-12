@@ -16,20 +16,10 @@ export default function MovieDetails(){
                         <FilmDetail />
                     </div>
                     <div>
-                        <BookingDetail />
+                        <BookingDetail/>
                     </div>
                 </div>
                 <div className="w-2/6 flex">
-                    <div className="flex items-center bg-gradient-to-r from-[#1230AE] to-[#C68FE6]">
-                        <h2 className="text-3xl font-bold uppercase tracking-wide relative p-5 text-white"
-                            style={{ 
-                                writingMode: "vertical-rl", 
-                                transform: "rotate(180deg)"
-                            }}
-                        >
-                            Another Movies
-                        </h2>   
-                    </div>
                     <div>
                         <SlidedownFilm />
                     </div>
