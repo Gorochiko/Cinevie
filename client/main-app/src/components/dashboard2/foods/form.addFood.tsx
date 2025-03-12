@@ -66,7 +66,7 @@ export default function FormAddFood({ open, onClose, onUpdate, editingFood }: Fo
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-semibold text-center text-primary-foreground animate-bounce">Add Food</DialogTitle>
+                    <DialogTitle className="text-2xl text-center text-orange-400 font-semibold animate-bounce">Add Food</DialogTitle>
                 </DialogHeader>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
