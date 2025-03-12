@@ -6,15 +6,16 @@ import { Document, Types } from 'mongoose';
 @Schema({ timestamps: true }) 
 export class Booking extends Document {
     @Prop({ type: Types.ObjectId, ref: 'Showtime', required: true })
-    showtimeId: Types.ObjectId
+    showtime: Types.ObjectId
 
     @Prop({ type: Types.ObjectId, ref: 'User', required: true })
-    userId:Types.ObjectId
+    user:Types.ObjectId
 
     @Prop({type:Array})
+    seats:string[]
 
     @Prop({ type: Types.ObjectId, ref: 'Food', required: true })
-    foodId:Types.ObjectId
+    food:Types.ObjectId
 
     @Prop({required:true})
     totalPrice:number
@@ -22,3 +23,4 @@ export class Booking extends Document {
     @Prop({ type: String, enum: ['pending', 'confirmed', 'cancelled'], default: 'pending' })
     status: string;
 }
+export const BookingSchema = SchemaFactory.createForClass(Booking);
