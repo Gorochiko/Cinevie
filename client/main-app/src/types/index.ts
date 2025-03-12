@@ -63,5 +63,6 @@ export
     details: string
     imageFood: string
   }
-  
+
+
   

@@ -71,17 +71,17 @@ export default function FormAddFood({ open, onClose, onAdd, onUpdate, editingFoo
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-semibold text-center">Add Movie</DialogTitle>
+                    <DialogTitle className="text-2xl font-semibold text-center text-primary-foreground animate-bounce">Add Food</DialogTitle>
                 </DialogHeader>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <Label htmlFor="title">Title</Label>
-                        <Input id="title" value={titleFood} onChange={(e) => setTitleFood(e.target.value)} required placeholder="Movie title" />
+                        <Input id="title" value={titleFood} onChange={(e) => setTitleFood(e.target.value)} required placeholder="Food title" />
                     </div>
 
                     <div>
                         <Label htmlFor="age">Price</Label>
-                        <Input id="age" type="number" value={price} onChange={(e) => setPrice(e.target.value)} required placeholder="e.g., 13" />
+                        <Input id="age" type="number" value={price} onChange={(e) => setPrice(e.target.value)} required placeholder="ví dụ: 100000" />
                     </div>
 
                     <div className="col-span-full">

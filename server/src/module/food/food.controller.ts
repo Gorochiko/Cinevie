@@ -31,7 +31,7 @@ export class FoodController {
     return this.foodService.create(createFoodDto);
   }
 
-  @Get()
+  @Get('findallFood')
   findAll() {
     return this.foodService.findAll();
   }

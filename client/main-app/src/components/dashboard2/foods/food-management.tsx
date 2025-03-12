@@ -20,8 +20,8 @@ export function FoodManagement({ initialFoods }: FoodManagementProps) {
 
   const handleAddFood = (food: Omit<FoodItem, "id">) => {
     const newFood = {
-      ...food,
-      id: Date.now().toString(),
+      ...food
+      
     }
     setFoods([...foods, newFood])
     setIsDialogOpen(false)

@@ -1,6 +1,6 @@
 // Code by: Truong Vu
 import { signIn } from "next-auth/react";
-import { APIError, fetchData, patchData, postData } from "@/services/api";
+import { API, APIError, fetchData, patchData, postData } from "@/services/api";
 import { showtimeType } from "@/types";
 /**
  * The mask of user type
@@ -98,6 +98,14 @@ export const getFilms = async () => {
 };
 
 
+export const getFoods = async()=>{
+  try {
+    const results = await fetchData("/food/findallFood",{})
+    return results
+  } catch (error:any) {
+    throw new APIError(error)
+  }
+}
 
 
 

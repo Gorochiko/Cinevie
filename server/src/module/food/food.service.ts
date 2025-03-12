@@ -20,9 +20,10 @@ export class FoodService {
     return {message:"Created food"}  
   }
 
-  findAll() {
-    return `This action returns all food`;
-  }
+async findAll() {
+  const res = await this.foodModel.find();
+  return res;
+}
 
   findOne(id: number) {
     return `This action returns a #${id} food`;
