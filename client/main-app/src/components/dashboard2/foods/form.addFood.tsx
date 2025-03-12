@@ -18,15 +18,13 @@ interface FormAddFoodProps {
     onUpdate: (updatedFood: FoodItem) => void
     editingFood: FoodItem | null
 }
-
-export default function FormAddFood({ open, onClose, onAdd, onUpdate, editingFood }: FormAddFoodProps) {
+export default function FormAddFood({ open, onClose, onUpdate, editingFood }: FormAddFoodProps) {
     const [titleFood, setTitleFood] = useState("")
     const [price, setPrice] = useState("")
     const [details, setDetails] = useState("")
     const [imageFood, setImageFood] = useState<File | null>(null)
     const [imagePreview, setImagePreview] = useState<string | null>(null)
     const [loading, setLoading] = useState(false)
-
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0]
@@ -36,14 +34,11 @@ export default function FormAddFood({ open, onClose, onAdd, onUpdate, editingFoo
             }
         }
     }
-
     const removeImage = () => {
         setImageFood(null)
         setImagePreview(null)
     }
-
     const { toast } = useToast();
-
     const handleSubmit = async () => {
         try {
             setLoading(true);
