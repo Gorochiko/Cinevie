@@ -80,7 +80,7 @@ const ShowtimesList: React.FC = () => {
             <div className="flex items-center gap-2 mt-2">
                 <button
                 className="bg-gray-200 px-3 py-1 rounded-full hover:bg-blue-800 hover:text-white text-sm"
-                onClick={() => router.push("/support")}
+                // onClick={() => router.push("/support")}
                 >
                 {showtime.startTime}
                 </button>

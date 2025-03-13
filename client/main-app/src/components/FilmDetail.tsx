@@ -29,7 +29,7 @@ export default function MoviePage() {
     async function fetchMovie() {
       try {
         setLoading(true);
-        const data = await fetchData(`/films/${id}`, {});
+        const data = await fetchData(`/films/getfilms/${id}`, {});
         console.log("Dữ liệu API trả về:", data);
         setMovieData(data);
       } catch (error) {

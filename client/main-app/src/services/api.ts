@@ -25,6 +25,7 @@ const PUBLIC_ROUTES = [
     '/auth/signUp',
     '/auth/signout',
     '/films/getFilms',
+    '/films/getfilms/:id',
 ] as const;
 
 
@@ -35,11 +36,14 @@ const isPublicRoute = (url: string): boolean => {
             const baseRoute = route.slice(0, -1);
             return normalizedUrl.startsWith(baseRoute);
         }
+        if (route.includes(':')) {
+            const routePattern = new RegExp('^' + route.replace(/:[^/]+/g, '([^/]+)') + '$');
+            return routePattern.test(normalizedUrl);
+        }
         return normalizedUrl === route;
     });
 };
 
-// Helper to get session based on environment
 
 export const API: AxiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_DOMAIN || 'http://localhost:8080/api',

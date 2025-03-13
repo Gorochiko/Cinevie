@@ -39,7 +39,7 @@ export class FlimsController {
     return this.flimsService.findAll();
   }
 
-  @Get(':id')
+  @Get('getfilms/:id')
   findOne(@Param('id') id: string) {
     return this.flimsService.findOne(id);
   }

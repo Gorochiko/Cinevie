@@ -14,6 +14,7 @@ import { TheaterModule } from './module/theater/theater.module';
 import { RoomModule } from './module/room/room.module';
 import { ShowtimeModule } from './module/showtime/showtime.module';
 import { FoodModule } from './module/food/food.module';
+import { BookingModule } from './module/booking/booking.module';
 const infrastructureDatabaseModule = MongooseModule.forRootAsync({
   useClass: MongooseConfigService,
 });
@@ -38,6 +39,7 @@ const infrastructureDatabaseModule = MongooseModule.forRootAsync({
     FoodModule,
     RoomModule,
     ShowtimeModule,
+    BookingModule,
     MailerModule.forRootAsync({
     imports: [ConfigModule],
     useFactory: async (configService:ConfigService) => ({
