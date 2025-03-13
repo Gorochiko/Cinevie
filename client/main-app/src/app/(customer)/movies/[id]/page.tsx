@@ -1,4 +1,4 @@
- 
+
 import FilmDetail from "@/components/FilmDetail";
 import SlidedownFilm from "@/components/SlidedownFilm";
 import Trailer from "@/components/Trailer";
@@ -26,8 +26,6 @@ export default function MovieDetails(){
                     
                 </div>
             </div>
-            
         </div>
-       
     )
 }

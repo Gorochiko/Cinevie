@@ -138,7 +138,6 @@ export const fetchData = async <T>(
 
 
 
-// Hàm gọi API POST
 export const postData = async <T>(endpoint: string, data: Record<string, any>, requireAuth = true): Promise<T> => {
     try {
         const isFormdata =  data instanceof FormData;

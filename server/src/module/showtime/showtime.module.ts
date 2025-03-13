@@ -12,5 +12,7 @@ imports: [MongooseModule.forFeature([{ name: Showtime.name, schema: ShowtimeSche
 RoomModule,TheaterModule, FlimsModule],
   controllers: [ShowtimeController],
   providers: [ShowtimeService],
+  exports:[ShowtimeService]
 })
+
 export class ShowtimeModule {}

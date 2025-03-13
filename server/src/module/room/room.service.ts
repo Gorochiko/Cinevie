@@ -23,12 +23,11 @@ export class RoomService {
  */
 
   async createRoom(roomData: CreateRoomDto): Promise<Room> {
-    const generatedSeats = roomData.seats || this.generateSeats(roomData.capacity);
+
     const newRoom = new this.roomModel({
       name: roomData.name,
       capacity: roomData.capacity,
       screenType: roomData.screenType || '2D', 
-      seats: generatedSeats.map(seat => ({ seatNumber: seat, status: 'available' })),
       isActive: true,
     });
     return newRoom.save();
@@ -42,18 +41,7 @@ export class RoomService {
   //   return nameExitst;
   // }
 
-  public generateSeats(capacity: number): string[] {
-    const seats: string[] = [];
-    const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'];
-    let seatCount = 0;
-    for (let row of rows) {
-      for (let i = 1; i <= 10 && seatCount < capacity; i++) {
-        seats.push(`${row}${i}`);
-        seatCount++;
-      }
-    }
-    return seats;
-}
+
 
 
   async findAll(): Promise<Room[]> {

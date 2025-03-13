@@ -1,35 +1,40 @@
 
-import { IsString,  IsNotEmpty, IsMongoId, IsOptional,  } from "class-validator";
+import { IsString, IsNotEmpty, IsMongoId, IsOptional, IsArray, } from "class-validator";
 
 export class CreateShowtimeDto {
-@IsNotEmpty()
-@IsMongoId()
-films: string;
+    @IsNotEmpty()
+    @IsMongoId()
+    films: string;
 
-@IsNotEmpty()
-@IsMongoId()
-theater: string;
+    @IsNotEmpty()
+    @IsMongoId()
+    theater: string;
 
-@IsString()
-@IsNotEmpty()
-rooms: string
+    @IsString()
+    @IsNotEmpty()
+    rooms: string
 
-@IsNotEmpty()
-dateAction: Date;
+    @IsOptional()
+    @IsArray()
+    @IsString({ each: true })
+    seats?: string[];
 
-@IsString()
-@IsNotEmpty()
-price:string;
+    @IsNotEmpty()
+    dateAction: Date;
 
-@IsString()
-@IsNotEmpty()
-startTime: Date;
+    @IsString()
+    @IsNotEmpty()
+    price: string;
 
-@IsString()
-@IsNotEmpty()
-endTime: Date;
+    @IsString()
+    @IsNotEmpty()
+    startTime: Date;
+
+    @IsString()
+    @IsNotEmpty()
+    endTime: Date;
 
 
-@IsOptional()
-status:string
+    @IsOptional()
+    status: string
 }

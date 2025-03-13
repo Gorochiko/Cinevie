@@ -1,6 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-
+interface Seat {
+  seatNumber: string; 
+  status?: 'available' | 'booked' | 'reserved';
+}
 @Schema({ timestamps: true }) 
 export class Showtime extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Flim', required: true })
@@ -14,6 +17,12 @@ export class Showtime extends Document {
 
   @Prop({ required: true })
   startTime: Date;
+ 
+  @Prop({ type: [{ 
+    seatNumber: { type: String, required: true },
+    status: { type: String, enum: ['available', 'booked', 'reserved'], default: 'available' }
+  }], default: [] })
+  seats: Seat[]; 
 
   @Prop({required:true})
   dateAction: Date;
@@ -21,7 +30,6 @@ export class Showtime extends Document {
   @Prop({ required: true })
   endTime: Date;
 
-  
   @Prop({required:true})
   price: string;
 

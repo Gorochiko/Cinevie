@@ -14,8 +14,5 @@ export class CreateRoomDto {
   @IsOptional()
   screenType?: string;
 
-  @IsOptional()
-  @IsArray()
-  @IsString({ each: true })
-  seats?: string[]; 
+  
 }

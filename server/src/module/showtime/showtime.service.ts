@@ -27,6 +27,10 @@ export class ShowtimeService {
    * @returns 
    */
   async create(createShowtimeDto: CreateShowtimeDto):Promise<{message:string}> {
+
+    const findrooms = await this.roomService.findOne(createShowtimeDto.rooms);
+    const capacity = findrooms.capacity;
+    const generatedSeats = createShowtimeDto.seats || this.generateSeats(capacity);
  
     if(!createShowtimeDto.price){
       throw new ConflictException('Giá tiền không được để trống')
@@ -49,6 +53,7 @@ export class ShowtimeService {
         theater:createShowtimeDto.theater,
         rooms: createShowtimeDto.rooms,
         price:createShowtimeDto.price,
+        seats: generatedSeats.map(seat => ({ seatNumber: seat, status: 'available' })),
         dateAction: createShowtimeDto.dateAction,
         startTime: createShowtimeDto.startTime,
         endTime: createShowtimeDto.endTime,
@@ -57,7 +62,18 @@ export class ShowtimeService {
     return {message:"Created showtime"};
   }
 
-
+  public generateSeats(capacity: number): string[] {
+    const seats: string[] = [];
+    const rows = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R'];
+    let seatCount = 0;
+    for (let row of rows) {
+      for (let i = 1; i <= 10 && seatCount < capacity; i++) {
+        seats.push(`${row}${i}`);
+        seatCount++;
+      }
+    }
+    return seats;
+}
   
   /**
    * @returns 
@@ -81,7 +97,7 @@ export class ShowtimeService {
    * @returns 
    */
   async findOne(id: string) {
-    const showtime = await this.showtimeModel.findById(id).populate('room').populate('films').exec();
+    const showtime = await this.showtimeModel.findById(id).populate('rooms').populate('films').exec();
     if (!showtime) {
       throw new NotFoundException('Showtime not found');
     }
@@ -90,7 +106,10 @@ export class ShowtimeService {
 
 
 
-
+  async updateSeats (id:string, updateShowtimeDto:UpdateShowtimeDto){
+    const updateSeats = await this.showtimeModel.findByIdAndUpdate(id,updateShowtimeDto.seats).exec();
+    return updateSeats; 
+}
 
   
   /**

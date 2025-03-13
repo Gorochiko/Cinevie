@@ -98,6 +98,9 @@ export const getFilms = async () => {
 };
 
 
+
+
+
 export const getFoods = async()=>{
   try {
     const results = await fetchData("/food/findallFood",{})
@@ -129,6 +132,11 @@ export const createFilms = async (films:FormData) => {
     throw error;
   }
 };
+
+
+
+
+
 
 export const createFoods = async(foods:FormData)=>{
   try {
@@ -198,6 +206,8 @@ export const findByIDFilms = async(id:string)=>{
 
 
 
+
+
 export const createTheater = async (theater:theater) => {
   try {
     const response = await postData("/theaters/add-theaters", theater,true);
@@ -231,6 +241,8 @@ export const getTheaters = async () => {
 
 
 
+
+
 export const createRoomToTheater = async (room:any, threaterId:string) => {
   try {
     const response = await postData<response>(`/theaters/add-room/${threaterId}`,room,true);
@@ -246,7 +258,6 @@ export const createRoomToTheater = async (room:any, threaterId:string) => {
 
 
 
-
 export const createShowtimes = async (showtime: showtimeType )=>{
   try{
     const res = await postData<response>('showtime/addShowtime',showtime,true);
@@ -258,6 +269,10 @@ export const createShowtimes = async (showtime: showtimeType )=>{
     throw new Error(error.message)
   }
 }
+
+
+
+
 
 export const getShowTime = async()=>{
   try {
