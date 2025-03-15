@@ -29,7 +29,7 @@ export class BookingService {
     await this.showtimeService.bookSeats(createBookingDto.showtime, createBookingDto.seats);
     const booking = await this.bookingModel.create({
       user:createBookingDto.user,
-      food:createBookingDto.food,
+      food:createBookingDto.combo,
       showtime:createBookingDto.showtime,
       seats:createBookingDto.seats,
       totalPrice:createBookingDto.totalPrice,

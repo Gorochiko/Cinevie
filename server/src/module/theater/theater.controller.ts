@@ -13,7 +13,7 @@ export class TheaterController {
     return this.theaterService.create(createTheaterDto);
   }
 
-  @Post('add-room/:id')
+  @Post('add-room/:id') 
   addRoomToTheater(@Param('id') threadId: string, @Body() createRoomDto:CreateRoomDto) {
     return this.theaterService.addRoomToTheater(threadId, createRoomDto);
   }

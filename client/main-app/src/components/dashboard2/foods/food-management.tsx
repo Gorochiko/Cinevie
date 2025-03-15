@@ -59,7 +59,7 @@ export function FoodManagement({ initialFoods }: FoodManagementProps) {
             <TabsTrigger value="list">Danh sách</TabsTrigger>
           </TabsList>
         </Tabs>
-        <Button onClick={() => setIsDialogOpen(true)}>
+        <Button variant="neon" onClick={() => setIsDialogOpen(true)}>
           <Plus className="mr-2 h-4 w-4" /> Thêm thức ăn
         </Button>
       </div>

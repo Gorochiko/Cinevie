@@ -10,7 +10,7 @@ const AddRoomDialog = ({ addRoomOpen,theaterId, setAddRoomOpen, selectedBranch, 
     try {
       const roomdata = await createRoomToTheater(newRoom, theaterId);
      if(roomdata){
-      toast({variant:'default', title:"Success", description:roomdata?.message})
+      toast({variant:'success', title:"Success", description:roomdata?.message})
      }
       setAddRoomOpen(false);
     } catch (error:any) {

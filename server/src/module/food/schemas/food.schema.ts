@@ -6,12 +6,16 @@ import { HydratedDocument, Types, Document } from 'mongoose';
 export class Food extends Document {
     @Prop({required:true})
     titleFood: string
+    
     @Prop({required:true})
     details:string
+
     @Prop({required:true})
     price:string
+
     @Prop({required:true})
     imageFood:string
+
     @Prop({default:"pending"})
     statusFood?:string
 }

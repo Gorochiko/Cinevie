@@ -12,8 +12,15 @@ export class Booking extends Document {
     @Prop({type:Array,required:true ,default:[]})
     seats:string[]
 
-    @Prop({ type: [Types.ObjectId], ref: 'Food', required: true , default:[]})
-    food:Types.ObjectId[]
+    @Prop({
+        type: [{
+            food: { type: Types.ObjectId, ref: 'Food', required: true },
+            quantity: { type: Number, required: true, default: 1 }
+        }],
+        required: true,
+        default: []
+    })
+    combo: { food: Types.ObjectId, quantity: number }[];
 
     @Prop({required:true})
     totalPrice:number

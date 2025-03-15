@@ -22,7 +22,7 @@ export class Showtime extends Document {
     seatNumber: { type: String, required: true },
     status: { type: String, enum: ['available', 'booked', 'reserved'], default: 'available' }
   }], default: [] })
-  seats: Seat[]; 
+  seats: [Seat]; 
 
   @Prop({required:true})
   dateAction: Date;

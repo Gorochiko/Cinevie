@@ -12,14 +12,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import AddRoomDialog from "./AddRoomDialog";
 import AddBranchDialog from "./AddBranchDialog"
 import BranchList from "./BranchList"
 import { CinemaBranch, ScreeningRoom } from "@/types"
 import { toast } from "@/hooks/use-toast"
-import { getTheaters } from "@/lib/actions"
 import { Clapperboard } from "lucide-react";
 
 export default function CinemaBranchManagement() {
@@ -34,7 +32,6 @@ export default function CinemaBranchManagement() {
   const [newRoom, setNewRoom] = useState<ScreeningRoom>({
     name: "",
     capacity: 0,
-
   })
 
   const [addBranchOpen, setAddBranchOpen] = useState(false)
@@ -153,7 +150,7 @@ export default function CinemaBranchManagement() {
                       <>
                         <div className="  w-auto grid grid-cols-1 md:grid-cols-2 gap-4">
                           {selectedBranch.rooms?.map((room) => (
-                            <Card key={room.id}>
+                            <Card key={room.name}>
                               <CardHeader className="pb-2">
                                 <CardTitle className="text-lg">{room.name}</CardTitle>
                               </CardHeader>

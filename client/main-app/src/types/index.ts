@@ -1,6 +1,6 @@
 export
   interface ScreeningRoom {
-  _id: string;
+
   name: string;
   capacity: number;
   screenType?: string

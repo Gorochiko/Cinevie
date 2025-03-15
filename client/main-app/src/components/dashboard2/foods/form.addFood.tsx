@@ -66,7 +66,7 @@ export default function FormAddFood({ open, onClose, onUpdate, editingFood }: Fo
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent className="sm:max-w-[600px]">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl text-center text-orange-400 font-semibold animate-bounce">Add Food</DialogTitle>
+                    <DialogTitle className="text-2xl text-center font-serif text-orange-400 font-semibold animate-bounce">Add Food</DialogTitle>
                 </DialogHeader>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -118,7 +118,7 @@ export default function FormAddFood({ open, onClose, onUpdate, editingFood }: Fo
                     <DialogClose>
                         <Button variant={"secondary"}>Cancel</Button>
                     </DialogClose>
-                    <Button onClick={handleSubmit} disabled={loading} className="bg-gradient-to-r from-red-400 to-amber-500 text-white">
+                    <Button onClick={handleSubmit} disabled={loading}variant="gradient">
                         {loading ? "Adding..." : "Add Food"}
                     </Button>
                 </DialogFooter>

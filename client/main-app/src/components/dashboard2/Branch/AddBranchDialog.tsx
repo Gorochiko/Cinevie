@@ -28,7 +28,7 @@ const AddBranchDialog = ({ addBranchOpen, setAddBranchOpen,onBranchAdded  }:any)
   return (
     <Dialog open={addBranchOpen} onOpenChange={setAddBranchOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button variant="neon">
           <Plus className="mr-2 h-4 w-4" /> Thêm chi nhánh
         </Button>
       </DialogTrigger>
