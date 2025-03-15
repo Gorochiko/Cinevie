@@ -65,4 +65,22 @@ export
   }
 
 
-  
+  export type TicketStatus = "pending" | "confirmed" | "used" | "cancelled"
+
+export interface Concession {
+  name: string
+  quantity: number
+  price: number
+}
+
+export interface Ticket {
+  id: string
+  status: TicketStatus
+  customerEmail: string
+  movie: string
+  showtime: string
+  totalAmount: number
+  concessions: Concession[]
+  seats: string[]
+  purchaseDate: string
+}

@@ -105,12 +105,27 @@ export class ShowtimeService {
   }
 
 
-
-  async updateSeats (id:string, updateShowtimeDto:UpdateShowtimeDto){
-    const updateSeats = await this.showtimeModel.findByIdAndUpdate(id,updateShowtimeDto.seats).exec();
-    return updateSeats; 
+  async bookSeats(showtimeId: string, seats: string[]) {
+    await this.showtimeModel.updateOne(
+        { _id: showtimeId },
+        {
+            $set: {
+                "seats.$[elem].status": "booked"
+            }
+        },
+        {
+            arrayFilters: [{ "elem.seatNumber": { $in: seats } }]
+        }
+    );
 }
 
+  async updateSeats(id: string, seats: any[]): Promise<Showtime | null> {
+    return this.showtimeModel.findByIdAndUpdate(
+      id,
+      { $set: { seats } }, 
+      { new: true }
+    ).exec();
+  }
   
   /**
    * 

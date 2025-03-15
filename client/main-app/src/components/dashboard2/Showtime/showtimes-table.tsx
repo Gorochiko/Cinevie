@@ -30,7 +30,6 @@ export function ShowtimesTable() {
   useEffect(() => {
     async function fetchShowtimes() {
       const data = await getShowTime() as Showtime[]
-      console.log("dấdasdasd", data)
       setShowtimes(data || [])
     }
     fetchShowtimes()
@@ -45,8 +44,8 @@ export function ShowtimesTable() {
   }
   const vietnamTimeZone = "Asia/Ho_Chi_Minh";
   const convertToVietnamTime = (isoString: string) => {
-    const date = parseISO(isoString); // Chuyển từ string thành Date object
-    return toZonedTime(date, vietnamTimeZone); // Chuyển đổi sang giờ Việt Nam
+    const date = parseISO(isoString); 
+    return toZonedTime(date, vietnamTimeZone); 
   };
 
   return (

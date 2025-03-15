@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { UpdateBookingDto } from './dto/update-booking.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -16,11 +16,17 @@ export class BookingService {
   private userService : UserService,
   private foodService : FoodService
   ){}
+
   async create(createBookingDto: CreateBookingDto) {
-    const findSeats = await this.showtimeService.findOne(createBookingDto.showtime)
-    if(JSON.stringify(createBookingDto.seats) === JSON.stringify(findSeats.seats)){
-        await this.showtimeService.updateSeats(createBookingDto.showtime, { seats: createBookingDto.seats })
+    const showtime  = await this.showtimeService.findOne(createBookingDto.showtime)
+    const checkSeats = createBookingDto.seats.filter(seatNumber => {
+      const seat = showtime.seats.find(s => s.seatNumber === seatNumber);
+      return !seat || seat.status !== 'available';
+    });
+    if (checkSeats.length > 0) {
+      throw new ConflictException(`Seats ${checkSeats.join(' , ')} are already booked or not available`);
     }
+    await this.showtimeService.bookSeats(createBookingDto.showtime, createBookingDto.seats);
     const booking = await this.bookingModel.create({
       user:createBookingDto.user,
       food:createBookingDto.food,
@@ -32,6 +38,7 @@ export class BookingService {
     return booking.save() ;
   }
 
+  
   findAll() {
     return `This action returns all booking`;
   }

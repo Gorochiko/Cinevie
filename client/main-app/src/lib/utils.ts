@@ -4,3 +4,7 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+// Format currency to VND
+export const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount).replace("₫", "VNĐ")
+}

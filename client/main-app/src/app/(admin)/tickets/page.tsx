@@ -1,315 +1,205 @@
 "use client"
 
-import * as React from "react"
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  VisibilityState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { useState, useEffect } from "react"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
+import { StatisticsCards } from "@/components/dashboard2/Tickets/statistics-cards"
+import { SearchFilter } from "@/components/dashboard2/Tickets/search-filter"
+import { TableActions } from "@/components/dashboard2/Tickets/table-actions"
+import { TicketTable } from "@/components/dashboard2/Tickets/ticket-table"
+import { TicketDetailsDialog } from "@/components/dashboard2/Tickets/ticket-details-dialog"
+import { Pagination } from "@/components/dashboard2/Tickets/pagination"
 
-const data: Payment[] = [
+import { formatCurrency } from "@/lib/utils"
+import type { Ticket } from "@/types/index"
+
+
+// Sample data
+export const tickets: Ticket[] = [
   {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@yahoo.com",
+    id: "TKT-001",
+    status: "confirmed",
+    customerEmail: "nguyen.van.a@example.com",
+    movie: "Avengers: Endgame",
+    showtime: "2025-03-15 19:30",
+    totalAmount: 250000,
+    concessions: [
+      { name: "Combo 1 (Popcorn Large + 2 Drinks)", quantity: 1, price: 120000 },
+      { name: "Caramel Popcorn", quantity: 1, price: 60000 },
+    ],
+    seats: ["G7", "G8"],
+    purchaseDate: "2025-03-10 14:22",
   },
   {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@gmail.com",
+    id: "TKT-002",
+    status: "pending",
+    customerEmail: "tran.thi.b@example.com",
+    movie: "Dune: Part Two",
+    showtime: "2025-03-14 20:15",
+    totalAmount: 180000,
+    concessions: [
+      { name: "Popcorn Medium", quantity: 1, price: 50000 },
+      { name: "Coca Cola", quantity: 2, price: 30000 },
+    ],
+    seats: ["E5","A3"],
+    purchaseDate: "2025-03-13 09:45",
   },
   {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@gmail.com",
+    id: "TKT-003",
+    status: "used",
+    customerEmail: "le.minh.c@example.com",
+    movie: "The Batman",
+    showtime: "2025-03-12 18:00",
+    totalAmount: 350000,
+    concessions: [{ name: "Combo 2 (Popcorn Large + Nachos + 2 Drinks)", quantity: 1, price: 150000 }],
+    seats: ["D12", "D13", "D14"],
+    purchaseDate: "2025-03-08 16:30",
   },
   {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@gmail.com",
+    id: "TKT-004",
+    status: "cancelled",
+    customerEmail: "pham.hong.d@example.com",
+    movie: "Oppenheimer",
+    showtime: "2025-03-13 19:00",
+    totalAmount: 200000,
+    concessions: [],
+    seats: ["F9", "F10"],
+    purchaseDate: "2025-03-07 20:15",
   },
   {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@hotmail.com",
+    id: "TKT-005",
+    status: "confirmed",
+    customerEmail: "hoang.nam.e@example.com",
+    movie: "Godzilla x Kong",
+    showtime: "2025-03-16 15:45",
+    totalAmount: 420000,
+    concessions: [{ name: "Family Combo (2 Large Popcorn + 4 Drinks + 2 Hotdogs)", quantity: 1, price: 250000 }],
+    seats: ["H3", "H4", "H5", "H6"],
+    purchaseDate: "2025-03-12 11:20",
+  },
+  {
+    id: "TKT-006",
+    status: "confirmed",
+    customerEmail: "hoang.nam.e@example.com",
+    movie: "Godzilla x Kong",
+    showtime: "2025-03-16 15:45",
+    totalAmount: 420000,
+    concessions: [{ name: "Family Combo (2 Large Popcorn + 4 Drinks + 2 Hotdogs)", quantity: 1, price: 250000 }],
+    seats: ["H3", "H4", "H5", "H6"],
+    purchaseDate: "2025-03-12 11:20",
+  },
+  {
+    id: "TKT-007",
+    status: "confirmed",
+    customerEmail: "hoang.nam.e@example.com",
+    movie: "Godzilla x Kong",
+    showtime: "2025-03-16 15:45",
+    totalAmount: 420000,
+    concessions: [{ name: "Family Combo (2 Large Popcorn + 4 Drinks + 2 Hotdogs)", quantity: 1, price: 250000 }],
+    seats: ["H3", "H4", "H5", "H6"],
+    purchaseDate: "2025-03-12 11:20",
   },
 ]
 
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
 
-export const columns: ColumnDef<Payment>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
-  },
-  {
-    accessorKey: "email",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+export default function AdminDashboardTicket() {
+  const [searchTerm, setSearchTerm] = useState("")
+  const [statusFilter, setStatusFilter] = useState<string>("all")
+  const [selectedTicket, setSelectedTicket] = useState<Ticket | null>(null)
+  const [detailsOpen, setDetailsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [ticketsData, setTicketsData] = useState<Ticket[]>([])
+  const [currentPage, setCurrentPage] = useState(1)
 
-      // Format the amount as a dollar amount
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
+  // Simulate loading data
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setTicketsData(tickets)
+      setIsLoading(false)
+    }, 1000)
 
-      return <div className="text-right font-medium">{formatted}</div>
-    },
-  },
-  {
-    id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
+    return () => clearTimeout(timer)
+  }, [])
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
-  },
-]
+  // Handle refresh action
+  const handleRefresh = () => {
+    setIsRefreshing(true)
+    setTimeout(() => {
+      setIsRefreshing(false)
+    }, 800)
+  }
 
-export default function CustomerTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  // Filter tickets based on search term and status
+  const filteredTickets = ticketsData.filter((ticket) => {
+    const matchesSearch =
+      ticket.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      ticket.customerEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      ticket.movie.toLowerCase().includes(searchTerm.toLowerCase())
 
-  const table = useReactTable({
-    data,
-    columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
+    const matchesStatus = statusFilter === "all" || ticket.status === statusFilter
+
+    return matchesSearch && matchesStatus
   })
 
+  // Handle viewing ticket details
+  const viewTicketDetails = (ticket: Ticket) => {
+    setSelectedTicket(ticket)
+    setDetailsOpen(true)
+  }
+
+  
+  const confirmedTickets = ticketsData.filter((t) => t.status === "confirmed").length
+  const pendingTickets = ticketsData.filter((t) => t.status === "pending").length
+  const totalRevenue = ticketsData.reduce(
+    (sum, ticket) => (ticket.status !== "cancelled" ? sum + ticket.totalAmount : sum),
+    0,
+  )
+
   return (
-    <div className="w-full">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+      <div className="flex flex-col">
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+          <StatisticsCards
+            totalTickets={ticketsData.length}
+            confirmedTickets={confirmedTickets}
+            pendingTickets={pendingTickets}
+            totalRevenue={totalRevenue}
+            isLoading={isLoading}
+            formatCurrency={formatCurrency}
+          />
+          <Card className="transition-all duration-300">
+            <CardHeader>
+              <TableActions isRefreshing={isRefreshing} handleRefresh={handleRefresh} />
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col gap-4">
+                <SearchFilter
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                  statusFilter={statusFilter}
+                  setStatusFilter={setStatusFilter}
+                />
+                <TicketTable
+                  tickets={filteredTickets}
+                  isLoading={isLoading}
+                  formatCurrency={formatCurrency}
+                  viewTicketDetails={viewTicketDetails}
+                />
+                <Pagination currentPage={currentPage} totalPages={1} onPageChange={setCurrentPage} />
+              </div>
+            </CardContent>
+          </Card>
+        </main>
       </div>
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="bg-gradient-to-r to-[#FFD700] from-[#FF8C00] text-white transition-none">
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  )
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  className="hover:bg-yellow-100 hover:text-black transition-none"
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            className="bg-blue-800 text-white"
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            className="bg-blue-800 text-white"
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+
+      <TicketDetailsDialog
+        ticket={selectedTicket}
+        open={detailsOpen}
+        onOpenChange={setDetailsOpen}
+        formatCurrency={formatCurrency}
+      />
     </div>
   )
 }
+

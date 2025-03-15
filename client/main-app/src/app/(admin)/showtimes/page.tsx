@@ -9,7 +9,7 @@ import { getShowTime } from "@/lib/actions"
 import { Showtime } from "@/types"
 
 export default async  function ShowtimesPage() {
-  const showtimes: Showtime[] = await getShowTime() as Showtime[]; // Gọi API trực tiếp
+  const showtimes = await getShowTime() as Showtime[]; 
   return (
     <div className="container mx-auto py-6">
       <div className="flex items-center justify-between mb-6">

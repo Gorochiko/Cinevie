@@ -8,7 +8,6 @@ export default function Layout({
     return (
       <html lang="en">
         <body>
-        
         <Header/>
           <div className="" >{children}</div>
         <Footer/>
