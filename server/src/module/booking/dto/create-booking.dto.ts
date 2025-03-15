@@ -6,8 +6,8 @@ export class CreateBookingDto {
     @IsString()
     user:string
 
-    @IsString()
-    food:string
+    @IsArray()
+    food:string[]
 
     @IsArray()
     seats:string[]

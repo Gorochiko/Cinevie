@@ -8,34 +8,15 @@ import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
-import React, { useEffect, useState } from "react"
-import { getTheaters } from "@/lib/actions"
-import { CinemaBranch } from "@/types"
+import React from "react"
 
-export function ShowtimesFilter() {
+interface CinemaProp{
+    theaterOptions:React.ReactNode
+}
+
+export function ShowtimesFilter({ theaterOptions }: CinemaProp) {
     const [date, setDate] = React.useState<Date>()
-    const [theaters, setTheaters] = useState<CinemaBranch[]>([]);
-
-
-    useEffect(() => {
-      const fetchTheaters = async () => {
-        try {
-          const response = await getTheaters() as CinemaBranch[];
-          setTheaters(response);
-        } catch (error) {
-          console.error("Failed to fetch theaters:", error);
-        }
-      };
-  
-      fetchTheaters();
-    }, []);
-  
-    // Map theater options
-    const theaterOptions = theaters.map((theater) => (
-      <SelectItem key={theater._id} value={theater._id}>
-        {theater.name}
-      </SelectItem>
-    ));
+   
     return (
         <div className="flex flex-col gap-4 md:flex-row">
             <div className="flex-1 flex gap-2">

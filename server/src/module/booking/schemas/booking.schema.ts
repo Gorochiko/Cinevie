@@ -9,11 +9,11 @@ export class Booking extends Document {
     @Prop({ type: Types.ObjectId, ref: 'User', required: true })
     user:Types.ObjectId
 
-    @Prop({type:Array})
+    @Prop({type:Array,required:true ,default:[]})
     seats:string[]
 
-    @Prop({ type: Types.ObjectId, ref: 'Food', required: true , default:[]})
-    food:Types.ObjectId
+    @Prop({ type: [Types.ObjectId], ref: 'Food', required: true , default:[]})
+    food:Types.ObjectId[]
 
     @Prop({required:true})
     totalPrice:number

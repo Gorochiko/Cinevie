@@ -5,10 +5,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ShowtimesTable } from "@/components/dashboard2/Showtime/showtimes-table"
 import { ShowtimesFilter } from "@/components/dashboard2/Showtime/showtimes-filter"
 import { ShowtimeDialog } from "@/components/dashboard2/Showtime/showtime-dialog"
-import { getShowTime } from "@/lib/actions"
-import { Showtime } from "@/types"
+import { getShowTime, getTheaters } from "@/lib/actions"
+import { CinemaBranch, Showtime } from "@/types"
+import { SelectItem } from "@/components/ui/select"
 
 export default async  function ShowtimesPage() {
+    const response = await getTheaters() as CinemaBranch[];
+    const theaterOptions = response.map((theater) => (
+      <SelectItem key={theater._id} value={theater._id}>
+        {theater.name}
+      </SelectItem>
+    ));
   const showtimes = await getShowTime() as Showtime[]; 
   return (
     <div className="container mx-auto py-6">
@@ -33,7 +40,8 @@ export default async  function ShowtimesPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="p-6">
-          <ShowtimesFilter />
+          <ShowtimesFilter 
+          theaterOptions={theaterOptions}/>
           <div className="mt-6">
             <ShowtimesTable />
           </div>

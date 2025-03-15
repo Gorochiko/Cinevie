@@ -7,7 +7,7 @@ interface StatisticsCardsProps {
   pendingTickets: number
   totalRevenue: number
   isLoading: boolean
-  formatCurrency: (amount: number) => string
+  formatCurrency: (amount: number) => string 
 }
 
 export const StatisticsCards: FC<StatisticsCardsProps> = ({

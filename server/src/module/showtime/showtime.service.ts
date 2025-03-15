@@ -105,6 +105,17 @@ export class ShowtimeService {
   }
 
 
+
+
+  /**
+   * 
+   * @param showtimeId 
+   * @param seats 
+   * Step 1: entry params
+   * Step 2: await updateone wwith key is _id showtimeId
+   * Step 3: set status follow element.status => booked
+   * Step 4: arrayFilters setNumber === entry seats
+   */
   async bookSeats(showtimeId: string, seats: string[]) {
     await this.showtimeModel.updateOne(
         { _id: showtimeId },
