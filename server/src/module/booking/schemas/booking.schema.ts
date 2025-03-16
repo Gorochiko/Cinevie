@@ -12,6 +12,7 @@ export class Booking extends Document {
     @Prop({type:Array,required:true ,default:[]})
     seats:string[]
 
+
     @Prop({
         type: [{
             food: { type: Types.ObjectId, ref: 'Food', required: true },
@@ -25,7 +26,7 @@ export class Booking extends Document {
     @Prop({required:true})
     totalPrice:number
 
-    @Prop({ type: String, enum: ['pending', 'confirmed', 'cancelled'], default: 'pending' })
+    @Prop({ type: String, enum: ['pending', 'confirmed','used', 'cancelled'], default: 'pending' })
     status: string;
 }
 export const BookingSchema = SchemaFactory.createForClass(Booking);

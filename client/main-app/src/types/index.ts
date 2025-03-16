@@ -27,6 +27,8 @@ export
   status: string
 }
 
+
+
 export
   interface Film {
   _id: string;
@@ -65,7 +67,7 @@ export
   }
 
 
-  export type TicketStatus = "pending" | "confirmed" | "used" | "cancelled"
+export type TicketStatus = "pending" | "confirmed" | "used" | "cancelled"
 
 export interface Concession {
   name: string
@@ -83,4 +85,18 @@ export interface Ticket {
   concessions: Concession[]
   seats: string[]
   purchaseDate: string
+}
+
+
+
+export interface UserType  {
+    _id: string,
+    email: string,
+    role:string,
+    firstName: string,
+    lastName: string,
+    isActive: boolean,
+    createdAt: Date
+    updatedAt: Date
+    __v: number
 }

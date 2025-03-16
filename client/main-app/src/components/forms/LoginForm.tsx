@@ -10,8 +10,10 @@ import { login } from "@/lib/actions";
 import  Link  from "next/link";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
-
+import { getSession, useSession } from "next-auth/react"
+ 
 export default  function LoginForm() {
+ 
   const router = useRouter();
   const { toast } = useToast();
   const [username, setUsername] = useState("");
@@ -31,8 +33,16 @@ export default  function LoginForm() {
       setLoading(false);
     } else {
       setLoading(false);
-      toast({variant:"success" , title:" Wellcome back to the CINEVIE+"})
-      router.push("/dashboards");
+      const session = await getSession();
+      if (session?.user?.role === "client") {
+        router.push("/");
+      } else {
+        router.push("/dashboards"); 
+      }
+      toast({variant:"success" , title:"Wellcome back to the CINEVIE+"})
+      
+      // else
+      // router.push('/dashboards')
     }
   },3000)
 }

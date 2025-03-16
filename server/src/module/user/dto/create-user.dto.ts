@@ -28,6 +28,9 @@ export class CreateUserDto {
     password: string;
 
     @IsOptional()
+    role?:string
+
+    @IsOptional()
     codeId?: string;
 
     @IsOptional()

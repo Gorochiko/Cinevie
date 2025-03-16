@@ -92,7 +92,6 @@ export const getFilms = async () => {
    const results = await fetchData<flimRes>("/films/getFilms", {})
    return results
   } catch (error) {
-    console.error("Lỗi khi lấy danh sách phim:", error);
     throw error;
   }
 };
@@ -146,7 +145,7 @@ export const createFoods = async(foods:FormData)=>{
     }
     return response;
   } catch (error:any) {
-    throw new Error(error)
+   throw error
   }
 }
 
@@ -251,7 +250,7 @@ export const createRoomToTheater = async (room:any, threaterId:string) => {
     }
     return response;
   } catch (error) {
-    throw new Error('Lỗi khi thêm phòng')
+    throw error
     
   }
 }
