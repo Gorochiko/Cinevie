@@ -56,7 +56,7 @@ export default function FormAddFood({ open, onClose, onUpdate, editingFood }: Fo
             removeImage();
             onClose(); 
         } catch (error: any) {
-            console.error("Lỗi khi thêm food:", error.response?.data || error.message);
+            toast({variant:"destructive", title:"Error", description:error.message})
         } finally {
             setLoading(false);
         }

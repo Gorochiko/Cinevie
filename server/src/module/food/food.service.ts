@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateFoodDto } from './dto/create-food.dto';
 import { UpdateFoodDto } from './dto/update-food.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -11,6 +11,10 @@ export class FoodService {
   private foodModel : Model<Food>
  ){}
  async create(createFoodDto: CreateFoodDto): Promise<{ message: string | null }> {
+  const checkfood = await this.foodModel.findOne({ titleFood: createFoodDto.titleFood })
+  if(checkfood){
+      throw new ConflictException('Title already exist');
+  }
      await this.foodModel.create({
       titleFood:createFoodDto.titleFood,
       price:createFoodDto.price,

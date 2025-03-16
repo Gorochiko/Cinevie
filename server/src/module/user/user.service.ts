@@ -50,6 +50,7 @@ export class UserService {
     email: string;
     firstName: string;
     lastName: string;
+    role:string
     code_id: string;
   }> {
     const emailExist = await this.checEmailExist(createUserDto.email);
@@ -70,6 +71,7 @@ export class UserService {
       });
       return {
         _id: createUser._id,
+        role:createUser.role,
         email: createUser.email,
         firstName: createUser.firstName,
         lastName: createUser.lastName,

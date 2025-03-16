@@ -26,12 +26,14 @@ declare module "next-auth/jwt" {
     firstName?: string;
     lastName?: string;
     access_token: string|null;
+    role: string;
   }
 }
 
 interface UserType  {
     _id: string,
     email: string,
+    role:string,
     firstName: string,
     lastName: string,
     isActive: boolean,
@@ -44,6 +46,7 @@ declare module "next-auth" {
     interface User {
       access_token: string|null;
       exp: number;
+      role: string;
     }
     interface Session {
       user: User & DefaultSession["user"];
@@ -81,6 +84,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             id: user._id,
             name: `${user.firstName} ${user.lastName}`,
             email: user.email,
+            role: user.role,
             access_token: response.access_token,
             exp: response.exp, 
           };
@@ -112,6 +116,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           id: token.sub!,
           access_token: token.access_token || null,
           exp: token.exp!,
+          role: token.role, 
         },
       };
     },
@@ -121,6 +126,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.sub = user.id;
         token.access_token = user.access_token;
         token.exp = user.exp;
+        token.role = user.role; 
       }
       return token;
     },

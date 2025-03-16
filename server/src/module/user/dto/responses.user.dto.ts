@@ -14,6 +14,10 @@ export class ResponseUser {
 @Expose()
   lastName: string;
 
+@IsString()
+@Expose()
+role:string
+
 @IsBoolean()
 @Expose()
   isActive: boolean;
