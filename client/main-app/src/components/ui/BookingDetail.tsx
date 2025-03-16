@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
 
 interface Film {
   title: string;
@@ -66,7 +68,9 @@ const showtimes: Showtime[] = [
     status: "available",
   },
 ];
-
+const handleRedirect = () => {
+  router.push("/support");
+};
 const ShowtimesList: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto p-4">
@@ -78,12 +82,14 @@ const ShowtimesList: React.FC = () => {
             <h2 className="text-xl font-semibold">{showtime.theater.name}</h2>
             <p className="text-sm text-gray-600">{showtime.films.title}</p>
             <div className="flex items-center gap-2 mt-2">
+              <Link href="/booking">
                 <button
                 className="bg-gray-200 px-3 py-1 rounded-full hover:bg-blue-800 hover:text-white text-sm"
-                // onClick={() => router.push("/support")}
                 >
                 {showtime.startTime}
                 </button>
+              </Link>
+                
             </div>
           </CardContent>
         </Card>
