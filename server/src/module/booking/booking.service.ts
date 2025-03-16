@@ -13,8 +13,8 @@ export class BookingService {
   constructor(@InjectModel(Booking.name)
   private bookingModel : Model<Booking>,
   private showtimeService: ShowtimeService,
-  private userService : UserService,
-  private foodService : FoodService
+  // private userService : UserService,
+  // private foodService : FoodService
   ){}
 
   async create(createBookingDto: CreateBookingDto) {
@@ -29,7 +29,7 @@ export class BookingService {
     await this.showtimeService.bookSeats(createBookingDto.showtime, createBookingDto.seats);
     const booking = await this.bookingModel.create({
       user:createBookingDto.user,
-      food:createBookingDto.combo,
+      combo:createBookingDto.combo,
       showtime:createBookingDto.showtime,
       seats:createBookingDto.seats,
       totalPrice:createBookingDto.totalPrice,
@@ -38,9 +38,14 @@ export class BookingService {
     return booking.save() ;
   }
 
-  
-  findAll() {
-    return `This action returns all booking`;
+ async findAll() {
+    const findBooking = await this.bookingModel.find().populate({
+      path: 'showtime',
+      populate: {
+        path: 'films', 
+      },
+    }).populate('combo.food').populate('user') 
+    return findBooking;
   }
 
   findOne(id: number) {

@@ -282,3 +282,17 @@ export const getShowTime = async()=>{
   }
 }
 
+
+
+
+
+
+export const getTicket = async()=>{
+  try {
+    const results = await fetchData('booking/findAllticket',{})
+    return results
+  } catch (error:any) {
+    throw new error;
+  }
+}
+

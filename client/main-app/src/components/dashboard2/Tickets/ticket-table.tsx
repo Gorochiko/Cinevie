@@ -29,7 +29,8 @@ export const TicketTable: FC<TicketTableProps> = ({ tickets, isLoading, formatCu
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>ID</TableHead>
+            {/* <TableHead>ID</TableHead> */}
+            
             <TableHead>Trạng thái</TableHead>
             <TableHead>Email</TableHead>
             <TableHead>Phim</TableHead>
@@ -51,19 +52,20 @@ export const TicketTable: FC<TicketTableProps> = ({ tickets, isLoading, formatCu
           ) : (
             tickets.map((ticket, index) => (
               <TableRow
-                key={ticket.id}
+                key={ticket._id}
                 className="transition-all duration-200 hover:bg-muted/50 animate-in fade-in-50 slide-in-from-left-5"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                <TableCell className="font-medium">{ticket.id}</TableCell>
+                {/* <TableCell className="font-medium">{ticket._id}</TableCell> */}
+              
                 <TableCell>
                   <StatusBadge status={ticket.status} />
                 </TableCell>
-                <TableCell>{ticket.customerEmail}</TableCell>
-                <TableCell>{ticket.movie}</TableCell>
-                <TableCell>{ticket.showtime}</TableCell>
+                <TableCell>{ticket.user.email}</TableCell>
+                <TableCell>{ticket.showtime.films.title}</TableCell>
+                <TableCell>{ticket.showtime.startTime}</TableCell>
                 <TableCell>{ticket.seats.join(", ")}</TableCell>
-                <TableCell>{formatCurrency(ticket.totalAmount)}</TableCell>
+                <TableCell>{formatCurrency(ticket.totalPrice)}</TableCell>
                 <TableCell>
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>

@@ -12,94 +12,96 @@ import { Pagination } from "@/components/dashboard2/Tickets/pagination"
 
 import { formatCurrency } from "@/lib/utils"
 import type { Ticket } from "@/types/index"
+import { getTicket } from "@/lib/actions"
+import { format } from "date-fns"
 
 
-// Sample data
-export const tickets: Ticket[] = [
-  {
-    id: "TKT-001",
-    status: "confirmed",
-    customerEmail: "nguyen.van.a@example.com",
-    movie: "Avengers: Endgame",
-    showtime: "2025-03-15 19:30",
-    totalAmount: 250000,
-    concessions: [
-      { name: "Combo 1 (Popcorn Large + 2 Drinks)", quantity: 1, price: 120000 },
-      { name: "Caramel Popcorn", quantity: 1, price: 60000 },
-    ],
-    seats: ["G7", "G8"],
-    purchaseDate: "2025-03-10 14:22",
-  },
-  {
-    id: "TKT-002",
-    status: "pending",
-    customerEmail: "tran.thi.b@example.com",
-    movie: "Dune: Part Two",
-    showtime: "2025-03-14 20:15",
-    totalAmount: 180000,
-    concessions: [
-      { name: "Popcorn Medium", quantity: 1, price: 50000 },
-      { name: "Coca Cola", quantity: 2, price: 30000 },
-    ],
-    seats: ["E5","A3"],
-    purchaseDate: "2025-03-13 09:45",
-  },
-  {
-    id: "TKT-003",
-    status: "used",
-    customerEmail: "le.minh.c@example.com",
-    movie: "The Batman",
-    showtime: "2025-03-12 18:00",
-    totalAmount: 350000,
-    concessions: [{ name: "Combo 2 (Popcorn Large + Nachos + 2 Drinks)", quantity: 1, price: 150000 }],
-    seats: ["D12", "D13", "D14"],
-    purchaseDate: "2025-03-08 16:30",
-  },
-  {
-    id: "TKT-004",
-    status: "cancelled",
-    customerEmail: "pham.hong.d@example.com",
-    movie: "Oppenheimer",
-    showtime: "2025-03-13 19:00",
-    totalAmount: 200000,
-    concessions: [],
-    seats: ["F9", "F10"],
-    purchaseDate: "2025-03-07 20:15",
-  },
-  {
-    id: "TKT-005",
-    status: "confirmed",
-    customerEmail: "hoang.nam.e@example.com",
-    movie: "Godzilla x Kong",
-    showtime: "2025-03-16 15:45",
-    totalAmount: 420000,
-    concessions: [{ name: "Family Combo (2 Large Popcorn + 4 Drinks + 2 Hotdogs)", quantity: 1, price: 250000 }],
-    seats: ["H3", "H4", "H5", "H6"],
-    purchaseDate: "2025-03-12 11:20",
-  },
-  {
-    id: "TKT-006",
-    status: "confirmed",
-    customerEmail: "hoang.nam.e@example.com",
-    movie: "Godzilla x Kong",
-    showtime: "2025-03-16 15:45",
-    totalAmount: 420000,
-    concessions: [{ name: "Family Combo (2 Large Popcorn + 4 Drinks + 2 Hotdogs)", quantity: 1, price: 250000 }],
-    seats: ["H3", "H4", "H5", "H6"],
-    purchaseDate: "2025-03-12 11:20",
-  },
-  {
-    id: "TKT-007",
-    status: "confirmed",
-    customerEmail: "hoang.nam.e@example.com",
-    movie: "Godzilla x Kong",
-    showtime: "2025-03-16 15:45",
-    totalAmount: 420000,
-    concessions: [{ name: "Family Combo (2 Large Popcorn + 4 Drinks + 2 Hotdogs)", quantity: 1, price: 250000 }],
-    seats: ["H3", "H4", "H5", "H6"],
-    purchaseDate: "2025-03-12 11:20",
-  },
-]
+// // Sample data
+// export const tickets: Ticket[] = [
+//   {
+//     id: "TKT-001",
+//     status: "confirmed",
+//     customerEmail: "nguyen.van.a@example.com",
+//     movie: "Avengers: Endgame",
+//     showtime: "2025-03-15 19:30",
+//     totalAmount: 250000,
+//     concessions: [
+//       { name: "Combo 1 (Popcorn Large + 2 Drinks)", quantity: 1, price: 120000 },
+//       { name: "Caramel Popcorn", quantity: 1, price: 60000 },
+//     ],
+//     seats: ["G7", "G8"],
+//     purchaseDate: "2025-03-10 14:22",
+//   },
+//   {
+//     id: "TKT-002",
+//     status: "pending",
+//     customerEmail: "tran.thi.b@example.com",
+//     movie: "Dune: Part Two",
+//     showtime: "2025-03-14 20:15",
+//     totalAmount: 180000,
+//     concessions: [
+//       { name: "Popcorn Medium", quantity: 1, price: 50000 },
+//       { name: "Coca Cola", quantity: 2, price: 30000 },
+//     ],
+//     seats: ["E5","A3"],
+//     purchaseDate: "2025-03-13 09:45",
+//   },
+//   {
+//     id: "TKT-003",
+//     status: "used",
+//     customerEmail: "le.minh.c@example.com",
+//     movie: "The Batman",
+//     showtime: "2025-03-12 18:00",
+//     totalAmount: 350000,
+//     concessions: [{ name: "Combo 2 (Popcorn Large + Nachos + 2 Drinks)", quantity: 1, price: 150000 }],
+//     seats: ["D12", "D13", "D14"],
+//     purchaseDate: "2025-03-08 16:30",
+//   },
+//   {
+//     id: "TKT-004",
+//     status: "cancelled",
+//     customerEmail: "pham.hong.d@example.com",
+//     movie: "Oppenheimer",
+//     showtime: "2025-03-13 19:00",
+//     totalAmount: 200000,
+//     concessions: [],
+//     seats: ["F9", "F10"],
+//     purchaseDate: "2025-03-07 20:15",
+//   },
+//   {
+//     id: "TKT-005",
+//     status: "confirmed",
+//     customerEmail: "hoang.nam.e@example.com",
+//     movie: "Godzilla x Kong",
+//     showtime: "2025-03-16 15:45",
+//     totalAmount: 420000,
+//     concessions: [{ name: "Family Combo (2 Large Popcorn + 4 Drinks + 2 Hotdogs)", quantity: 1, price: 250000 }],
+//     seats: ["H3", "H4", "H5", "H6"],
+//     purchaseDate: "2025-03-12 11:20",
+//   },
+//   {
+//     id: "TKT-006",
+//     status: "confirmed",
+//     customerEmail: "hoang.nam.e@example.com",
+//     movie: "Godzilla x Kong",
+//     showtime: "2025-03-16 15:45",
+//     totalAmount: 420000,
+//     concessions: [{ name: "Family Combo (2 Large Popcorn + 4 Drinks + 2 Hotdogs)", quantity: 1, price: 250000 }],
+//     seats: ["H3", "H4", "H5", "H6"],
+//     purchaseDate: "2025-03-12 11:20",
+//   },
+//   {
+//     id: "TKT-007",
+//     status: "confirmed",
+//     customerEmail: "hoang.nam.e@example.com",
+//     movie: "Godzilla x Kong",
+//     showtime: "2025-03-16 15:45",
+//     totalAmount: 420000,
+//     concessions: [{ name: "Family Combo (2 Large Popcorn + 4 Drinks + 2 Hotdogs)", quantity: 1, price: 250000 }],
+//     seats: ["H3", "H4", "H5", "H6"],
+//     purchaseDate: "2025-03-12 11:20",
+//   },
+// ]
 
 
 export default function AdminDashboardTicket() {
@@ -112,15 +114,42 @@ export default function AdminDashboardTicket() {
   const [ticketsData, setTicketsData] = useState<Ticket[]>([])
   const [currentPage, setCurrentPage] = useState(1)
 
-  // Simulate loading data
+    
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setTicketsData(tickets)
-      setIsLoading(false)
-    }, 1000)
+    const fetchTickets = async () => {
+      try {
+        const tickets = await getTicket()
+        console.log(tickets)
+        if (Array.isArray(tickets)) {
+          const formattedTickets = tickets.map((ticket) => ({
+            ...ticket,
+            showtime: {
+              ...ticket.showtime,
+              startTime: format(new Date(ticket.showtime.startTime), "yyyy-MM-dd HH:mm"),
+            },
+            createdAt: new Date(ticket.createdAt).toISOString(),
+          }))
+          setTicketsData(formattedTickets)
+        } else {
+          console.error("Expected an array of tickets, but got:", tickets)
+          setTicketsData([]) // Fallback to empty array
+        }
+      } catch (error) {
+        console.error("Failed to fetch tickets:", error)
+        setTicketsData([]) // Fallback to empty array
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-    return () => clearTimeout(timer)
+    fetchTickets()
   }, [])
+    
+
+  // Simulate loading data
+  // useEffect(() => {
+  //   setIsLoading(false)
+  // }, [])
 
   // Handle refresh action
   const handleRefresh = () => {
@@ -130,18 +159,18 @@ export default function AdminDashboardTicket() {
     }, 800)
   }
 
-  // Filter tickets based on search term and status
-  const filteredTickets = ticketsData.filter((ticket) => {
-    const matchesSearch =
-      ticket.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ticket.customerEmail.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      ticket.movie.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredTickets = Array.isArray(ticketsData)
+  ? ticketsData.filter((ticket) => {
+      const matchesSearch =
+        ticket._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ticket.user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        ticket.showtime.films.title.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesStatus = statusFilter === "all" || ticket.status === statusFilter
+      const matchesStatus = statusFilter === "all" || ticket.status === statusFilter;
 
-    return matchesSearch && matchesStatus
-  })
-
+      return matchesSearch && matchesStatus;
+    })
+  : [];
   // Handle viewing ticket details
   const viewTicketDetails = (ticket: Ticket) => {
     setSelectedTicket(ticket)
@@ -152,7 +181,7 @@ export default function AdminDashboardTicket() {
   const confirmedTickets = ticketsData.filter((t) => t.status === "confirmed").length
   const pendingTickets = ticketsData.filter((t) => t.status === "pending").length
   const totalRevenue = ticketsData.reduce(
-    (sum, ticket) => (ticket.status !== "cancelled" ? sum + ticket.totalAmount : sum),
+    (sum, ticket) => (ticket.status !== "cancelled" ? sum + ticket.totalPrice : sum),
     0,
   )
 

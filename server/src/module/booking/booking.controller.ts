@@ -12,7 +12,7 @@ export class BookingController {
     return this.bookingService.create(createBookingDto);
   }
 
-  @Get()
+  @Get('findAllticket')
   findAll() {
     return this.bookingService.findAll();
   }

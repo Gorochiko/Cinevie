@@ -20,7 +20,7 @@ export const TicketDetailsDialog: FC<TicketDetailsDialogProps> = ({ ticket, open
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] animate-in fade-in-50 zoom-in-90 duration-300">
         <DialogHeader>
-          <DialogTitle>Chi tiết vé #{ticket.id}</DialogTitle>
+          <DialogTitle>Chi tiết vé #{ticket._id}</DialogTitle>
           <DialogDescription>Thông tin chi tiết về vé xem phim</DialogDescription>
         </DialogHeader>
 
@@ -40,7 +40,7 @@ export const TicketDetailsDialog: FC<TicketDetailsDialogProps> = ({ ticket, open
             style={{ animationDelay: "100ms" }}
           >
             <span className="text-sm font-medium">Email:</span>
-            <div className="col-span-3">{ticket.customerEmail}</div>
+            <div className="col-span-3">{ticket.user.email}</div>
           </div>
 
           <div
@@ -48,7 +48,7 @@ export const TicketDetailsDialog: FC<TicketDetailsDialogProps> = ({ ticket, open
             style={{ animationDelay: "150ms" }}
           >
             <span className="text-sm font-medium">Phim:</span>
-            <div className="col-span-3">{ticket.movie}</div>
+            <div className="col-span-3">{ticket.movie.title}</div>
           </div>
 
           <div
@@ -56,7 +56,7 @@ export const TicketDetailsDialog: FC<TicketDetailsDialogProps> = ({ ticket, open
             style={{ animationDelay: "200ms" }}
           >
             <span className="text-sm font-medium">Suất chiếu:</span>
-            <div className="col-span-3">{ticket.showtime}</div>
+            <div className="col-span-3">{ticket.showtime.startTime}</div>
           </div>
 
           <div
@@ -72,7 +72,7 @@ export const TicketDetailsDialog: FC<TicketDetailsDialogProps> = ({ ticket, open
             style={{ animationDelay: "300ms" }}
           >
             <span className="text-sm font-medium">Ngày mua:</span>
-            <div className="col-span-3">{ticket.purchaseDate}</div>
+            <div className="col-span-3">{ticket.createdAt}</div>
           </div>
 
           <div
@@ -81,17 +81,17 @@ export const TicketDetailsDialog: FC<TicketDetailsDialogProps> = ({ ticket, open
           >
             <span className="text-sm font-medium">Combo:</span>
             <div className="col-span-3">
-              {ticket.concessions.length === 0 ? (
+              {ticket.combo.length === 0 ? (
                 <span className="text-muted-foreground">Không có</span>
               ) : (
                 <ul className="space-y-1">
-                  {ticket.concessions.map((item, index) => (
+                  {ticket.combo.map((item, index) => (
                     <li
                       key={index}
                       className="text-sm animate-in fade-in-50 slide-in-from-left-5 duration-300"
                       style={{ animationDelay: `${400 + index * 50}ms` }}
                     >
-                      {item.name} x{item.quantity} - {formatCurrency(item.price)}
+                      {item.food.titleFood} x{item.quantity} - {formatCurrency(Number(item.food.price))}
                     </li>
                   ))}
                 </ul>

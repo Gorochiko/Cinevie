@@ -5,7 +5,6 @@ import Credentials from "next-auth/providers/credentials";
 import { JWT } from "next-auth/jwt";
 
 
-
 export class InvalidCredentials extends CredentialsSignin {
     code: string;
     constructor(error: string) {

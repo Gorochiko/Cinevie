@@ -1,6 +1,6 @@
 export
   interface ScreeningRoom {
-
+    _id?:string
   name: string;
   capacity: number;
   screenType?: string
@@ -58,6 +58,7 @@ export
     
   }
 
+
   export interface FoodItem {
     _id: string
     titleFood: string
@@ -69,22 +70,20 @@ export
 
 export type TicketStatus = "pending" | "confirmed" | "used" | "cancelled"
 
-export interface Concession {
-  name: string
+export interface Combo {
+  food:FoodItem
   quantity: number
-  price: number
 }
 
 export interface Ticket {
-  id: string
+  _id: string
   status: TicketStatus
-  customerEmail: string
-  movie: string
-  showtime: string
-  totalAmount: number
-  concessions: Concession[]
+  user: UserType
+  showtime: Showtime
+  totalPrice: number
+  combo: Combo[]
   seats: string[]
-  purchaseDate: string
+  createdAt: string
 }
 
 

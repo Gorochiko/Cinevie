@@ -29,7 +29,7 @@ const infrastructureDatabaseModule = MongooseModule.forRootAsync({
       envFilePath: ['.env'],
     }),
     MulterModule.register({
-      dest: './public/uploads', // Thư mục lưu file
+      dest: './public/uploads',
     }),
     infrastructureDatabaseModule,
     AuthModule,
