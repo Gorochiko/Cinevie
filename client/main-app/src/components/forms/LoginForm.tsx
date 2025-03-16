@@ -10,10 +10,8 @@ import { login } from "@/lib/actions";
 import  Link  from "next/link";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
-import { getSession, useSession } from "next-auth/react"
- 
+import { getSession } from "next-auth/react"
 export default  function LoginForm() {
- 
   const router = useRouter();
   const { toast } = useToast();
   const [username, setUsername] = useState("");
