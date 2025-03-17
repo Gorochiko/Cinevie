@@ -1,21 +1,11 @@
 "use client"
 
-import { useState } from "react"
 import { CreditCard, QrCode, Smartphone} from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Image from "next/image"
 
 export default function PaymentInterface() {
-  const [paymentStatus, setPaymentStatus] = useState<"idle" | "processing" | "success">("idle")
-
-  const handlePayment = () => {
-    setPaymentStatus("processing")
-    // Simulate payment processing
-    setTimeout(() => {
-      setPaymentStatus("success")
-    }, 2000)
-  }
 
   return (
     <Card className="w-full max-w-3xl">

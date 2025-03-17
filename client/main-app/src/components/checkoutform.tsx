@@ -18,6 +18,10 @@ export default function CheckoutForm() {
             <div>
                 <p className="font-bold">Selected Combo:</p>
             </div>
+            <div>
+                <p className="font-bold">Total:</p>
+                <p className="text-2xl font-bold">{totalPrice}đ</p>
+            </div>
             <div className="mt-4 flex justify-end">
             <Link href="/checkout">
               <Button size="lg" className="bg-primary text-primary-foreground">
