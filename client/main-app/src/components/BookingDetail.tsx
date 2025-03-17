@@ -1,101 +1,245 @@
-"use client";
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
+"use client"
 
-interface Film {
-  title: string;
-  format: string;
-}
+import type React from "react"
+import { useEffect, useState } from "react"
+import { useParams } from "next/navigation"
+import { getShowTime } from "@/lib/actions"
+import type { Showtime } from "@/types"
+import Link from "next/link"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-interface CinemaBranch {
-  name: string;
-}
-
-interface ScreeningRoom {
-  name: string;
-}
-
-interface Showtime {
-  _id: string;
-  films: Film;
-  theater: CinemaBranch;
-  rooms: ScreeningRoom;
-  dateAction: Date;
-  startTime: string;
-  endTime: string;
-  price: string;
-  availableSeats: number;
-  status: string;
-}
-
-const showtimes: Showtime[] = [
-  {
-    _id: "1",
-    films: { title: "2D Phụ Đề", format: "2D" },
-    theater: { name: "Galaxy Nguyễn Du" },
-    rooms: { name: "Room 1" },
-    dateAction: new Date(),
-    startTime: "18:45",
-    endTime: "20:45",
-    price: "100000",
-    availableSeats: 50,
-    status: "available",
-  },
-  {
-    _id: "2",
-    films: { title: "2D Phụ Đề", format: "2D" },
-    theater: { name: "Galaxy Tân Bình" },
-    rooms: { name: "Room 2" },
-    dateAction: new Date(),
-    startTime: "10:30",
-    endTime: "12:30",
-    price: "100000",
-    availableSeats: 40,
-    status: "available",
-  },
-  {
-    _id: "3",
-    films: { title: "Samsung Neo QLED 8K 2D Phụ Đề", format: "2D" },
-    theater: { name: "Galaxy Sala" },
-    rooms: { name: "Room 3" },
-    dateAction: new Date(),
-    startTime: "18:15",
-    endTime: "20:15",
-    price: "120000",
-    availableSeats: 35,
-    status: "available",
-  },
-];
-const handleRedirect = () => {
-  router.push("/support");
-};
 const ShowtimesList: React.FC = () => {
-  return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Lịch Chiếu</h1>
-      <Separator />
-      {showtimes.map((showtime, index) => (
-        <Card key={index} className="my-4">
-          <CardContent className="p-4">
-            <h2 className="text-xl font-semibold">{showtime.theater.name}</h2>
-            <p className="text-sm text-gray-600">{showtime.films.title}</p>
-            <div className="flex items-center gap-2 mt-2">
-              <Link href="/booking">
-                <button
-                className="bg-gray-200 px-3 py-1 rounded-full hover:bg-blue-800 hover:text-white text-sm"
-                >
-                {showtime.startTime}
-                </button>
-              </Link>
-                
-            </div>
-          </CardContent>
-        </Card>
-      ))}
-    </div>
-  );
-};
+  const { id: filmId } = useParams()
+  const [showtimes, setShowtimes] = useState<Showtime[]>([])
+  const [selectedDate, setSelectedDate] = useState<string>("")
+  const [selectedLocation, setSelectedLocation] = useState<string>("all")
+  const [selectedTheater, setSelectedTheater] = useState<string>("all")
 
-export default ShowtimesList;
+  useEffect(() => {
+    if (!filmId) return
+
+    const fetchShowtimes = async () => {
+      const data = await getShowTime()
+      if (Array.isArray(data)) {
+        const filteredShowtimes = data.filter((showtime: Showtime) => showtime.films._id === filmId)
+        setShowtimes(filteredShowtimes)
+
+        // Set first available date as default
+        if (filteredShowtimes.length) {
+          const firstDate = new Date(filteredShowtimes[0].startTime).toISOString().split("T")[0]
+          setSelectedDate(firstDate)
+        }
+      }
+    }
+
+    fetchShowtimes()
+  }, [filmId])
+
+  if (!showtimes.length) return <p className="text-gray-500">Không có suất chiếu nào.</p>
+
+  // Get unique dates from showtimes
+  const uniqueDates = Array.from(
+    new Set(showtimes.map((showtime) => new Date(showtime.startTime).toISOString().split("T")[0])),
+  ).sort()
+
+  // Generate date tabs with 5 consecutive dates
+  const generateDateTabs = () => {
+    const dateIndex = uniqueDates.indexOf(selectedDate)
+    const startIndex = Math.max(0, dateIndex - 2)
+    const endIndex = Math.min(uniqueDates.length - 1, startIndex + 4)
+
+    return uniqueDates.slice(startIndex, endIndex + 1).map((date) => {
+      const dateObj = new Date(date)
+      const isToday = new Date().toISOString().split("T")[0] === date
+
+      // Format weekday in Vietnamese
+      const weekdays = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"]
+      const weekday = weekdays[dateObj.getDay()]
+
+      // Format date as DD/MM
+      const formattedDate = `${dateObj.getDate().toString().padStart(2, "0")}/${(dateObj.getMonth() + 1).toString().padStart(2, "0")}`
+
+      return {
+        date,
+        label: isToday ? "Hôm Nay" : weekday,
+        formattedDate,
+        isSelected: date === selectedDate,
+      }
+    })
+  }
+
+  const dateTabs = generateDateTabs()
+
+  // Filter showtimes by selected date
+  const showtimesByDate = showtimes.filter(
+    (showtime) => new Date(showtime.startTime).toISOString().split("T")[0] === selectedDate,
+  )
+
+  // Group showtimes by theater
+  const theaterGroups = showtimesByDate.reduce<{ [theaterId: string]: Showtime[] }>((acc, showtime) => {
+    const theaterId = showtime.theater._id
+    if (!acc[theaterId]) acc[theaterId] = []
+    acc[theaterId].push(showtime)
+    return acc
+  }, {})
+
+  // Get unique locations
+  const locations = Array.from(new Set(showtimesByDate.map((showtime) => showtime.theater.location || "Toàn quốc")))
+
+  // Get theaters filtered by location if selected
+  const theaters = Array.from(
+    new Set(
+      showtimesByDate
+        .filter((showtime) => selectedLocation === "all" || showtime.theater.location === selectedLocation)
+        .map((showtime) => showtime.theater.name),
+    ),
+  )
+
+  // Navigate to previous/next date
+  const navigateDate = (direction: "prev" | "next") => {
+    const currentIndex = uniqueDates.indexOf(selectedDate)
+    if (direction === "prev" && currentIndex > 0) {
+      setSelectedDate(uniqueDates[currentIndex - 1])
+    } else if (direction === "next" && currentIndex < uniqueDates.length - 1) {
+      setSelectedDate(uniqueDates[currentIndex + 1])
+    }
+  }
+
+  return (
+    <div className="max-w-4xl mx-auto">
+      {/* Header */}
+      <div className="border-l-4 border-blue-600 pl-2 mb-4">
+        <h1 className="text-xl font-bold text-blue-800">Lịch Chiếu</h1>
+      </div>
+
+      {/* Date selection */}
+      <div className="flex items-center mb-6">
+        <button
+          onClick={() => navigateDate("prev")}
+          className="p-2 text-gray-600 hover:text-blue-600"
+          disabled={uniqueDates.indexOf(selectedDate) === 0}
+        >
+          <ChevronLeft size={20} />
+        </button>
+
+        <div className="flex-1 grid grid-cols-5 gap-1">
+          {dateTabs.map((tab) => (
+            <button
+              key={tab.date}
+              onClick={() => setSelectedDate(tab.date)}
+              className={`flex flex-col items-center justify-center py-3 px-2 rounded-md transition-colors ${
+                tab.isSelected ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              <span className="text-sm font-medium">{tab.label}</span>
+              <span className="text-sm">{tab.formattedDate}</span>
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={() => navigateDate("next")}
+          className="p-2 text-gray-600 hover:text-blue-600"
+          disabled={uniqueDates.indexOf(selectedDate) === uniqueDates.length - 1}
+        >
+          <ChevronRight size={20} />
+        </button>
+      </div>
+
+      {/* Filters */}
+      <div className="flex gap-4 mb-6">
+        <Select value={selectedLocation} onValueChange={setSelectedLocation}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder="Toàn quốc" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Toàn quốc</SelectItem>
+            {locations.map((location) => (
+              <SelectItem key={location} value={location}>
+                {location}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+
+        <Select value={selectedTheater} onValueChange={setSelectedTheater}>
+          <SelectTrigger className="w-[200px]">
+            <SelectValue placeholder="Tất cả rạp" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Tất cả rạp</SelectItem>
+            {theaters.map((theater) => (
+              <SelectItem key={theater} value={theater}>
+                {theater}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Divider */}
+      <div className="h-1 bg-blue-600 mb-6"></div>
+
+      {/* Theaters and showtimes */}
+      <div className="space-y-8">
+        {Object.entries(theaterGroups)
+          .filter(([theaterId, theaterShowtimes]) => {
+            const theater = theaterShowtimes[0].theater
+            return (
+              (selectedLocation === "all" || theater.location === selectedLocation) &&
+              (selectedTheater === "all" || theater.name === selectedTheater)
+            )
+          })
+          .map(([theaterId, theaterShowtimes]) => {
+            const theater = theaterShowtimes[0].theater
+
+            // Group showtimes by format
+            const formatGroups = theaterShowtimes.reduce<{ [format: string]: Showtime[] }>((acc, showtime) => {
+              const format = showtime.format || "2D Phụ Đề"
+              if (!acc[format]) acc[format] = []
+              acc[format].push(showtime)
+              return acc
+            }, {})
+
+            return (
+              <div key={theaterId} className="pb-6 border-b border-gray-200 last:border-0">
+                <h2 className="text-lg font-bold mb-4">{theater.name}</h2>
+
+                <div className="space-y-4">
+                  {Object.entries(formatGroups).map(([format, formatShowtimes]) => {
+                    // Sort showtimes by time
+                    const sortedShowtimes = [...formatShowtimes].sort(
+                      (a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
+                    )
+
+                    return (
+                      <div key={format} className="space-y-2">
+                        <p className="text-sm font-medium">{format}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {sortedShowtimes.map((showtime) => (
+                            <Link key={showtime._id} href={`/booking/${showtime._id}`}>
+                              <button className="min-w-16 px-4 py-2 border border-gray-300 rounded hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors">
+                                {new Date(showtime.startTime).toLocaleTimeString("vi-VN", {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: false,
+                                })}
+                              </button>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })}
+      </div>
+    </div>
+  )
+}
+
+export default ShowtimesList
+
