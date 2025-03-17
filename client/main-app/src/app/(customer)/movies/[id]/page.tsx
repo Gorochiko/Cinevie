@@ -2,7 +2,7 @@
 import FilmDetail from "@/components/FilmDetail";
 import SlidedownFilm from "@/components/SlidedownFilm";
 import Trailer from "@/components/Trailer";
-import BookingDetail from "@/components/ui/BookingDetail";
+import BookingDetail from "@/components/BookingDetail";
 
 export default function MovieDetails(){
     return (
