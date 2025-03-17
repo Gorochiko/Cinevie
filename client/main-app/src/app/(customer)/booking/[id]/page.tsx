@@ -95,7 +95,6 @@ export default function BookingPage(){
         <div>
     {step === 1 && (
       <div>
-        <h2>Chọn ghế</h2>
         <div className="flex items-center justify-center h-screen bg-gray-100">
                 <div className="bg-white shadow-lg rounded-lg p-6 w-3/5 max-w-3xl text-center">
                     <h1 className="text-3xl font-bold mb-6 text-gray-800">Select Your Seats</h1>
