@@ -8,19 +8,24 @@ import SelectFood from "@/components/booking/select-food"
 import Payment from "@/components/booking/payment"
 import Confirmation from "@/components/booking/confirmation"
 import { getFoods } from "@/lib/actions"
-import { FoodItem, Ticket, TypeSeat, Showtime } from "@/types"
+import { FoodItem, Ticket, TypeSeat, Showtime, UserType } from "@/types"
 import { useRouter } from "next/navigation"
+import { auth } from "@/lib/auth"
+import { getSession, useSession } from "next-auth/react"
 
 interface BookingProp {
   getShowtime: Showtime
 }
 
 export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
+ const session = useSession();
+ console.log(session.data?.user.id,"312312312")
   const [FOOD_ITEMS, setFOOD_ITEMS] = useState<FoodItem[]>([]);
+  const [isUser, setIsUser] = useState<UserType>()
   const [booking, setBooking] = useState<Ticket>({
     _id: "",
     status: "pending",
-    user: undefined,
+    user: session.data?.user.id as UserType | undefined,
     totalPrice: 0,
     createdAt: new Date(),
     showtime: getShowtime ? {
@@ -72,9 +77,31 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
           seats: getShowtime.seats,
         },
       }));
-      console.log("Updated Booking Showtime:", getShowtime); // Debug
+    
     }
   }, [getShowtime]);
+
+
+  useEffect(() => {
+    if (session.data?.user) {
+  setBooking((prev) => ({
+    ...prev,
+    user: {
+      id: session.data.user.id as string,
+      email: session.data.user.email as string,
+      role: session.data.user.role as string,
+      firstName: session.data.user.name as string,
+      lastName: session.data.user.name as string,
+      isActive: true,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      __v: 0,
+    },
+  }));
+    }
+  }, []);
+
+
 
   useEffect(() => {
     const fetchFoods = async () => {
@@ -84,16 +111,7 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
     fetchFoods();
   }, []);
 
-  const [paymentUrl, setPaymentUrl] = useState('');
 
-
-  const parseSeats = (seatStrings: string[]): TypeSeat[] => {
-    return seatStrings.map((seatString) => {
-      const row = seatString.charAt(0).toUpperCase();
-      const number = parseInt(seatString.slice(1), 10);
-      return { row, number };
-    });
-  };
 
   const setStep = (step: number) => {
     setBooking((prev) => ({
@@ -153,7 +171,7 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
         }));
       }
     }
-  }; console.log("Selected Seats:", booking.seats);
+  };
 
   const setPaymentMethod = (method: string) => {
     setBooking((prev) => ({
@@ -186,8 +204,6 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
     const data = await response.json();
     if (data.payUrl) {
       router.push(data.payUrl);
-    } else {
-      console.error('Failed to get payment URL:', data); 
     }
   } catch (error) {
     console.error('Error creating payment:', error);
@@ -207,7 +223,6 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
         return <SelectFood selectedFood={booking.combo} foodItems={FOOD_ITEMS} updateFoodQuantity={updateFoodQuantity} />;
       case 3:
         return <Payment paymentMethod={booking.paymentMethod} setPaymentMethod={setPaymentMethod}  />;
-      
       case 4:
         return <Confirmation booking={booking} getTotalPrice={() => getTotalPrice(getShowtime)} />;
       default:

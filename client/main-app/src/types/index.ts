@@ -96,7 +96,7 @@ export interface Seat{
 }
 
 export interface UserType  {
-    _id: string,
+    id: string,
     email: string,
     role:string,
     firstName: string,
