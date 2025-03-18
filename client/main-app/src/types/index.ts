@@ -45,24 +45,25 @@ export
 
 export
  interface Showtime {
-    _id: string;
-    films:Film
-    theater: CinemaBranch
-    rooms: ScreeningRoom
+    _id?: string;
+    films?:Film
+    theater?: CinemaBranch
+    rooms?: ScreeningRoom
     dateAction: Date;
     startTime: string;
     endTime: string;
     price: string;
+    seats: Seat[]
     availableSeats: number;
     status: string;
-    
+   
   }
 
 
   export interface FoodItem {
     _id: string
     titleFood: string
-    price: string
+    price: number
     details: string
     imageFood: string
   }
@@ -71,6 +72,7 @@ export
 export type TicketStatus = "pending" | "confirmed" | "used" | "cancelled"
 
 export interface Combo {
+  _id?:string
   food:FoodItem
   quantity: number
 }
@@ -78,15 +80,20 @@ export interface Combo {
 export interface Ticket {
   _id: string
   status: TicketStatus
-  user: UserType
+  user?: UserType
   showtime: Showtime
   totalPrice: number
   combo: Combo[]
-  seats: string[]
-  createdAt: string
+  seats:TypeSeat[]
+  createdAt: Date
+  paymentMethod:string
+  currentStep: number
 }
 
-
+export interface Seat{
+  seatNumber:string,
+  status:string
+}
 
 export interface UserType  {
     _id: string,
@@ -98,4 +105,9 @@ export interface UserType  {
     createdAt: Date
     updatedAt: Date
     __v: number
+}
+
+export interface TypeSeat{
+  row:string,
+  number:number
 }

@@ -26,7 +26,7 @@ const AdminHeader = () => {
               transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease:"backInOut"}}
               className="w-10 h-10 rounded-full flex items-center sm:justify-center"
             >
-              <Image src="/lg1.png" width={50} height={50} alt="icon" />
+              <Image src="/lg1.png" fill alt="icon" />
             </motion.div>
             <span className="text-2xl font-extrabold">Dashboard</span>
           </div>

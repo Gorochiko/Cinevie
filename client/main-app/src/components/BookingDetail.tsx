@@ -85,13 +85,13 @@ const ShowtimesList: React.FC = () => {
   }, {})
 
   // Get unique locations
-  const locations = Array.from(new Set(showtimesByDate.map((showtime) => showtime.theater.location || "Toàn quốc")))
+  const locations = Array.from(new Set(showtimesByDate.map((showtime) => showtime.theater.address || "Toàn quốc")))
 
   // Get theaters filtered by location if selected
   const theaters = Array.from(
     new Set(
       showtimesByDate
-        .filter((showtime) => selectedLocation === "all" || showtime.theater.location === selectedLocation)
+        .filter((showtime) => selectedLocation === "all" || showtime.theater.address === selectedLocation)
         .map((showtime) => showtime.theater.name),
     ),
   )
@@ -187,7 +187,7 @@ const ShowtimesList: React.FC = () => {
           .filter(([theaterId, theaterShowtimes]) => {
             const theater = theaterShowtimes[0].theater
             return (
-              (selectedLocation === "all" || theater.location === selectedLocation) &&
+              (selectedLocation === "all" || theater.address === selectedLocation) &&
               (selectedTheater === "all" || theater.name === selectedTheater)
             )
           })
@@ -196,7 +196,7 @@ const ShowtimesList: React.FC = () => {
 
             // Group showtimes by format
             const formatGroups = theaterShowtimes.reduce<{ [format: string]: Showtime[] }>((acc, showtime) => {
-              const format = showtime.format || "2D Phụ Đề"
+              const format = showtime.rooms.screenType + 'Phu De'
               if (!acc[format]) acc[format] = []
               acc[format].push(showtime)
               return acc
@@ -212,7 +212,6 @@ const ShowtimesList: React.FC = () => {
                     const sortedShowtimes = [...formatShowtimes].sort(
                       (a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
                     )
-
                     return (
                       <div key={format} className="space-y-2">
                         <p className="text-sm font-medium">{format}</p>

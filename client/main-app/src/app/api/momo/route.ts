@@ -1,15 +1,16 @@
 import crypto from 'crypto';
 import { NextResponse } from "next/server"
-export async function POST(request:any) {
+export async function POST(request:Request) {
+  const Request = await request.json()
   const partnerCode = 'MOMO';
   const accessKey = process.env.ACCESSKEY;
-  const secretKey = process.env.SECRETKEY;
+  const secretKey ='K951B6PE1waDMi640xX08PD3vg6EkVlz';
   const requestId = partnerCode + new Date().getTime();
   const orderId = requestId;
   const orderInfo = 'Payment with Momo';
   const redirectUrl = 'http://localhost:3000/payment-success'; 
   const ipnUrl = 'http://localhost:3000/api/momo/ipn'; 
-  const amount = '50000'; 
+  const amount = Request.totalPrice; 
   const requestType = 'payWithMethod';
   const extraData = ''; 
 

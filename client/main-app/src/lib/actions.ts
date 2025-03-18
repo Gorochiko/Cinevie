@@ -1,7 +1,8 @@
 // Code by: Truong Vu
 import { signIn } from "next-auth/react";
-import { API, APIError, fetchData, patchData, postData } from "@/services/api";
+import {  APIError, fetchData, patchData, postData } from "@/services/api";
 import { showtimeType } from "@/types";
+import { string } from "zod";
 /**
  * The mask of user type
  */
@@ -283,7 +284,14 @@ export const getShowTime = async()=>{
 }
 
 
-
+export const getShowtimeByid = async(id:string)=>{
+  try {
+    const res = await fetchData(`showtime/FindOnetime/${id}`,{})
+    return res
+  } catch (error) {
+    
+  }
+}
 
 
 

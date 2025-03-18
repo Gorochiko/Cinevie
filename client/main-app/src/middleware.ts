@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "./lib/auth"
-import { se } from "date-fns/locale"
+
 
 export async function middleware(request: NextRequest) {
     const { pathname } = request.nextUrl

@@ -1,7 +1,7 @@
 
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
-import AdminHeader from '@/components/dashboard/headerAdmin'
+import AdminHeader from '@/components/dashboard2/headerAdmin'
 import { Toaster } from "@/components/ui/toaster"
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
