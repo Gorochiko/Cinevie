@@ -218,7 +218,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
                       </FormControl>
                       <SelectContent>
                         {availableRooms.map((room) => (
-                          <SelectItem key={room._id} value={room._id}>
+                          <SelectItem key={room._id} value={room._id as string}>
                             {room.name}
                           </SelectItem>
                         ))}

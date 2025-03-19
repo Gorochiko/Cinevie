@@ -55,8 +55,8 @@ export function ShowtimesTable() {
           <Card key={showtime._id} className="overflow-hidden">
             <div className="relative h-48 bg-muted">
               <img
-                src={`http://localhost:8080${showtime.films.image}`}
-                alt={showtime.films.title}
+                src={`http://localhost:8080${showtime.films?.image}`}
+                alt={showtime.films?.title}
                 className="w-full h-full object-cover"
               />
               <div className="absolute top-2 right-2">
@@ -66,13 +66,13 @@ export function ShowtimesTable() {
               </div>
             </div>
             <CardContent className="p-4">
-              <h3 className="font-bold text-lg mb-2 line-clamp-1">{showtime.films.title}</h3>
+              <h3 className="font-bold text-lg mb-2 line-clamp-1">{showtime.films?.title}</h3>
               <div className="space-y-2 text-sm">
                 <div className="flex items-start gap-2">
                   <MapPin className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
                   <div>
                     <div>{showtime.theater?.name}</div>
-                    <div className="text-muted-foreground">{showtime.rooms.name}</div>
+                    <div className="text-muted-foreground">{showtime.rooms?.name}</div>
                   </div>
                 </div>
 
@@ -90,7 +90,7 @@ export function ShowtimesTable() {
                 <div className="flex items-center gap-2">
                   <Users className="h-4 w-4 text-muted-foreground shrink-0" />
                   <div>
-                    {showtime.availableSeats}/{showtime.rooms.capacity} ghế trống
+                    {showtime.availableSeats}/{showtime.rooms?.capacity} ghế trống
                   </div>
                 </div>
 
@@ -114,7 +114,7 @@ export function ShowtimesTable() {
                 <DropdownMenuContent align="end">
                   <DropdownMenuItem
                     className="text-destructive focus:text-destructive"
-                    onClick={() => handleDelete(showtime._id)}
+                    onClick={() => showtime._id && handleDelete(showtime._id)}
                   >
                     <Trash2 className="mr-2 h-4 w-4" />
                     Xóa

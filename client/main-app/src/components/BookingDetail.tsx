@@ -22,7 +22,7 @@ const ShowtimesList: React.FC = () => {
     const fetchShowtimes = async () => {
       const data = await getShowTime()
       if (Array.isArray(data)) {
-        const filteredShowtimes = data.filter((showtime: Showtime) => showtime.films._id === filmId)
+        const filteredShowtimes = data.filter((showtime: Showtime) => showtime.films?._id === filmId)
         setShowtimes(filteredShowtimes)
 
         // Set first available date as default
@@ -78,21 +78,23 @@ const ShowtimesList: React.FC = () => {
 
   // Group showtimes by theater
   const theaterGroups = showtimesByDate.reduce<{ [theaterId: string]: Showtime[] }>((acc, showtime) => {
-    const theaterId = showtime.theater._id
-    if (!acc[theaterId]) acc[theaterId] = []
-    acc[theaterId].push(showtime)
+    const theaterId = showtime.theater?._id
+    if (theaterId) {
+      if (!acc[theaterId]) acc[theaterId] = []
+      acc[theaterId].push(showtime)
+    }
     return acc
   }, {})
 
   // Get unique locations
-  const locations = Array.from(new Set(showtimesByDate.map((showtime) => showtime.theater.address || "Toàn quốc")))
+  const locations = Array.from(new Set(showtimesByDate.map((showtime) => showtime.theater?.address || "Toàn quốc")))
 
   // Get theaters filtered by location if selected
   const theaters = Array.from(
     new Set(
       showtimesByDate
-        .filter((showtime) => selectedLocation === "all" || showtime.theater.address === selectedLocation)
-        .map((showtime) => showtime.theater.name),
+        .filter((showtime) => selectedLocation === "all" || showtime.theater?.address === selectedLocation)
+        .map((showtime) => showtime.theater?.name),
     ),
   )
 
@@ -170,7 +172,7 @@ const ShowtimesList: React.FC = () => {
           <SelectContent>
             <SelectItem value="all">Tất cả rạp</SelectItem>
             {theaters.map((theater) => (
-              <SelectItem key={theater} value={theater}>
+              <SelectItem key={theater} value={theater || ""}>
                 {theater}
               </SelectItem>
             ))}
@@ -187,8 +189,8 @@ const ShowtimesList: React.FC = () => {
           .filter(([theaterId, theaterShowtimes]) => {
             const theater = theaterShowtimes[0].theater
             return (
-              (selectedLocation === "all" || theater.address === selectedLocation) &&
-              (selectedTheater === "all" || theater.name === selectedTheater)
+              (selectedLocation === "all" || theater?.address === selectedLocation) &&
+              (selectedTheater === "all" || theater?.name === selectedTheater)
             )
           })
           .map(([theaterId, theaterShowtimes]) => {
@@ -196,7 +198,7 @@ const ShowtimesList: React.FC = () => {
 
             // Group showtimes by format
             const formatGroups = theaterShowtimes.reduce<{ [format: string]: Showtime[] }>((acc, showtime) => {
-              const format = showtime.rooms.screenType + 'Phu De'
+              const format = showtime.rooms?.screenType + ' Phụ đề'
               if (!acc[format]) acc[format] = []
               acc[format].push(showtime)
               return acc
@@ -204,7 +206,7 @@ const ShowtimesList: React.FC = () => {
 
             return (
               <div key={theaterId} className="pb-6 border-b border-gray-200 last:border-0">
-                <h2 className="text-lg font-bold mb-4">{theater.name}</h2>
+                <h2 className="text-lg font-bold mb-4">{theater?.name}</h2>
 
                 <div className="space-y-4">
                   {Object.entries(formatGroups).map(([format, formatShowtimes]) => {

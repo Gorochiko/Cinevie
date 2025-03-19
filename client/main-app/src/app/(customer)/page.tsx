@@ -4,14 +4,13 @@ import { Slideshow } from "@/components/Slideshow";
 import { RecommendMovie } from "@/components/RecommendMovie";
 import { MovieGenres } from "@/components/MovieGenres";
 import { Promotion } from "@/components/Promotion";
-// import { SlideFood } from "@/components/SlideFood";
+
 
 export default function Home() {
  
   return (
     
     <div className="bg-gray-100  min-h-screen">
-    
       <div className="z-20 ">
         <div className="w-full p-5  animate-fadeIns">
           <Slideshow />

@@ -43,7 +43,7 @@ const BranchCard: React.FC<BranchCardProps> = ({ branch, onViewDetails, onAddRoo
           </div>
           <div className="flex flex-wrap gap-2">
             {branch.rooms?.slice(0, 3).map((room) => (
-              <Badge key={room.id} variant="outline">
+              <Badge key={room._id} variant="outline">
                 {room.name} 
               </Badge>
             ))}
