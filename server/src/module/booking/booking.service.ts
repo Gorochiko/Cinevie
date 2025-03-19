@@ -52,10 +52,19 @@ export class BookingService {
     return `This action returns a #${id} booking`;
   }
 
-  update(id: number, updateBookingDto: UpdateBookingDto) {
-    return `This action updates a #${id} booking`;
-  }
+  async update(id: string) {
+    const updateStatus = await this.bookingModel.findOneAndUpdate(
+        { _id: id },  // Chắc chắn tìm theo _id nếu id là ObjectId
+        { status: 'paid' },
+        { new: true }
+    );
 
+    if (!updateStatus) {
+        return { message: "Không tìm thấy đơn hàng!" };
+    }
+
+    return { message: "Cập nhật thành công", data: updateStatus };
+}
   remove(id: number) {
     return `This action removes a #${id} booking`;
   }

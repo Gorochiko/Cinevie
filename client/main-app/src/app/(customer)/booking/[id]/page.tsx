@@ -12,11 +12,11 @@ const [showtime, setShowtime] = React.useState<Showtime | null>(null);
 
 React.useEffect(() => {
   async function fetchShowtime() {
-    const result = await getShowtimeByid(idShowtime);
-    setShowtime(result as Showtime);
+    const result = await getShowtimeByid(idShowtime)as Showtime;
+    setShowtime(result);
   }
   fetchShowtime();
-}, []);
+}, [idShowtime]);
 
 if (!showtime) {
   return <div>Loading...</div>;

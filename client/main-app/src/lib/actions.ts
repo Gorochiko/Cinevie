@@ -1,7 +1,7 @@
 // Code by: Truong Vu
 import { signIn } from "next-auth/react";
 import {  APIError, fetchData, patchData, postData } from "@/services/api";
-import { showtimeType } from "@/types";
+import { showtimeType, Ticket, TypeTicket } from "@/types";
 import { string } from "zod";
 /**
  * The mask of user type
@@ -293,7 +293,14 @@ export const getShowtimeByid = async(id:string)=>{
   }
 }
 
-
+export const createTicket = async(booking: TypeTicket)=>{
+  try {
+    const results = await postData('booking/addBooking',booking,true)
+    return results
+  } catch (error) {
+    
+  }
+}
 
 export const getTicket = async()=>{
   try {
@@ -301,6 +308,16 @@ export const getTicket = async()=>{
     return results
   } catch (error:any) {
     throw new error;
+  }
+}
+
+
+export const updateticket = async(id:string)=>{
+  try {
+    const res = patchData('/booking/updateTicket',{_id:id},true)
+    return res
+  } catch (error) {
+    
   }
 }
 

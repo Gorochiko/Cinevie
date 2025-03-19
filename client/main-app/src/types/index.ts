@@ -90,6 +90,17 @@ export interface Ticket {
   currentStep: number
 }
 
+export interface TypeTicket{
+  _id?: string
+  status: TicketStatus
+  user?: UserType
+  showtime: Showtime
+  totalPrice: number
+  combo: Combo[]
+  seats:Seat[]
+}
+
+
 export interface Seat{
   seatNumber:string,
   status:string

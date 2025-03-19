@@ -22,9 +22,9 @@ export class BookingController {
     return this.bookingService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookingDto: UpdateBookingDto) {
-    return this.bookingService.update(+id, updateBookingDto);
+  @Patch('updateTicket')
+  update(@Body('id') id: string) {
+    return this.bookingService.update(id);
   }
 
   @Delete(':id')

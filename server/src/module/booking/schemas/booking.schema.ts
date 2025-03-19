@@ -26,7 +26,7 @@ export class Booking extends Document {
     @Prop({required:true})
     totalPrice:number
 
-    @Prop({ type: String, enum: ['pending', 'confirmed','used', 'cancelled'], default: 'pending' })
+    @Prop({ type: String, enum: ['pending', 'paid', 'cancelled'], default: 'pending' })
     status: string;
 }
 export const BookingSchema = SchemaFactory.createForClass(Booking);

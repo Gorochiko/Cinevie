@@ -34,7 +34,7 @@ export default function Confirmation({ booking, getTotalPrice }: ConfirmationPro
               {booking.showtime.theater?.name} 
             </p>
             <p className="text-sm">
-              {booking.showtime?.startTime.toLocaleString()} - {booking.showtime?.dateAction.toLocaleDateString()}
+              {booking.showtime?.startTime.toLocaleString()} - {new Date(booking.showtime?.dateAction).toLocaleDateString()}
             </p>
           </div>
           <div>
@@ -42,7 +42,7 @@ export default function Confirmation({ booking, getTotalPrice }: ConfirmationPro
             <div className="flex flex-wrap gap-2">
               {booking.seats.map((seat:any, index:any) => (
                 <span key={index} className="text-sm bg-orange-100 text-orange-800 px-2 py-1 rounded">
-                  {seat.seatNumber}
+                  {seat.row}{seat.number}
                 </span>
               ))}
             </div>
