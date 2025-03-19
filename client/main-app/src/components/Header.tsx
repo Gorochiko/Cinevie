@@ -44,7 +44,7 @@ export default function Header() {
                      onClick={toggleProfile}
                      className="flex items-center space-x-0 hover:text-purple-200 transition-colors duration-200"
                   >
-                 <CircleUserIcon style={{ width: '23px', height: '23px', color:'wheat'}} />
+                 <CircleUserIcon style={{ width: '23px', height: '23px', color:'antiquewhite'}} />
                      <span>{session.data?.user.name}</span>
                      <ChevronDown size={16} />
                   </Button>
