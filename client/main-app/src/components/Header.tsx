@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import {  useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import {CircleUserIcon} from "lucide-react"
@@ -11,7 +11,7 @@ import {CircleUserIcon} from "lucide-react"
 export default function Header() {
    const [isProfileOpen, setIsProfileOpen] = useState(false);  
    const toggleProfile = () => setIsProfileOpen(!isProfileOpen)
-   const session = useSession()
+   const { data: session } = useSession();
    const navItem = ["Movies", "Branches", "Promotion", "Support"];
    return (
       <header className="sticky  top-0  z-50   flex justify-between  items-center px-1 sm:px-4 lg:px-12 py-0 bg-gradient-to-r from-[#1230AE] to-[#C68FE6] text-white shadow-2xl border-b-2 border-white/30">
@@ -36,7 +36,7 @@ export default function Header() {
             ))}
          </nav>
 
-         {session.data?.user ? (
+         {session ? (
             <div className="flex items-center gap-4">
                <div className="relative">
                   <Button
@@ -45,7 +45,7 @@ export default function Header() {
                      className="flex items-center space-x-0 hover:text-purple-200 transition-colors duration-200"
                   >
                  <CircleUserIcon style={{ width: '23px', height: '23px', color:'antiquewhite'}} />
-                     <span>{session.data?.user.name}</span>
+                   <span>{session.user?.name}</span>
                      <ChevronDown size={16} />
                   </Button>
                   <AnimatePresence>
