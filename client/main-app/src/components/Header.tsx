@@ -36,7 +36,7 @@ export default function Header() {
             ))}
          </nav>
 
-         {session ? (
+         {session.data?.user ? (
             <div className="flex items-center gap-4">
                <div className="relative">
                   <Button
