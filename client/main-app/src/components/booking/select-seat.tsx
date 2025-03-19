@@ -33,7 +33,7 @@ export default function SelectSeat({ booking, selectedSeats, availableSeats, add
   const isAvailableSeat = (row: string, number: number) => {
     const seatString = `${row}${number}`.toLowerCase();
     const seat = availableSeats.find((s) => s.seatNumber.toLowerCase() === seatString);
-    return seat ? seat.status === "available" : false;
+    return seat ? seat.status === "available" : true;
   };
 
   const isSeatSold = (row: string, number: number) => {
@@ -51,10 +51,8 @@ export default function SelectSeat({ booking, selectedSeats, availableSeats, add
         <div className="text-gray-700">Đổi suất chiếu</div>
         <Button className="bg-blue-600 hover:bg-blue-700"> {booking.showtime.startTime} </Button>
       </div>
-
-
       <div className="overflow-x-auto">
-        
+
         {/* Seat Rows J through A */}
         {rows.map((row) => (
           <div key={row} className="flex justify-between mb-2">
@@ -65,22 +63,26 @@ export default function SelectSeat({ booking, selectedSeats, availableSeats, add
                 const isSold = isSeatSold(row, num);
                 const isSelected = isSeatSelected(row, num);
 
-                if (!isAvailable) {
-                  return <div key={`${row}-${num}`} className="w-8 h-8"></div>;
+                if (isSold) {
+                  return (
+                    <button
+                      key={`${row}-${num}`}
+                      className="w-8 h-8 flex items-center justify-center border rounded-md text-sm bg-gray-300 text-gray-500 cursor-not-allowed"
+                      disabled
+                    >
+                      {num}
+                    </button>
+                  );
                 }
-
                 return (
                   <button
                     key={`${row}-${num}`}
                     className={`w-8 h-8 flex items-center justify-center border rounded-md text-sm
-                        ${isSelected
+                      ${isSelected
                         ? "bg-orange-500 text-white border-orange-500"
-                        : isSold
-                          ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                          : "hover:bg-orange-100"
+                        : "hover:bg-orange-100"
                       }`}
-                    onClick={() => !isSeatSold(row, num) && toggleSeat(row, num)}
-                    disabled={isSold}
+                    onClick={() => toggleSeat(row, num)}
                   >
                     {num}
                   </button>

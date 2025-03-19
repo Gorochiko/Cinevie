@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác nhận đặt vé</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px; text-align: center;">
+    <table role="presentation" style="max-width: 600px; margin: auto; background-color: #fff; border-radius: 10px; padding: 20px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
+        <tr>
+            <td style="text-align: center;">
+                <h2 style="color: #ff6600;">🎟️ Xác nhận đặt vé thành công!</h2>
+                <p style="font-size: 16px; color: #333;">Xin chào <strong>{{name}}</strong>,</p>
+                <p style="font-size: 14px; color: #555;">Dưới đây là thông tin vé của bạn:</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="background-color: #ff6600; padding: 15px; border-radius: 8px;">
+                <p><strong>🎬 Phim:</strong> {{movie}}</p>
+                <p><strong>📅 Ngày:</strong> {{date}}</p>
+                <p><strong>⏰ Giờ:</strong> {{time}}</p>
+                <p><strong>💺 Ghế:</strong> {{seats}}</p>
+                <p><strong>💰 Giá vé:</strong> <span style="color: #ff0000; font-weight: bold;">{{price}} VND</span></p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px; text-align: center;">
+                <a href="#" style="display: inline-block; background-color: #ff6600; color: #fff; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-size: 16px;">Xem Vé Của Bạn</a>
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; color: #888; padding-top: 10px;">
+                📍 Rạp chiếu phim ABC | 📞 Hotline: 0123 456 789
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
