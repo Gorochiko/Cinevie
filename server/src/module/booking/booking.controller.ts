@@ -23,7 +23,7 @@ export class BookingController {
   }
 
   @Patch('updateTicket')
-  update(@Body('id') id: string) {
+  update(@Body() id: string) {
     return this.bookingService.update(id);
   }
 

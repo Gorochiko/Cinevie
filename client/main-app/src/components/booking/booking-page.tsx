@@ -194,6 +194,7 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          _id:booking._id,
           totalPrice: getTotalPrice(getShowtime),
           seats: booking.seats,
           combo: booking.combo,
@@ -202,10 +203,11 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
         }),
       });
       const data = await response.json();
-      if (data.payUrl) {
+      if (data.momoResponse.payUrl) {
         const updatedBooking = { ...booking, currentStep: 4 };
        localStorage.setItem('bookingState', JSON.stringify(updatedBooking));
-        router.push(data.payUrl);
+       localStorage.setItem("bookingId",data.bookingId)
+        router.push(data.momoResponse.payUrl);
       }
     } catch (error) {
       console.error('Error creating payment:', error);

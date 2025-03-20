@@ -84,7 +84,6 @@ export class BookingService {
     if (!updateStatus) {
       return { message: "Không tìm thấy đơn hàng!" };
     }
-
     const findShowtime = await this.showtimeService.findOne(updateStatus.showtime._id.toString());
     const findUser = await this.userService.findUserByID(updateStatus.user._id.toString())
     const findFilms = await this.filmsService.findOne(findShowtime?.films?._id.toString())
@@ -95,7 +94,7 @@ export class BookingService {
         subject: 'Xác nhận đặt vé xem phim',
         template: 'ticket',
         context: {
-          name: `${findUser?.firstName} ${findUser?.lastName}` || "Khách hàng",
+          name: `${findUser?.firstName} ${findUser?.lastName}` ,
           movie: findFilms?.title,
           date: findShowtime.dateAction instanceof Date ? findShowtime.dateAction.toLocaleDateString() : "N/A",
           time: findShowtime.startTime instanceof Date ? findShowtime.startTime.toLocaleTimeString() : "N/A",

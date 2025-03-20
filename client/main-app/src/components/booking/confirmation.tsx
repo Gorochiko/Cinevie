@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button"
 import { CheckCircle } from "lucide-react"
 import { formatCurrency } from "@/lib/utils"
 import type { Ticket } from "@/types"
+import { useSearchParams } from "next/navigation"
+import { updateticket } from "@/lib/actions"
+import { useEffect, useState } from "react"
 
 type ConfirmationProps = {
   booking: Ticket
@@ -11,6 +14,22 @@ type ConfirmationProps = {
 }
 
 export default function Confirmation({ booking, getTotalPrice }: ConfirmationProps) {
+    const params = useSearchParams()
+    const resultCode=  params.get('resultCode');
+    const [bookingId, setBookingId] = useState<string | null>(null);
+    useEffect(() => {
+      const storedId = localStorage.getItem('bookingId');
+      console.log("Lấy bookingId từ localStorage:", storedId);
+      setBookingId(storedId);
+    }, []);
+    
+    useEffect(() => {
+      if (resultCode === "0" && bookingId) {
+        console.log("Gọi API update với ID:", bookingId);
+        updateticket(bookingId);
+      }
+    }, [resultCode, bookingId]);
+ 
   return (
     <div className="bg-white p-6 rounded-lg border text-center">
       <div className="flex justify-center mb-4">

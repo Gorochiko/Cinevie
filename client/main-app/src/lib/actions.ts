@@ -296,6 +296,7 @@ export const getShowtimeByid = async(id:string)=>{
 export const createTicket = async(booking: TypeTicket)=>{
   try {
     const results = await postData('booking/addBooking',booking,true)
+    console.log(results,"dữ lieu action")
     return results
   } catch (error) {
     
@@ -315,9 +316,10 @@ export const getTicket = async()=>{
 export const updateticket = async(id:string)=>{
   try {
     const res = patchData('/booking/updateTicket',{_id:id},true)
-    return res
-  } catch (error) {
-    
+    console.log(res,"hehehehehhehe")
+    return res;
+  } catch (error:any) {
+    throw new error;
   }
 }
 
