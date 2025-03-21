@@ -8,6 +8,7 @@ import type { Showtime } from "@/types"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { LoadingCatSimple } from "./loading/loadingDot" 
 
 const ShowtimesList: React.FC = () => {
   const { id: filmId } = useParams()
@@ -22,28 +23,29 @@ const ShowtimesList: React.FC = () => {
     const fetchShowtimes = async () => {
       const data = await getShowTime()
       if (Array.isArray(data)) {
-        const filteredShowtimes = data.filter((showtime: Showtime) => showtime.films?._id === filmId)
+        const currentTime = new Date()
+        const filteredShowtimes = data.filter((showtime: Showtime) => {
+          const showtimeStartTime = new Date(showtime.startTime)
+          return showtime.films?._id === filmId && showtimeStartTime > currentTime
+        })
         setShowtimes(filteredShowtimes)
 
-        // Set first available date as default
         if (filteredShowtimes.length) {
           const firstDate = new Date(filteredShowtimes[0].startTime).toISOString().split("T")[0]
           setSelectedDate(firstDate)
         }
       }
     }
-
     fetchShowtimes()
   }, [filmId])
 
-  if (!showtimes.length) return <p className="text-gray-500">Không có suất chiếu nào.</p>
+  if (!showtimes.length) return <div className="text-gray-500"> <LoadingCatSimple/> </div>
 
   // Get unique dates from showtimes
   const uniqueDates = Array.from(
     new Set(showtimes.map((showtime) => new Date(showtime.startTime).toISOString().split("T")[0])),
   ).sort()
 
-  // Generate date tabs with 5 consecutive dates
   const generateDateTabs = () => {
     const dateIndex = uniqueDates.indexOf(selectedDate)
     const startIndex = Math.max(0, dateIndex - 2)
@@ -72,9 +74,14 @@ const ShowtimesList: React.FC = () => {
   const dateTabs = generateDateTabs()
 
   // Filter showtimes by selected date
-  const showtimesByDate = showtimes.filter(
-    (showtime) => new Date(showtime.startTime).toISOString().split("T")[0] === selectedDate,
-  )
+  const showtimesByDate = showtimes.filter((showtime) => {
+    const showtimeStartTime = new Date(showtime.startTime)
+    return (
+      new Date(showtime.startTime).toISOString().split("T")[0] === selectedDate &&
+      showtimeStartTime > new Date()
+    )
+  })
+
 
   // Group showtimes by theater
   const theaterGroups = showtimesByDate.reduce<{ [theaterId: string]: Showtime[] }>((acc, showtime) => {
@@ -130,9 +137,8 @@ const ShowtimesList: React.FC = () => {
             <button
               key={tab.date}
               onClick={() => setSelectedDate(tab.date)}
-              className={`flex flex-col items-center justify-center py-3 px-2 rounded-md transition-colors ${
-                tab.isSelected ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }`}
+              className={`flex flex-col items-center justify-center py-3 px-2 rounded-md transition-colors ${tab.isSelected ? "bg-blue-600 text-white" : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
             >
               <span className="text-sm font-medium">{tab.label}</span>
               <span className="text-sm">{tab.formattedDate}</span>
@@ -218,17 +224,23 @@ const ShowtimesList: React.FC = () => {
                       <div key={format} className="space-y-2">
                         <p className="text-sm font-medium">{format}</p>
                         <div className="flex flex-wrap gap-2">
-                          {sortedShowtimes.map((showtime) => (
-                            <Link key={showtime._id} href={`/booking/${showtime._id}`}>
-                              <button className="min-w-16 px-4 py-2 border border-gray-300 rounded hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors">
-                                {new Date(showtime.startTime).toLocaleTimeString("vi-VN", {
-                                  hour: "2-digit",
-                                  minute: "2-digit",
-                                  hour12: false,
-                                })}
-                              </button>
-                            </Link>
-                          ))}
+                          {sortedShowtimes.map((showtime) => {
+                            const showtimeStartTime = new Date(showtime.startTime)
+                            if (showtimeStartTime > new Date()) {
+                              return (
+                                <Link key={showtime._id} href={`/booking/${showtime._id}`}>
+                                  <button className="min-w-16 px-4 py-2 border border-gray-300 rounded hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-colors">
+                                    {new Date(showtime.startTime).toLocaleTimeString("vi-VN", {
+                                      hour: "2-digit",
+                                      minute: "2-digit",
+                                      hour12: false,
+                                    })}
+                                  </button>
+                                </Link>
+                              )
+                            }
+                            return null
+                          })}
                         </div>
                       </div>
                     )

@@ -4,7 +4,6 @@ import * as React from "react";
 import { useParams, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { fetchData } from "@/services/api";
 
 interface Film {
@@ -42,8 +41,8 @@ export default function MoviePage() {
     fetchMovie();
   }, []);
 
-  if (loading) return <p className="text-center mt-10">Đang tải dữ liệu...</p>;
-  if (!movieData) return <p className="text-center mt-10">Không tìm thấy phim.</p>;
+  // if (loading) return <div className="text-center mt-10"><LoadingDots/></div>;
+  if (!movieData) return <p className="text-center mt-10"></p>;
 
   return (
     <div className="max-w-4xl mx-auto p-6">
