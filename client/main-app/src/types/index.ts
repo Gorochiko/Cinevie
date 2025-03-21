@@ -69,7 +69,7 @@ export
   }
 
 
-export type TicketStatus = "pending" | "confirmed" | "used" | "cancelled"
+export type TicketStatus = "pending" | "paid" | "cancelled"
 
 export interface Combo {
   _id?:string
@@ -90,13 +90,24 @@ export interface Ticket {
   currentStep: number
 }
 
+export interface TypeTicket{
+  _id?: string
+  status: TicketStatus
+  user?: UserType
+  showtime: Showtime
+  totalPrice: number
+  combo: Combo[]
+  seats:Seat[]
+}
+
+
 export interface Seat{
   seatNumber:string,
   status:string
 }
 
 export interface UserType  {
-    _id: string,
+    id: string,
     email: string,
     role:string,
     firstName: string,

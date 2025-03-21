@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button"
 import { CheckCircle } from "lucide-react"
 import { formatCurrency } from "@/lib/utils"
 import type { Ticket } from "@/types"
+import { useSearchParams } from "next/navigation"
+import { updateticket } from "@/lib/actions"
+import { useEffect, useState } from "react"
 
 type ConfirmationProps = {
   booking: Ticket
@@ -11,6 +14,22 @@ type ConfirmationProps = {
 }
 
 export default function Confirmation({ booking, getTotalPrice }: ConfirmationProps) {
+    const params = useSearchParams()
+    const resultCode=  params.get('resultCode');
+    const [bookingId, setBookingId] = useState<string | null>(null);
+    useEffect(() => {
+      const storedId = localStorage.getItem('bookingId');
+      console.log("Lấy bookingId từ localStorage:", storedId);
+      setBookingId(storedId);
+    }, []);
+    
+    useEffect(() => {
+      if (resultCode === "0" && bookingId) {
+        console.log("Gọi API update với ID:", bookingId);
+        updateticket(bookingId);
+      }
+    }, [resultCode, bookingId]);
+ 
   return (
     <div className="bg-white p-6 rounded-lg border text-center">
       <div className="flex justify-center mb-4">
@@ -34,7 +53,7 @@ export default function Confirmation({ booking, getTotalPrice }: ConfirmationPro
               {booking.showtime.theater?.name} 
             </p>
             <p className="text-sm">
-              {booking.showtime?.startTime.toLocaleString()} - {booking.showtime?.dateAction.toLocaleDateString()}
+              {booking.showtime?.startTime.toLocaleString()} - {new Date(booking.showtime?.dateAction).toLocaleDateString()}
             </p>
           </div>
           <div>
@@ -42,7 +61,7 @@ export default function Confirmation({ booking, getTotalPrice }: ConfirmationPro
             <div className="flex flex-wrap gap-2">
               {booking.seats.map((seat:any, index:any) => (
                 <span key={index} className="text-sm bg-orange-100 text-orange-800 px-2 py-1 rounded">
-                  {seat.seatNumber}
+                  {seat.row}{seat.number}
                 </span>
               ))}
             </div>

@@ -1,7 +1,7 @@
 import type { FC } from "react"
 import { Badge } from "@/components/ui/badge"
 
-type TicketStatus = "pending" | "confirmed" | "used" | "cancelled"
+type TicketStatus = "pending"  | "paid" | "cancelled"
 
 interface StatusBadgeProps {
   status: TicketStatus
@@ -15,15 +15,15 @@ export const StatusBadge: FC<StatusBadgeProps> = ({ status }) => {
           {status}
         </Badge>
       )
-    case "confirmed":
+    // case "confirmed":
+    //   return (
+    //     <Badge variant="outline" className="bg-green-50 text-green-600 border-green-200 transition-all duration-200">
+    //       {status}
+    //     </Badge>
+    //   )
+    case "paid":
       return (
         <Badge variant="outline" className="bg-green-50 text-green-600 border-green-200 transition-all duration-200">
-          {status}
-        </Badge>
-      )
-    case "used":
-      return (
-        <Badge variant="outline" className="bg-blue-50 text-blue-600 border-blue-200 transition-all duration-200">
           {status}
         </Badge>
       )

@@ -56,13 +56,13 @@ export const TicketTable: FC<TicketTableProps> = ({ tickets, isLoading, formatCu
                 className="transition-all duration-200 hover:bg-muted/50 animate-in fade-in-50 slide-in-from-left-5"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                {/* <TableCell className="font-medium">{ticket._id}</TableCell> */}
+         
               
                 <TableCell>
                   <StatusBadge status={ticket.status} />
                 </TableCell>
-                <TableCell>{ticket.user.email}</TableCell>
-                <TableCell>{ticket.showtime.films.title}</TableCell>
+                <TableCell>{ticket.user?.email}</TableCell>
+                <TableCell>{ticket.showtime?.films?.title}</TableCell>
                 <TableCell>{ticket.showtime.startTime}</TableCell>
                 <TableCell>{ticket.seats.join(", ")}</TableCell>
                 <TableCell>{formatCurrency(ticket.totalPrice)}</TableCell>
@@ -88,7 +88,7 @@ export const TicketTable: FC<TicketTableProps> = ({ tickets, isLoading, formatCu
                           Xác nhận vé
                         </DropdownMenuItem>
                       )}
-                      {(ticket.status === "pending" || ticket.status === "confirmed") && (
+                      {(ticket.status === "pending" || ticket.status === "paid") && (
                         <DropdownMenuItem className="text-red-600 transition-colors duration-200 cursor-pointer">
                           Hủy vé
                         </DropdownMenuItem>

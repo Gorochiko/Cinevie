@@ -3,7 +3,8 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { formatCurrency } from "@/lib/utils"
 import { Ticket } from "@/types"
-import { useState } from "react"
+import { redirect } from "next/navigation"
+
 
 type BookingSummaryProps = {
   booking: Ticket
@@ -34,7 +35,15 @@ export default function BookingSummary({
       nextStep();
     }
   };
-  console.log(booking.showtime.films?.image, "đây là hình ne")
+ 
+  const handleBack = () => {
+    if (booking.currentStep === 4) {
+      redirect("/"); 
+    } else {
+      prevStep(); 
+    }
+  };
+
   return (
     <div className="border rounded-lg p-4 bg-white h-full">
       <div className="border-b border-orange-500 pb-4 mb-4">
@@ -123,14 +132,14 @@ export default function BookingSummary({
       {/* Action Buttons */}
       <div className="flex gap-4 mt-6">
         {showBackButton && (
-          <Button variant="outline" className="flex-1" onClick={prevStep}>
+          <Button variant="outline" className="flex-1" onClick={handleBack}>
             {backButtonText}
           </Button>
         )}
         {showNextButton && (
-          <Button className="flex-1 bg-orange-500 hover:bg-orange-600" onClick={handleNext} // Gọi onConfirmation nếu là nút "Xác nhận"
+          <Button className="flex-1 bg-orange-500 hover:bg-orange-600" onClick={handleNext}
           >
-            {nextButtonText}
+             {booking.currentStep === 3 ? "Xác nhận" : nextButtonText}
           </Button>
         )}
       </div>

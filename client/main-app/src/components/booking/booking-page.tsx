@@ -8,19 +8,22 @@ import SelectFood from "@/components/booking/select-food"
 import Payment from "@/components/booking/payment"
 import Confirmation from "@/components/booking/confirmation"
 import { getFoods } from "@/lib/actions"
-import { FoodItem, Ticket, TypeSeat, Showtime } from "@/types"
-import { useRouter } from "next/navigation"
+import { FoodItem, Ticket, TypeSeat, Showtime, UserType } from "@/types"
+import { redirect, useRouter } from "next/navigation"
+
+import { useSession } from "next-auth/react"
 
 interface BookingProp {
   getShowtime: Showtime
 }
 
 export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
+  const session = useSession();
   const [FOOD_ITEMS, setFOOD_ITEMS] = useState<FoodItem[]>([]);
   const [booking, setBooking] = useState<Ticket>({
     _id: "",
     status: "pending",
-    user: undefined,
+    user: session.data?.user.id as UserType | undefined,
     totalPrice: 0,
     createdAt: new Date(),
     showtime: getShowtime ? {
@@ -72,9 +75,31 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
           seats: getShowtime.seats,
         },
       }));
-      console.log("Updated Booking Showtime:", getShowtime); // Debug
+
     }
   }, [getShowtime]);
+
+
+  useEffect(() => {
+    if (session.data?.user) {
+      setBooking((prev) => ({
+        ...prev,
+        user: {
+          id: session.data.user.id as string,
+          email: session.data.user.email as string,
+          role: session.data.user.role as string,
+          firstName: session.data.user.name as string,
+          lastName: session.data.user.name as string,
+          isActive: true,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+          __v: 0,
+        },
+      }));
+    }
+  }, []);
+
+
 
   useEffect(() => {
     const fetchFoods = async () => {
@@ -84,16 +109,7 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
     fetchFoods();
   }, []);
 
-  const [paymentUrl, setPaymentUrl] = useState('');
 
-
-  const parseSeats = (seatStrings: string[]): TypeSeat[] => {
-    return seatStrings.map((seatString) => {
-      const row = seatString.charAt(0).toUpperCase();
-      const number = parseInt(seatString.slice(1), 10);
-      return { row, number };
-    });
-  };
 
   const setStep = (step: number) => {
     setBooking((prev) => ({
@@ -153,7 +169,7 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
         }));
       }
     }
-  }; console.log("Selected Seats:", booking.seats);
+  };
 
   const setPaymentMethod = (method: string) => {
     setBooking((prev) => ({
@@ -165,49 +181,62 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
   const getTotalPrice = (getShowtime: Showtime) => {
     const seatPrice = booking.seats.length * Number(getShowtime.price);
     const foodPrice = booking.combo.reduce((total, item) => total + item.food.price * item.quantity, 0);
-    console.log(Number(seatPrice + foodPrice),"97232138")
+    console.log(Number(seatPrice + foodPrice), "97232138")
     return Number(seatPrice + foodPrice);
   };
-  
+
   const router = useRouter()
   const handlePayment = async () => {
-     try {
-    const response = await fetch('/api/momo', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        totalPrice:  getTotalPrice(getShowtime),
-        seats: booking.seats,
-        combo: booking.combo,
-      }),
-    });
-    const data = await response.json();
-    if (data.payUrl) {
-      router.push(data.payUrl);
-    } else {
-      console.error('Failed to get payment URL:', data); 
+    try {
+      const response = await fetch('/api/momo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          _id:booking._id,
+          totalPrice: getTotalPrice(getShowtime),
+          seats: booking.seats,
+          combo: booking.combo,
+          showtime: booking.showtime,
+          user:booking.user as UserType
+        }),
+      });
+      const data = await response.json();
+      if (data.momoResponse.payUrl) {
+        const updatedBooking = { ...booking, currentStep: 4 };
+       localStorage.setItem('bookingState', JSON.stringify(updatedBooking));
+       localStorage.setItem("bookingId",data.bookingId)
+        router.push(data.momoResponse.payUrl);
+      }
+    } catch (error) {
+      console.error('Error creating payment:', error);
     }
-  } catch (error) {
-    console.error('Error creating payment:', error);
-  }
   };
-
+  useEffect(() => {
+    const savedState = localStorage.getItem('bookingState');
+    console.log('Saved State:', savedState);
+    if (savedState) {
+      setBooking(JSON.parse(savedState));
+      localStorage.removeItem('bookingState');
+    }
+  }, []);
   const handleConfirmation = () => {
     if (booking.currentStep === 3) {
-      handlePayment(); 
+      handlePayment();
     }
   };
+
+
+
   const renderStepContent = () => {
     switch (booking.currentStep) {
       case 1:
-        return <SelectSeat  booking={booking} selectedSeats={booking.seats} availableSeats={booking.showtime.seats} addSeat={addSeat} removeSeat={removeSeat} />;
+        return <SelectSeat booking={booking} selectedSeats={booking.seats} availableSeats={booking.showtime.seats} addSeat={addSeat} removeSeat={removeSeat} />;
       case 2:
         return <SelectFood selectedFood={booking.combo} foodItems={FOOD_ITEMS} updateFoodQuantity={updateFoodQuantity} />;
       case 3:
-        return <Payment paymentMethod={booking.paymentMethod} setPaymentMethod={setPaymentMethod}  />;
-      
+        return <Payment paymentMethod={booking.paymentMethod} setPaymentMethod={setPaymentMethod} />;
       case 4:
         return <Confirmation booking={booking} getTotalPrice={() => getTotalPrice(getShowtime)} />;
       default:
@@ -231,6 +260,7 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
             showNextButton={booking.currentStep < 4}
             nextButtonText={booking.currentStep === 4 ? "Xác nhận" : "Tiếp tục"}
             onConfirmation={handleConfirmation}
+           
           />
         </div>
       </div>

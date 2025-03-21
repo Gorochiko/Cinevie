@@ -1,17 +1,18 @@
 "use client"
 
 import { useState } from "react"
-import { Bell, Search, Menu, X, ChevronDown } from "lucide-react"
+import { Bell, Search, Menu, X, ChevronDown,UserCircle2 } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { SidebarTrigger } from "../ui/sidebar"
 import Image from "next/image"
-import { signOut } from "next-auth/react"
+import { signOut, useSession } from "next-auth/react"
 const AdminHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
-
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const toggleProfile = () => setIsProfileOpen(!isProfileOpen)
+
+  const session = useSession()
 
   return (
     <header className="bg-[#C68FE6] flex flex-grow     text-white shadow-lg">
@@ -61,8 +62,8 @@ const AdminHeader = () => {
                 onClick={toggleProfile}
                 className="flex items-center space-x-2 hover:text-purple-200 transition-colors duration-200"
               >
-                <img src="/placeholder.svg?height=32&width=32" alt="User Avatar" className="w-8 h-8 rounded-full" />
-                <span>John Doe</span>
+                <UserCircle2/>
+                <span>{session?.data?.user.name}</span>
                 <ChevronDown size={16} />
               </button>
               <AnimatePresence>

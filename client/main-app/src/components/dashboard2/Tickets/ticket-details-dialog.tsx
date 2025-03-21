@@ -40,7 +40,7 @@ export const TicketDetailsDialog: FC<TicketDetailsDialogProps> = ({ ticket, open
             style={{ animationDelay: "100ms" }}
           >
             <span className="text-sm font-medium">Email:</span>
-            <div className="col-span-3">{ticket.user.email}</div>
+            <div className="col-span-3">{ticket.user?.email}</div>
           </div>
 
           <div
@@ -48,7 +48,7 @@ export const TicketDetailsDialog: FC<TicketDetailsDialogProps> = ({ ticket, open
             style={{ animationDelay: "150ms" }}
           >
             <span className="text-sm font-medium">Phim:</span>
-            <div className="col-span-3">{ticket.movie.title}</div>
+            <div className="col-span-3">{ticket.showtime.films?.title}</div>
           </div>
 
           <div
@@ -72,7 +72,7 @@ export const TicketDetailsDialog: FC<TicketDetailsDialogProps> = ({ ticket, open
             style={{ animationDelay: "300ms" }}
           >
             <span className="text-sm font-medium">Ngày mua:</span>
-            <div className="col-span-3">{ticket.createdAt}</div>
+            <div className="col-span-3">{new Date(ticket.createdAt).toLocaleString()}</div>
           </div>
 
           <div
@@ -104,7 +104,7 @@ export const TicketDetailsDialog: FC<TicketDetailsDialogProps> = ({ ticket, open
             style={{ animationDelay: "500ms" }}
           >
             <span className="text-sm font-medium">Tổng tiền:</span>
-            <div className="col-span-3 font-bold">{formatCurrency(ticket.totalAmount)}</div>
+            <div className="col-span-3 font-bold">{formatCurrency(ticket.totalPrice)}</div>
           </div>
 
           <div
@@ -121,7 +121,7 @@ export const TicketDetailsDialog: FC<TicketDetailsDialogProps> = ({ ticket, open
                 </Button>
               </>
             )}
-            {ticket.status === "confirmed" && (
+            {ticket.status === "paid" && (
               <Button variant="destructive" className="transition-all duration-200 hover:shadow-md">
                 Hủy vé
               </Button>

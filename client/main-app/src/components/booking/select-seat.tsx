@@ -1,16 +1,16 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { TypeSeat,Seat, Ticket } from "@/types"
+import { TypeSeat, Seat, Ticket } from "@/types"
 type SelectSeatProps = {
-  booking:Ticket
+  booking: Ticket
   selectedSeats: TypeSeat[]
   addSeat: (seat: TypeSeat) => void
   removeSeat: (seat: TypeSeat) => void
   availableSeats: Seat[];
 }
 
-export default function SelectSeat({booking, selectedSeats,availableSeats, addSeat, removeSeat }: SelectSeatProps) {
+export default function SelectSeat({ booking, selectedSeats, availableSeats, addSeat, removeSeat }: SelectSeatProps) {
   const isSeatSelected = (row: string, number: number) => {
     return selectedSeats.some((seat) => seat.row === row && seat.number === number);
   };
@@ -25,15 +25,15 @@ export default function SelectSeat({booking, selectedSeats,availableSeats, addSe
   };
 
   const getUniqueRows = (seats: Seat[]): string[] => {
-    const rows = seats.map((seat) => seat.seatNumber.charAt(0).toUpperCase()); 
-    const uniqueRows = Array.from(new Set(rows)); 
-    return uniqueRows.sort((a, b) => a.localeCompare(b)); 
+    const rows = seats.map((seat) => seat.seatNumber.charAt(0).toUpperCase());
+    const uniqueRows = Array.from(new Set(rows));
+    return uniqueRows.sort((a, b) => a.localeCompare(b));
   };
- 
+
   const isAvailableSeat = (row: string, number: number) => {
-    const seatString = `${row}${number}`.toLowerCase(); 
+    const seatString = `${row}${number}`.toLowerCase();
     const seat = availableSeats.find((s) => s.seatNumber.toLowerCase() === seatString);
-    return seat ? seat.status === "available" : false;
+    return seat ? seat.status === "available" : true;
   };
 
   const isSeatSold = (row: string, number: number) => {
@@ -46,95 +46,52 @@ export default function SelectSeat({booking, selectedSeats,availableSeats, addSe
   console.log("Selected Seats:", selectedSeats);
   return (
     <div className="space-y-6 bg-white p-6 rounded-lg border">
-    {/* Showtime Selection */}
-    <div className="flex items-center gap-4">
-      <div className="text-gray-700">Đổi suất chiếu</div>
-      <Button className="bg-blue-600 hover:bg-blue-700"> {booking.showtime.startTime} </Button>
-    </div>
-
-   
-  <div className="overflow-x-auto">
-      <div className="min-w-[800px]">
-        {/* Seat Grid Header - Row K */}
-        {/* <div className="flex justify-between mb-4">
-          <div className="w-8">K</div>
-          <div className="flex gap-2">
-            {[1, 2, 3, 4, 5, 6, 7].map((num) => (
-              <button
-                key={`k-${num}`}
-                className={`w-8 h-8 flex items-center justify-center border rounded-md text-sm
-                  ${
-                    isSeatSelected("K", num)
-                      ? "bg-orange-500 text-white border-orange-500"
-                      : isSeatSold("K", num)
-                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "hover:bg-orange-100"
-                  }`}
-                onClick={() => !isSeatSold("K", num) && toggleSeat("K", num)}
-                disabled={isSeatSold("K", num)}
-              >
-                {num}
-              </button>
-            ))}
-          </div>
-          <div className="flex gap-2">
-            {[8, 9, 10, 11].map((num) => (
-              <button
-                key={`k-${num}`}
-                className={`w-8 h-8 flex items-center justify-center border rounded-md text-sm
-                  ${
-                    isSeatSelected("K", num)
-                      ? "bg-orange-500 text-white border-orange-500"
-                      : isSeatSold("K", num)
-                        ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                        : "hover:bg-orange-100"
-                  }`}
-                onClick={() => !isSeatSold("K", num) && toggleSeat("K", num)}
-                disabled={isSeatSold("K", num)}
-              >
-                {num}
-              </button>
-            ))}
-          </div>
-          <div className="w-8">K</div> */}
-        </div>
+      {/* Showtime Selection */}
+      <div className="flex items-center gap-4">
+        <div className="text-gray-700">Đổi suất chiếu</div>
+        <Button className="bg-blue-600 hover:bg-blue-700"> {booking.showtime.startTime} </Button>
+      </div>
+      <div className="overflow-x-auto">
 
         {/* Seat Rows J through A */}
         {rows.map((row) => (
-            <div key={row} className="flex justify-between mb-2">
-              <div className="w-8 flex items-center">{row}</div>
-              <div className="flex gap-2">
-                {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => {
-                  const isAvailable = isAvailableSeat(row, num);
-                  const isSold = isSeatSold(row, num);
-                  const isSelected = isSeatSelected(row, num);
+          <div key={row} className="flex justify-between mb-2">
+            <div className="w-8 flex items-center">{row}</div>
+            <div className="flex gap-2">
+              {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => {
+                const isAvailable = isAvailableSeat(row, num);
+                const isSold = isSeatSold(row, num);
+                const isSelected = isSeatSelected(row, num);
 
-                  if (!isAvailable) {
-                    return <div key={`${row}-${num}`} className="w-8 h-8"></div>;
-                  }
-
+                if (isSold) {
                   return (
                     <button
                       key={`${row}-${num}`}
-                      className={`w-8 h-8 flex items-center justify-center border rounded-md text-sm
-                        ${
-                          isSelected
-                            ? "bg-orange-500 text-white border-orange-500"
-                            : isSold
-                              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-                              : "hover:bg-orange-100"
-                        }`}
-                      onClick={() => !isSeatSold(row, num) && toggleSeat(row, num)}
-                      disabled={isSold}
+                      className="w-8 h-8 flex items-center justify-center border rounded-md text-sm bg-gray-300 text-gray-500 cursor-not-allowed"
+                      disabled
                     >
                       {num}
                     </button>
                   );
-                })}
-              </div>
-              <div className="w-8 flex items-center">{row}</div>
+                }
+                return (
+                  <button
+                    key={`${row}-${num}`}
+                    className={`w-8 h-8 flex items-center justify-center border rounded-md text-sm
+                      ${isSelected
+                        ? "bg-orange-500 text-white border-orange-500"
+                        : "hover:bg-orange-100"
+                      }`}
+                    onClick={() => toggleSeat(row, num)}
+                  >
+                    {num}
+                  </button>
+                );
+              })}
             </div>
-          ))}
+            <div className="w-8 flex items-center">{row}</div>
+          </div>
+        ))}
 
         {/* Screen Label */}
         <div className="text-center text-gray-400 mt-8 mb-4">Màn hình</div>
@@ -165,7 +122,7 @@ export default function SelectSeat({booking, selectedSeats,availableSeats, addSe
         </div>
       </div>
     </div>
- 
+
   )
 }
 

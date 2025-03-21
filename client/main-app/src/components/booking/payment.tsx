@@ -3,13 +3,10 @@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
 import { CreditCard, Wallet, BanknoteIcon } from "lucide-react"
-import { useState } from "react"
 
 type PaymentProps = {
   paymentMethod: string | null
   setPaymentMethod: (method: string) => void
-
-
 }
 
 export default function Payment({ paymentMethod, setPaymentMethod }: PaymentProps) {
