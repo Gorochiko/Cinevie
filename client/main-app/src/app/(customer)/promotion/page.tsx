@@ -126,7 +126,7 @@ export default function PromotionPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Khám phá các chương trình khuyến mãi hấp dẫn và tiết kiệm khi xem phim tại Galaxy Cinema
+            Khám phá các chương trình khuyến mãi hấp dẫn và tiết kiệm khi xem phim tại Cinevie+
           </motion.p>
         </div>
       </div>
