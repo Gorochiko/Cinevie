@@ -27,11 +27,33 @@ export class ShowtimeService {
    * @returns 
    */
   async create(createShowtimeDto: CreateShowtimeDto):Promise<{message:string}> {
-
+    
     const findrooms = await this.roomService.findOne(createShowtimeDto.rooms);
     const capacity = findrooms.capacity;
     const generatedSeats = createShowtimeDto.seats || this.generateSeats(capacity);
- 
+    
+    
+    const existingShowtimes = await this.showtimeModel.find({
+      films: createShowtimeDto.films,
+      theater: createShowtimeDto.theater,
+      rooms: createShowtimeDto.rooms,
+      dateAction: createShowtimeDto.dateAction,
+    });
+    const newStartTime = new Date(createShowtimeDto.startTime);
+    const newEndTime = new Date(createShowtimeDto.endTime);
+  
+    for (const showtime of existingShowtimes) {
+      const existingStartTime = new Date(showtime.startTime);
+      const existingEndTime = new Date(showtime.endTime);
+  
+      if (
+        (newStartTime >= existingStartTime && newStartTime < existingEndTime) || 
+        (newEndTime > existingStartTime && newEndTime <= existingEndTime) || 
+        (newStartTime <= existingStartTime && newEndTime >= existingEndTime) 
+      ) {
+        throw new ConflictException('Suất chiếu trùng khung giờ với suất chiếu hiện có');
+      }
+    }
     if(!createShowtimeDto.price){
       throw new ConflictException('Giá tiền không được để trống')
     }
@@ -157,6 +179,11 @@ export class ShowtimeService {
 
 
 
+
+ async updateStatus(id:string){
+   const showtime= await this.showtimeModel.updateOne({ _id: id }, { $set: { status: 'closed' } })
+  return showtime
+ }
 
   /**
    * 

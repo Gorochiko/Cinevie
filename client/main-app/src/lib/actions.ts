@@ -177,6 +177,8 @@ export const verify = async (verificationCode:string, email:string) => {
 
 
 
+
+
 /**
  * @param id 
  * @param films
@@ -323,3 +325,14 @@ export const updateticket = async(id:string)=>{
   }
 }
 
+
+
+
+export const updateStatus = async(id:string)=>{
+  try {
+    const res = patchData('/showtime/updateStatus',{_id:id},true)
+    return res;
+  } catch (error:any) {
+    throw new error
+  }
+}

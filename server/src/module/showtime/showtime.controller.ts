@@ -22,6 +22,12 @@ export class ShowtimeController {
     return this.showtimeService.findOne(id);
   }
 
+  @Patch('updateStatus')
+  updateStatus(@Body()id:string){
+    return this.showtimeService.updateStatus(id);
+  }
+
+
   @Patch('updateTime/:id')
   update(@Param('id') id: string, @Body() updateShowtimeDto: UpdateShowtimeDto) {
     return this.showtimeService.update(id, updateShowtimeDto);

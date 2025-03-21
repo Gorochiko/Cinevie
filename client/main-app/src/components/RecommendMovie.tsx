@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { getFilms } from "@/lib/actions";
-
+import { LoadingCatSimple } from "./loading/loadingDot";
 import {
   Carousel,
   CarouselContent,
@@ -42,7 +42,7 @@ export function RecommendMovie() {
   }, []);
 
   if (films.length === 0) {
-    return <p className="text-white text-center">Không có phim...</p>;
+    return <div className="text-white text-center"><LoadingCatSimple/></div>;
   }
 
   return (

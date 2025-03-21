@@ -18,7 +18,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { ShowtimeDialog } from "./showtime-dialog"
-import { getShowTime } from "@/lib/actions";
+import { getShowTime, updateStatus } from "@/lib/actions";
 import { Showtime } from "@/types/index"
 
 
@@ -29,8 +29,16 @@ export function ShowtimesTable() {
 
   useEffect(() => {
     async function fetchShowtimes() {
-      const data = await getShowTime() as Showtime[]
-      setShowtimes(data || [])
+      const data = await getShowTime() as Showtime[];
+      const updatedShowtimes = await Promise.all(
+        data.map(async showtime => {
+          if (showtime.endTime < new Date().toISOString()) {
+            await updateStatus(showtime?._id ?? "");
+          }
+          return showtime;
+        })
+      );
+      setShowtimes(updatedShowtimes);
     }
     fetchShowtimes()
   }, [])
@@ -44,8 +52,8 @@ export function ShowtimesTable() {
   }
   const vietnamTimeZone = "Asia/Ho_Chi_Minh";
   const convertToVietnamTime = (isoString: string) => {
-    const date = parseISO(isoString); 
-    return toZonedTime(date, vietnamTimeZone); 
+    const date = parseISO(isoString);
+    return toZonedTime(date, vietnamTimeZone);
   };
 
   return (
@@ -61,7 +69,7 @@ export function ShowtimesTable() {
               />
               <div className="absolute top-2 right-2">
                 <Badge variant={showtime.status === "active" ? "default" : "destructive"}>
-                  {showtime.status === "active" ? "Đang bán" : "Hết vé"}
+                  {showtime.status === "active" ? "Đang bán" : "Đóng"}
                 </Badge>
               </div>
             </div>
