@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Footer  from "@/components/Footer";
-import { SessionProvider } from "next-auth/react";
+// import { SessionProvider } from "next-auth/react";
 // import CustomerLayout from "@/components/Customerlayout";
 export default function Layout({
     children,
@@ -8,7 +8,7 @@ export default function Layout({
     children: React.ReactNode;
   }) {
     return (
-      <SessionProvider>
+    
         <html lang="en">
           <body>
             <Header />
@@ -16,6 +16,6 @@ export default function Layout({
             <Footer />
           </body>
         </html>
-      </SessionProvider>
+    
     );
   }

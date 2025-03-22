@@ -12,7 +12,7 @@ const AdminHeader = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const toggleProfile = () => setIsProfileOpen(!isProfileOpen)
 
-  const session = useSession()
+  const session = useSession({ required: false})
 
   return (
     <header className="bg-[#C68FE6] flex flex-grow     text-white shadow-lg">

@@ -41,5 +41,6 @@ export const config = {
         '/foods/:path*',
         '/theaters/:path*',
         '/',
+        '/uploads/:path'
     ],
 };

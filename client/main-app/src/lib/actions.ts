@@ -327,7 +327,13 @@ export const updateticket = async(id:string)=>{
 
 
 
-
+/**
+ * 
+ * @param id 
+ * Step 1 : Call the router api for update
+ * Step 2 : return array data res if error throw new 
+ * @returns 
+ */
 export const updateStatus = async(id:string)=>{
   try {
     const res = patchData('/showtime/updateStatus',{_id:id},true)

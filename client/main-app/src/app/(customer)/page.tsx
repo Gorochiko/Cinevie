@@ -1,5 +1,4 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+
 import { Slideshow } from "@/components/Slideshow";
 import { RecommendMovie } from "@/components/RecommendMovie";
 import { MovieGenres } from "@/components/MovieGenres";

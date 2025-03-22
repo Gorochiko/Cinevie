@@ -20,6 +20,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { ShowtimeDialog } from "./showtime-dialog"
 import { getShowTime, updateStatus } from "@/lib/actions";
 import { Showtime } from "@/types/index"
+import { createShowtime } from "@/factories/showtime/createShơtimeFactory"
 
 
 export function ShowtimesTable() {
@@ -27,21 +28,16 @@ export function ShowtimesTable() {
   const [selectedShowtime, setSelectedShowtime] = useState<string | null>(null)
   const [showtimes, setShowtimes] = useState<Showtime[]>([])
 
-  useEffect(() => {
-    async function fetchShowtimes() {
-      const data = await getShowTime() as Showtime[];
-      const updatedShowtimes = await Promise.all(
-        data.map(async showtime => {
-          if (showtime.endTime < new Date().toISOString()) {
-            await updateStatus(showtime?._id ?? "");
-          }
-          return showtime;
-        })
-      );
-      setShowtimes(updatedShowtimes);
-    }
-    fetchShowtimes()
-  }, [])
+ 
+    useEffect(() => {
+      async function fetchShowtimes(): Promise<void> {
+        const data = await getShowTime() as Showtime[];
+        const updatedShowtimes = data.map(createShowtime); 
+        setShowtimes(updatedShowtimes);
+      }
+      fetchShowtimes();
+    }, []);
+ 
   const handleDelete = (id: string) => {
     setSelectedShowtime(id)
     setShowDeleteDialog(true)

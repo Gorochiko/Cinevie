@@ -20,10 +20,7 @@ const recentStudents = [
 
 
 const DashboardPage = async () => {
- const session = await auth()
-  if(!session){
-    redirect('/login')
-  }
+
   return (
     <div className="flex flex-col lg:flex-row">
       <div className="flex-grow space-y-6 p-6">

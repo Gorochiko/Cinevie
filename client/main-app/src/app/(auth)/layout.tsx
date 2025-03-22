@@ -10,13 +10,13 @@ export default async function AuthLayout({ children }: {
     redirect('/')
   }
   return (
-    <SessionProvider>
+   
     <html lang="en">
       <body>
         <main>{children}</main>
         <Toaster />
       </body>
     </html>
-    </SessionProvider>
+  
   );
 }

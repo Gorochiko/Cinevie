@@ -14,7 +14,7 @@ import { FlimsService } from '../flims/flims.service';
 @Injectable()
 export class BookingService {
   constructor(@InjectModel(Booking.name)
-  private bookingModel: Model<Booking>,
+    private bookingModel: Model<Booking>,
     private showtimeService: ShowtimeService,
     private readonly mailerService: MailerService,
     private userService: UserService,
@@ -22,6 +22,23 @@ export class BookingService {
     private filmsService: FlimsService
   ) { }
 
+
+
+
+  /**
+ * Creates a new booking.
+ * @param {CreateBookingDto} createBookingDto - Data to create the booking.
+ * @returns {Promise<Booking>} - The newly created booking.
+ * @throws {ConflictException} - If any of the selected seats are already booked or unavailable.
+ * 
+ * Steps:
+ * 1. Finds the showtime associated with the booking.
+ * 2. Checks if the selected seats are available.
+ * 3. If any seat is unavailable, throws a ConflictException.
+ * 4. Books the seats in the showtime.
+ * 5. Creates and saves the booking in the database.
+ * 6. Returns the created booking.
+ */
   async create(createBookingDto: CreateBookingDto) {
     const showtime = await this.showtimeService.findOne(createBookingDto.showtime)
     const checkSeats = createBookingDto.seats.filter(seatNumber => {
@@ -43,6 +60,23 @@ export class BookingService {
     return booking.save();
   }
 
+
+
+
+
+
+
+
+
+  /**
+ * Retrieves all bookings from the database.
+ * @returns {Promise<Booking[]>} - List of all bookings with populated showtime, combo, and user details.
+ * 
+ * Steps:
+ * 1. Finds all bookings in the database.
+ * 2. Populates the showtime, combo.food, and user fields.
+ * 3. Returns the list of bookings.
+ */
   async findAll() {
     const findBooking = await this.bookingModel.find().populate({
       path: 'showtime',
@@ -53,6 +87,21 @@ export class BookingService {
     return findBooking;
   }
 
+
+
+
+
+
+
+
+
+  /**
+ * Finds a booking by its ID.
+ * @param {number} id - The ID of the booking to find.
+ * @returns {string} - A placeholder message indicating the booking ID.
+ * 
+ * Note: This method is currently a placeholder and needs implementation.
+ */
   findOne(id: number) {
     return `This action returns a #${id} booking`;
   }
@@ -66,8 +115,18 @@ export class BookingService {
 
 
 
-
-
+/**
+ * Updates the status of a booking to "paid" and sends a confirmation email.
+ * @param {string} id - The ID of the booking to update.
+ * @returns {Promise<{ message: string, data?: Booking }>} - A success message and the updated booking.
+ * 
+ * Steps:
+ * 1. Finds the booking by ID and updates its status to "paid".
+ * 2. Populates the showtime, combo.food, and user fields.
+ * 3. If the booking is not found, returns an error message.
+ * 4. Sends a confirmation email to the user with booking details.
+ * 5. Returns a success message and the updated booking.
+ */
   async update(id: string) {
     const updateStatus = await this.bookingModel.findOneAndUpdate(
       { _id: id },
@@ -109,18 +168,6 @@ export class BookingService {
     }
 
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

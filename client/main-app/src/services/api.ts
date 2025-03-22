@@ -3,7 +3,12 @@ import { AxiosError, AxiosResponse, AxiosInstance } from 'axios';
 import { getSession, signOut } from 'next-auth/react';
 import { auth } from "@/lib/auth";
 
-
+/**
+ * Custom error class for API-related errors.
+ * @param {string} message - The error message.
+ * @param {number} [statusCode] - The HTTP status code of the error.
+ * @param {unknown} [response] - The response data from the API (if available).
+ */
 export class APIError extends Error {
     constructor(
         message: string,
@@ -16,7 +21,9 @@ export class APIError extends Error {
 }
 
 
-
+/**
+ * List of public routes that do not require authentication.
+ */
 const PUBLIC_ROUTES = [
     '/auth/signin',
     '/auth/re-verify',
@@ -26,9 +33,18 @@ const PUBLIC_ROUTES = [
     '/auth/signout',
     '/films/getFilms',
     '/films/getfilms/:id',
+    '/showtime/FindOnetime/:id',
+    '/showtime/findAlltime',
+    '/theaters/findtheater'
 ] as const;
 
 
+
+/**
+ * Checks if a given URL is a public route.
+ * @param {string} url - The URL to check.
+ * @returns {boolean} - True if the URL is a public route, otherwise false.
+ */
 const isPublicRoute = (url: string): boolean => {
     const normalizedUrl = url.replace(/^\/api/, '');
     return PUBLIC_ROUTES.some(route => {
@@ -45,6 +61,11 @@ const isPublicRoute = (url: string): boolean => {
 };
 
 
+
+
+/**
+ * Axios instance configured with a base URL and default headers.
+ */
 export const API: AxiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_BACKEND_DOMAIN || 'http://localhost:8080/api',
     headers: {
@@ -54,6 +75,12 @@ export const API: AxiosInstance = axios.create({
 });
 
 
+
+
+/**
+ * Fetches the authentication session for the current user.
+ * @returns {Promise<Session | null>} - The session object or null if no session is found.
+ */
 const getAuthSession = async () => {
     try {
         if (typeof window !== 'undefined') {
@@ -68,6 +95,14 @@ const getAuthSession = async () => {
 
 
 
+
+
+
+
+/**
+ * Axios request interceptor to add authentication token to requests.
+ * Skips adding the token for public routes.
+ */
 API.interceptors.request.use(
     async (config) => {
         // Skip auth for public routes
@@ -91,6 +126,16 @@ API.interceptors.request.use(
 
 
 
+
+
+
+
+
+
+/**
+ * Axios response interceptor to handle errors globally.
+ * Automatically signs out the user if a 401 error is encountered.
+ */
 API.interceptors.response.use(
     (response) => response,
     (error: AxiosError<{ message?: string }>) => {
@@ -108,6 +153,13 @@ API.interceptors.response.use(
 
 
 
+
+
+
+/**
+ * Generic interface for API responses.
+ * @template T - The type of the data returned by the API.
+ */
 interface ApiResponse<T> {
     data: T;
     message?: string;
@@ -116,6 +168,18 @@ interface ApiResponse<T> {
 
 
 
+
+
+
+
+/**
+ * Fetches data from the specified endpoint.
+ * @template T - The type of the data to be returned.
+ * @param {string} endpoint - The API endpoint to fetch data from.
+ * @param {Object} config - The request configuration (headers, params, etc.).
+ * @returns {Promise<T>} - The data returned by the API.
+ * @throws {APIError} - If the request fails.
+ */
 export const fetchData = async <T>(
     endpoint: string,
     config: { headers?: { Authorization?: string }; params?: Record<string, any> }
@@ -142,6 +206,17 @@ export const fetchData = async <T>(
 
 
 
+
+
+  /**
+ * Sends a POST request to the specified endpoint.
+ * @template T - The type of the data to be returned.
+ * @param {string} endpoint - The API endpoint to send the request to.
+ * @param {Record<string, any>} data - The data to be sent in the request body.
+ * @param {boolean} [requireAuth=true] - Whether the request requires authentication.
+ * @returns {Promise<T>} - The data returned by the API.
+ * @throws {APIError} - If the request fails.
+ */
 export const postData = async <T>(endpoint: string, data: Record<string, any>, requireAuth = true): Promise<T> => {
     try {
         const isFormdata =  data instanceof FormData;
@@ -165,6 +240,17 @@ export const postData = async <T>(endpoint: string, data: Record<string, any>, r
 
 
 
+
+
+/**
+ * Sends a PATCH request to the specified endpoint.
+ * @template T - The type of the data to be returned.
+ * @param {string} endpoint - The API endpoint to send the request to.
+ * @param {Record<string, any>} data - The data to be sent in the request body.
+ * @param {boolean} [requireAuth=true] - Whether the request requires authentication.
+ * @returns {Promise<T>} - The data returned by the API.
+ * @throws {APIError} - If the request fails.
+ */
 export const patchData = async <T>(endpoint: string, data: Record<string, any>, requireAuth = true): Promise<T> => {
     try {
         const response: AxiosResponse<ApiResponse<T>> = await API.patch(endpoint, data, {
@@ -186,6 +272,16 @@ export const patchData = async <T>(endpoint: string, data: Record<string, any>, 
 
 
 
+
+
+/**
+ * Sends a DELETE request to the specified endpoint.
+ * @template T - The type of the data to be returned.
+ * @param {string} endpoint - The API endpoint to send the request to.
+ * @param {boolean} [requireAuth=true] - Whether the request requires authentication.
+ * @returns {Promise<T>} - The data returned by the API.
+ * @throws {APIError} - If the request fails.
+ */
 export const deleteData = async <T>(endpoint: string, requireAuth = true): Promise<T> => {
     try {
         const response: AxiosResponse<ApiResponse<T>> = await API.delete(endpoint, {
