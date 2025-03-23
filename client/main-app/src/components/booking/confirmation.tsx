@@ -31,7 +31,7 @@ export default function Confirmation({ booking, getTotalPrice }: ConfirmationPro
     }, [resultCode, bookingId]);
  
   return (
-    <div className="bg-white p-6 rounded-lg border text-center">
+    <div className="bg-white p-6 rounded-lg border text-black text-center">
       <div className="flex justify-center mb-4">
         <CheckCircle className="h-16 w-16 text-green-500" />
       </div>

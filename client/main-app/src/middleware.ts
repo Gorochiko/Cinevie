@@ -22,7 +22,7 @@ export async function middleware(request: NextRequest) {
             //     return NextResponse.redirect(new URL('/', request.url))
         }
     } else {
-        if (pathname.startsWith('/dashboards') || pathname.startsWith('/showtimes') || pathname.startsWith('/films') || pathname.startsWith('/tickets') || pathname.startsWith('/customers') || pathname.startsWith('/foods') || pathname.startsWith('/theaters')) {
+        if (pathname.startsWith('/dashboards') || pathname.startsWith('/showtimes') || pathname.startsWith('/films') || pathname.startsWith('/tickets') || pathname.startsWith('/customers') || pathname.startsWith('/foods') || pathname.startsWith('/theaters')||pathname.startsWith('/booking')) {
             return NextResponse.redirect(new URL('/login', request.url))
         }
     }

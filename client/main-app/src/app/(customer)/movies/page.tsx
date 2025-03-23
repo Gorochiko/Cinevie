@@ -63,17 +63,17 @@ export default function FilmListPage() {
         const matchesDescription = regex?.test(film.description) ?? true
         const matchesTimeLength = regex?.test(film.timeLength.toString()) ?? true
         const matchesAge = regex?.test(film.age.toString()) ?? true
-        const matchesCategory = activeCategory === "all" || film.genre?.includes(activeCategory)
+        // const matchesCategory = activeCategory === "all" || film.genre?.includes(activeCategory)
   
-        return ( matchesTitle || matchesDate || matchesDescription || matchesTimeLength || matchesAge) && matchesCategory
+        return ( matchesTitle || matchesDate || matchesDescription || matchesTimeLength || matchesAge) 
       })
     }
 
     setFilteredFilms(filterFilms())
   }, [films, regex, activeCategory])
 
-  // Extract unique genres from films
-  const genres = useMemo(() => [...new Set(films.flatMap((film) => film.genre || []))], [films])
+  // // Extract unique genres from films
+  // const genres = useMemo(() => [...new Set(films.flatMap((film) => film.genre || []))], [films])
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
@@ -134,7 +134,7 @@ export default function FilmListPage() {
                 <TabsTrigger value="all" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">
                   Tất cả
                 </TabsTrigger>
-                {genres.slice(0, 4).map((genre) => (
+                {/* {genres.slice(0, 4).map((genre) => (
                   <TabsTrigger
                     key={genre}
                     value={genre}
@@ -142,7 +142,7 @@ export default function FilmListPage() {
                   >
                     {genre}
                   </TabsTrigger>
-                ))}
+                ))} */}
               </TabsList>
             </Tabs>
           </div>
@@ -182,9 +182,9 @@ export default function FilmListPage() {
                       <Badge className="absolute top-4 right-4 z-20 bg-red-600 text-white font-semibold">
                         {film.year}
                       </Badge>
-                      {film.genre && film.genre[0] && (
+                      {/* {film.genre && film.genre[0] && (
                         <Badge className="absolute top-4 left-4 z-20 bg-gray-800/80 text-white">{film.genre[0]}</Badge>
-                      )}
+                      )} */}
                     </div>
                     <CardContent className="p-6 flex flex-col flex-grow bg-gradient-to-b from-gray-800 to-gray-900">
                       <h2 className="text-xl font-bold text-white mb-2 line-clamp-1 group-hover:text-red-400 transition-colors">

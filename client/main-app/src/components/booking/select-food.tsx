@@ -19,7 +19,7 @@ export default function SelectFood({ foodItems,selectedFood, updateFoodQuantity 
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg border">
+    <div className="bg-white p-6 rounded-lg text-black border">
       <h1 className="text-2xl font-bold mb-6">Chọn thức ăn</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -38,17 +38,17 @@ export default function SelectFood({ foodItems,selectedFood, updateFoodQuantity 
 
               <div className="flex items-center justify-end mt-2">
                 <Button
-                  variant="outline"
+                  variant="dark"
                   size="icon"
                   className="h-8 w-8 rounded-full"
                   onClick={() => updateFoodQuantity(food._id, getQuantity(food._id) - 1)}
                   disabled={getQuantity(food._id) === 0}
                 >
-                  <Minus className="h-4 w-4" />
+                  <Minus className="h-4 w-4  " />
                 </Button>
                 <span className="mx-3 w-6 text-center">{getQuantity(food._id)}</span>
                 <Button
-                  variant="outline"
+                  variant='light'
                   size="icon"
                   className="h-8 w-8 rounded-full"
                   onClick={() => updateFoodQuantity(food._id, getQuantity(food._id) + 1)}

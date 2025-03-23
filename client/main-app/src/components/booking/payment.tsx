@@ -19,7 +19,7 @@ export default function Payment({ paymentMethod, setPaymentMethod }: PaymentProp
 
 
   return (
-    <div className="bg-white p-6 rounded-lg border">
+    <div className="bg-white text-black p-6 rounded-lg border">
       <h1 className="text-2xl font-bold mb-6">Phương thức thanh toán</h1>
 
       <RadioGroup

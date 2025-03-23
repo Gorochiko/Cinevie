@@ -45,7 +45,7 @@ export default function SelectSeat({ booking, selectedSeats, availableSeats, add
   console.log("Available Seats:", availableSeats);
   console.log("Selected Seats:", selectedSeats);
   return (
-    <div className="space-y-6 bg-white p-6 rounded-lg border">
+    <div className="space-y-6 bg-white p-6 rounded-lg text-black border">
       {/* Showtime Selection */}
       <div className="flex items-center gap-4">
         <div className="text-gray-700">Đổi suất chiếu</div>

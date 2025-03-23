@@ -10,10 +10,8 @@ export default function HeadFooter() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle newsletter subscription
-    console.log("Subscribing email:", email)
     setEmail("")
-    // Show success message or toast notification
+
   }
 
   return (

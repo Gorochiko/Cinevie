@@ -39,7 +39,7 @@ export default function Header() {
 
   // Close dropdowns when clicking outside
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event:any) => {
       const profileMenu = document.getElementById("profile-menu")
       if (profileMenu && !profileMenu.contains(event.target)) {
         setIsProfileOpen(false)
@@ -189,8 +189,8 @@ export default function Header() {
                     className="absolute right-0 mt-2 w-56 bg-gray-800 border border-gray-700 rounded-lg shadow-xl py-1 text-gray-200 overflow-hidden z-50"
                   >
                     <div className="px-4 py-3 border-b border-gray-700">
-                      <p className="text-sm font-medium text-white">{session.user?.name}</p>
-                      <p className="text-xs text-gray-400 truncate">{session.user?.email}</p>
+                      <p className="text-sm font-medium text-white">{session?.user.email}</p>
+                      <p className="text-xs text-gray-400 truncate">{session?.user.email}</p>
                     </div>
                     <Link
                       href="/profile"

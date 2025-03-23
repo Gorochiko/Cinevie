@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { Facebook, Twitter, Instagram, Youtube, MapPin, Phone, Mail } from 'lucide-react'
+import { Facebook, Twitter, Instagram , MapPin, Phone, Mail } from 'lucide-react'
+import { Youtube } from 'lucide-react';
 
 function BodyFooter() {
   return (

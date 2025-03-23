@@ -181,7 +181,6 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
   const getTotalPrice = (getShowtime: Showtime) => {
     const seatPrice = booking.seats.length * Number(getShowtime.price);
     const foodPrice = booking.combo.reduce((total, item) => total + item.food.price * item.quantity, 0);
-    console.log(Number(seatPrice + foodPrice), "97232138")
     return Number(seatPrice + foodPrice);
   };
 

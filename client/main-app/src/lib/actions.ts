@@ -40,7 +40,9 @@ interface flimRes {
 }
 
 
-
+interface flimResponse {
+  films: any[];
+}
 
 /**
  * 
@@ -275,11 +277,10 @@ export const createShowtimes = async (showtime: showtimeType )=>{
 
 
 
-
 export const getShowTime = async()=>{
   try {
     const res= await fetchData('showtime/findAlltime', {});
-    return res;
+    return res ;
   } catch (error:any) {
     throw new Error(error)
   }

@@ -1,15 +1,14 @@
 "use client"
-
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { getFilms } from "@/lib/actions"
 import { LoadingCatSimple } from "./loading/loadingDot"
 import { motion } from "framer-motion"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Film, Star, Clock } from "lucide-react"
+import { FilmFactory } from "@/factories/films/filmsFactory"
+import { useRouter } from "next/navigation"
 
 interface FilmType {
   _id: string
@@ -25,26 +24,18 @@ interface FilmType {
 }
 
 export function RecommendMovie() {
-  const [films, setFilms] = useState<FilmType[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [films, setFilms] = useState<FilmType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter()
-
   useEffect(() => {
     const fetchFilms = async () => {
-      try {
-        const response = await getFilms()||[];
-        if(!response){
-          throw new Error("Lỗi tải phim");
-        }
-        setFilms(response.results || []);
-      } catch (error) {
-        console.error("❌ Lỗi khi lấy danh sách phim:", error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    fetchFilms()
-  }, [])
+      const data = await FilmFactory.createFilmLoader();
+      setFilms(data);
+      setIsLoading(false);
+    };
+    fetchFilms();
+  }, []);
+
 
   if (isLoading) {
     return (

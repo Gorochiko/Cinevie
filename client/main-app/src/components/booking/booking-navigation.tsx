@@ -21,7 +21,7 @@ export default function BookingNavigation({ currentStep, setStep }: BookingNavig
       <div className="flex justify-between">
         {steps.map((step) => (
           <Button
-            variant='glass'
+            variant='ghost'
             key={step.id}
             onClick={() => setStep(step.id)}
             className={`pb-2 px-4 relative ${currentStep === step.id ? "text-blue-600" : "text-gray-500"}`}

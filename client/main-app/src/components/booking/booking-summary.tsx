@@ -45,7 +45,7 @@ export default function BookingSummary({
   };
 
   return (
-    <div className="border rounded-lg p-4 bg-white h-full">
+    <div className="border rounded-lg p-4 bg-white text-black h-full">
       <div className="border-b border-orange-500 pb-4 mb-4">
         <div className="flex gap-4">
           <Image
@@ -132,7 +132,7 @@ export default function BookingSummary({
       {/* Action Buttons */}
       <div className="flex gap-4 mt-6">
         {showBackButton && (
-          <Button variant="outline" className="flex-1" onClick={handleBack}>
+          <Button variant="outline" className="text-white flex-1" onClick={handleBack}>
             {backButtonText}
           </Button>
         )}
