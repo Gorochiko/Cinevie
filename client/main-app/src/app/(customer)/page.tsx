@@ -10,12 +10,12 @@ export default function Home() {
  
   return (
     
-    <div className="bg-gray-100  min-h-screen">
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
       <div className="z-20 ">
         <div className="w-full p-5  animate-fadeIns">
           <Slideshow />
         </div>
-        <div className="w-full bg-gradient-to-r from-[#1230AE] to-[#C68FE6] ">
+        <div className="w-full">
           <RecommendMovie />
         </div>
         <div className="w-full p-7">
