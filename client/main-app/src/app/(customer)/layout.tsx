@@ -1,6 +1,7 @@
+import type React from "react"
 import Header from "@/components/Header";
 import Footer  from "@/components/Footer";
-// import { SessionProvider } from "next-auth/react";
+import { SessionProvider } from "next-auth/react";
 // import CustomerLayout from "@/components/Customerlayout";
 export default function Layout({
     children,
@@ -8,14 +9,16 @@ export default function Layout({
     children: React.ReactNode;
   }) {
     return (
-    
-        <html lang="en">
-          <body>
+      <SessionProvider>
+        <html lang="en" className="dark">
+          <body className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-900 to-black text-white">
+          <div className="flex flex-col min-h-screen">
             <Header />
-            <div className="">{children}</div>
+            <main className="flex-grow">{children}</main>
             <Footer />
+          </div>
           </body>
         </html>
-    
+      </SessionProvider>
     );
   }
