@@ -1,5 +1,5 @@
 "use client"
-
+import { formatDate } from "@/lib/utils"
 import { useState, useEffect, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
@@ -7,20 +7,19 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import type { Film } from "@/types/index"
+import { Film } from "@/types/index"
 import { getFilms } from "@/lib/actions"
 import { useRouter } from "next/navigation"
 import { LoadingCatSimple } from "@/components/loading/loadingDot"
 import Image from "next/image"
-import { Search, Star, Clock, Calendar, FilmIcon } from "lucide-react"
-
+import { Search, Clock, Calendar, FilmIcon } from "lucide-react"
+import { convertDateFormat } from "@/lib/utils"
 export default function FilmListPage() {
   const [films, setFilms] = useState<Film[]>([])
   const [filteredFilms, setFilteredFilms] = useState<Film[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [isLoading, setIsLoading] = useState(true)
   const [activeCategory, setActiveCategory] = useState("all")
-  const [regexPattern, setRegexPattern] = useState("")
   const [regexError, setRegexError] = useState("")
   const router = useRouter()
 
@@ -44,30 +43,34 @@ export default function FilmListPage() {
 
   // Memoized regex to avoid recreating on every render
   const regex = useMemo(() => {
-    if (!regexPattern) return null
+    if (!searchTerm) return null
     try {
       setRegexError("")
-      return new RegExp(regexPattern, "i") // Case-insensitive
+      return new RegExp(searchTerm, "i") // Case-insensitive
     } catch (error) {
-      setRegexError("Regex pattern không hợp lệ")
+      setRegexError("🔴 Lỗi: Regex không hợp lệ")
       return null
     }
-  }, [regexPattern])
+  }, [searchTerm])
 
-  // Filter films based on search term, regex, and category
+  // Filter films based on search term (regex) and category
   useEffect(() => {
     const filterFilms = () => {
       return films.filter((film) => {
-        const matchesSearch = film.title.toLowerCase().includes(searchTerm.toLowerCase())
+        const formattedSearch = convertDateFormat(searchTerm) 
+        const matchesTitle = regex?.test(film.title) ?? true
+        const matchesDate = regex?.test(film.onStage) || film.onStage === formattedSearch
+        const matchesDescription = regex?.test(film.description) ?? true
+        const matchesTimeLength = regex?.test(film.timeLength.toString()) ?? true
+        const matchesAge = regex?.test(film.age.toString()) ?? true
         const matchesCategory = activeCategory === "all" || film.genre?.includes(activeCategory)
-        const matchesRegex = regex ? regex.test(film.title) : true
-
-        return matchesSearch && matchesCategory && matchesRegex
+  
+        return ( matchesTitle || matchesDate || matchesDescription || matchesTimeLength || matchesAge) && matchesCategory
       })
     }
 
     setFilteredFilms(filterFilms())
-  }, [films, searchTerm, activeCategory, regex])
+  }, [films, regex, activeCategory])
 
   // Extract unique genres from films
   const genres = useMemo(() => [...new Set(films.flatMap((film) => film.genre || []))], [films])
@@ -119,12 +122,9 @@ export default function FilmListPage() {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <Input
                 type="text"
-                placeholder="Tìm kiếm phim..."
+                placeholder="🔍 Tìm kiếm phim theo tiêu đề, ngày hoặc nội dung..."
                 value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value)
-                  setRegexPattern(e.target.value)
-                }}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10 bg-gray-700 border-gray-600 text-white placeholder:text-gray-400 focus-visible:ring-red-500"
               />
               {regexError && <p className="text-red-500 text-sm mt-2">{regexError}</p>}
@@ -145,12 +145,6 @@ export default function FilmListPage() {
                 ))}
               </TabsList>
             </Tabs>
-          </div>
-
-          <div className="flex justify-between items-center">
-            <p className="text-gray-300">
-              Hiển thị {filteredFilms.length} phim {activeCategory !== "all" ? `thể loại ${activeCategory}` : ""}
-            </p>
           </div>
         </motion.div>
 
@@ -204,14 +198,8 @@ export default function FilmListPage() {
                         </div>
                         <div className="flex items-center gap-1">
                           <Calendar size={14} />
-                          <span>{film.year}</span>
+                          <span>{formatDate(film.onStage)}</span>
                         </div>
-                        {film.rating && (
-                          <div className="flex items-center gap-1">
-                            <Star size={14} className="text-yellow-500" />
-                            <span>{film.rating}/10</span>
-                          </div>
-                        )}
                         <div className="flex items-center gap-1">
                           <span>Độ tuổi: {film.age}+</span>
                         </div>
@@ -244,7 +232,6 @@ export default function FilmListPage() {
               onClick={() => {
                 setSearchTerm("")
                 setActiveCategory("all")
-                setRegexPattern("")
               }}
             >
               Xóa bộ lọc
