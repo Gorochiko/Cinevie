@@ -6,24 +6,39 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Film } from "@/types/index"
 import { getFilms } from "@/lib/actions"
 import { useRouter } from "next/navigation"
 import { LoadingCatSimple } from "@/components/loading/loadingDot"
 import Image from "next/image"
 import { Search, Clock, Calendar, FilmIcon } from "lucide-react"
-import { convertDateFormat } from "@/lib/utils"
+
+
+// Hàm chuẩn hóa chuỗi (bỏ dấu & khoảng trắng)
+const normalizeText = (str: string) => {
+  return str
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "") // Loại bỏ dấu
+    .replace(/đ/g, "d")
+    .replace(/Đ/g, "D")
+    .replace(/\s+/g, "") // Xóa khoảng trắng
+    .toLowerCase()
+}
+
+// Hàm escape regex để tránh lỗi khi nhập ký tự đặc biệt
+const escapeRegex = (str: string) => {
+  return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
+}
+
 export default function FilmListPage() {
   const [films, setFilms] = useState<Film[]>([])
   const [filteredFilms, setFilteredFilms] = useState<Film[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [isLoading, setIsLoading] = useState(true)
-  const [activeCategory, setActiveCategory] = useState("all")
   const [regexError, setRegexError] = useState("")
   const router = useRouter()
 
-  // Fetch films on component mount
+  // Fetch danh sách phim
   useEffect(() => {
     const fetchFilms = async () => {
       try {
@@ -41,39 +56,43 @@ export default function FilmListPage() {
     fetchFilms()
   }, [])
 
-  // Memoized regex to avoid recreating on every render
+  // Xử lý regex
   const regex = useMemo(() => {
     if (!searchTerm) return null
     try {
-      setRegexError("")
-      return new RegExp(searchTerm, "i") // Case-insensitive
-    } catch (error) {
-      setRegexError("🔴 Lỗi: Regex không hợp lệ")
-      return null
+      const normalizedSearch = normalizeText(searchTerm)
+      const safeSearchTerm = escapeRegex(normalizedSearch)
+      return new RegExp(safeSearchTerm, "i")
+    } catch {
+      return null // Nếu regex lỗi, trả về null
     }
   }, [searchTerm])
 
-  // Filter films based on search term (regex) and category
+  // Cập nhật lỗi regex (nếu có)
+  useEffect(() => {
+    if (searchTerm && !regex) {
+      setRegexError("🔴 Lỗi: Regex không hợp lệ")
+    } else {
+      setRegexError("")
+    }
+  }, [searchTerm, regex])
+
+  // Lọc phim theo regex
   useEffect(() => {
     const filterFilms = () => {
       return films.filter((film) => {
-        const formattedSearch = convertDateFormat(searchTerm) 
-        const matchesTitle = regex?.test(film.title) ?? true
-        const matchesDate = regex?.test(film.onStage) || film.onStage === formattedSearch
-        const matchesDescription = regex?.test(film.description) ?? true
-        const matchesTimeLength = regex?.test(film.timeLength.toString()) ?? true
-        const matchesAge = regex?.test(film.age.toString()) ?? true
-        const matchesCategory = activeCategory === "all" || film.genre?.includes(activeCategory)
-  
-        return ( matchesTitle || matchesDate || matchesDescription || matchesTimeLength || matchesAge) && matchesCategory
+        const normalizedTitle = normalizeText(film.title)
+        const normalizedDescription = normalizeText(film.description)
+
+        const matchesTitle = regex ? regex.test(normalizedTitle) : true
+        const matchesDescription = regex ? regex.test(normalizedDescription) : true
+
+        return matchesTitle || matchesDescription
       })
     }
 
     setFilteredFilms(filterFilms())
-  }, [films, regex, activeCategory])
-
-  // Extract unique genres from films
-  const genres = useMemo(() => [...new Set(films.flatMap((film) => film.genre || []))], [films])
+  }, [films, regex])
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
@@ -129,22 +148,7 @@ export default function FilmListPage() {
               />
               {regexError && <p className="text-red-500 text-sm mt-2">{regexError}</p>}
             </div>
-            <Tabs defaultValue="all" className="w-full md:w-auto" onValueChange={setActiveCategory}>
-              <TabsList className="bg-gray-700 h-auto p-1">
-                <TabsTrigger value="all" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">
-                  Tất cả
-                </TabsTrigger>
-                {genres.slice(0, 4).map((genre) => (
-                  <TabsTrigger
-                    key={genre}
-                    value={genre}
-                    className="data-[state=active]:bg-red-600 data-[state=active]:text-white"
-                  >
-                    {genre}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
+            
           </div>
         </motion.div>
 
@@ -182,9 +186,6 @@ export default function FilmListPage() {
                       <Badge className="absolute top-4 right-4 z-20 bg-red-600 text-white font-semibold">
                         {film.year}
                       </Badge>
-                      {film.genre && film.genre[0] && (
-                        <Badge className="absolute top-4 left-4 z-20 bg-gray-800/80 text-white">{film.genre[0]}</Badge>
-                      )}
                     </div>
                     <CardContent className="p-6 flex flex-col flex-grow bg-gradient-to-b from-gray-800 to-gray-900">
                       <h2 className="text-xl font-bold text-white mb-2 line-clamp-1 group-hover:text-red-400 transition-colors">
@@ -223,15 +224,13 @@ export default function FilmListPage() {
             <FilmIcon size={48} className="mx-auto text-gray-500 mb-4" />
             <h3 className="text-xl font-medium text-gray-300 mb-2">Không tìm thấy phim</h3>
             <p className="text-gray-400">
-              Không có phim nào phù hợp với tìm kiếm "{searchTerm}"{" "}
-              {activeCategory !== "all" ? `trong thể loại ${activeCategory}` : ""}
+              Không có phim nào phù hợp với tìm kiếm {searchTerm}{" "}
             </p>
             <Button
               variant="outline"
               className="mt-4 border-gray-600 text-gray-300 hover:bg-gray-700"
               onClick={() => {
                 setSearchTerm("")
-                setActiveCategory("all")
               }}
             >
               Xóa bộ lọc
