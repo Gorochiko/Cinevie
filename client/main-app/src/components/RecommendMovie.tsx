@@ -32,7 +32,10 @@ export function RecommendMovie() {
   useEffect(() => {
     const fetchFilms = async () => {
       try {
-        const response = await getFilms();
+        const response = await getFilms()||[];
+        if(!response){
+          throw new Error("Lỗi tải phim");
+        }
         setFilms(response.results || []);
       } catch (error) {
         console.error("❌ Lỗi khi lấy danh sách phim:", error);
@@ -41,7 +44,7 @@ export function RecommendMovie() {
     fetchFilms();
   }, []);
 
-  if (films.length === 0) {
+  if (films.length==0) {
     return <div className="text-white text-center"><LoadingCatSimple/></div>;
   }
 
@@ -56,7 +59,7 @@ export function RecommendMovie() {
       {/* Carousel */}
       <Carousel opts={{ align: "start" }} className="w-full">
         <CarouselContent>
-          {films.map((film) => (
+          {films && Array.isArray(films) && films.map((film) => (
             <CarouselItem key={film._id} className="md:basis-1/3 lg:basis-1/5">
               <div className="p-1">
                 <Card

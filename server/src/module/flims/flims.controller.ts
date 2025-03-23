@@ -6,7 +6,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { Express } from 'express';
 import { UpdateFlimDto } from './dto/update-flim.dto';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 
 @Controller('films')
 export class FlimsController {

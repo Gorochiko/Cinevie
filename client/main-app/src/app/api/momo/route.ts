@@ -4,9 +4,9 @@ import crypto from 'crypto';
 export async function POST(request:Request) {
   const Request = await request.json()
   const partnerCode = 'MOMO';
-  const accessKey = process.env.ACCESSKEY;
-  const secretKey = process.env.SECRETKEY;
-  const requestId = partnerCode + new Date().getTime() ;
+  const accessKey =  process.env.ACCESSKEY;
+  const secretKey = 'K951B6PE1waDMi640xX08PD3vg6EkVlz';
+  const requestId = partnerCode + new Date().getTime();
   const orderId = requestId;
   const orderInfo = 'Payment with Momo';
   const redirectUrl = `http://localhost:3000/booking/${Request.showtime._id}`; 

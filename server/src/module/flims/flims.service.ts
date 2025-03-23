@@ -1,13 +1,15 @@
-  import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+  import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
   import { CreateFlimDto } from './dto/create-flim.dto';
   import { UpdateFlimDto } from './dto/update-flim.dto';
-  import { Flim } from './schemas/flim.schema';
-  import { Model, ObjectId } from 'mongoose';
-  import aqp from 'api-query-params';
-  import { InjectModel } from '@nestjs/mongoose';
+  import { FilmsProp } from './responsitories/responsitory-sericeFilms';
+
+export const FILM_TOKEN = "FILMS-RESPONSITORY"
+
   @Injectable()
   export class FlimsService {
-    constructor(@InjectModel(Flim.name) private flimModel : Model<Flim> ){}
+    constructor( 
+      @Inject(FILM_TOKEN) 
+      private readonly filmsResponsitory : FilmsProp ){}
 
 
 
@@ -26,20 +28,8 @@
  */
   async create(createFlimDto: CreateFlimDto) {
       try {
-        const checkFlim = await this.checkFlimexitst(createFlimDto.title);
-        if(checkFlim){
-          throw new BadRequestException(`Flim ${createFlimDto.title} Exist`);
-        }
-        
-        const createFlim = await this.flimModel.create({
-          title:createFlimDto.title,
-          age: createFlimDto.age,
-          timeLength:createFlimDto.timeLength,
-          year: createFlimDto.year,
-          onStage:createFlimDto.onStage,
-          description:createFlimDto.description,
-          image:createFlimDto.image,
-        })
+        await this.filmsResponsitory.checkFilmExists(createFlimDto.title);
+        const createFlim = await this.filmsResponsitory.create(createFlimDto)
         return createFlim;
       } catch (error) {
         throw new Error(error.message);
@@ -61,12 +51,8 @@
  * 3. Returns the list of films.
  */
     async findAll() {
-      const results = await this.flimModel
-        .find()
-        if (!results) {
-          throw new Error('Movie not found');
-        }
-      return {results};
+      const results = await this.filmsResponsitory.findAll()
+      return results;
     }
 
 
@@ -84,11 +70,7 @@
  * 3. Returns the film.
  */
     async findOne(id: string) {
-      const flim = await this.flimModel.findById(id).exec();
-      if (!flim) {
-        throw new NotFoundException(`not found with ID: ${id}`);
-      }
-      return flim;
+    return this.filmsResponsitory.findOne(id);
     }
 
 
@@ -110,16 +92,7 @@
  * 3. Returns the updated film.
  */
     async update(id: string, updateFilmDto: UpdateFlimDto) {
-      const updatedFilm = await this.flimModel.findByIdAndUpdate(
-          id,
-          updateFilmDto,
-          { new: true }
-      ).exec();
-
-      if (!updatedFilm) {
-          throw new NotFoundException(`Không tìm thấy phim để cập nhật với id: ${id}`);
-      }
-      return updatedFilm;
+      return  await this.filmsResponsitory.update(id,updateFilmDto,) 
   }
 
 
@@ -144,11 +117,7 @@
  * 3. Returns a success message and the deleted film.
  */
     async remove(id: string) {
-      const deletedFlim = await this.flimModel.findByIdAndDelete(id).exec();
-      if (!deletedFlim) {
-        throw new NotFoundException(`Not found with ID : ${id}`);
-      }
-      return { message: 'Deleted', deletedFlim };
+     return this.filmsResponsitory.remove(id);
     }
 
 
@@ -168,9 +137,7 @@
  * 2. Returns true if the film exists, otherwise false.
  */
     async checkFlimexitst(title: string): Promise<boolean> {
-      const flim = await this.flimModel.findOne({ title }).exec();
-      return flim !== null;
+      return await this.filmsResponsitory.checkFilmExists(title)
     }
-    
     
   }
