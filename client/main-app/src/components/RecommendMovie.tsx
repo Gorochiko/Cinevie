@@ -35,7 +35,7 @@ export function RecommendMovie() {
     };
     fetchFilms();
   }, []);
-
+  
 
   if (isLoading) {
     return (
@@ -64,11 +64,11 @@ export function RecommendMovie() {
             </Badge>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-red-500"></div>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
+          {/* <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
             <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
               Movie Selection
             </span>
-          </h2>
+          </h2> */}
           <p className="text-gray-400 max-w-2xl mx-auto">
             Discover our handpicked selection of the latest and greatest films for your entertainment
           </p>

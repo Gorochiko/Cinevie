@@ -150,7 +150,7 @@ export class ShowtimeService {
  * 3. Return the showtime.
  */
   async findOne(id: string) {
-    const showtime = await this.showtimeModel.findById(id).populate('rooms').populate('films').exec();
+    const showtime = await this.showtimeModel.findById(id).populate('rooms').populate('films').populate('theater').exec();
     if (!showtime) {
       throw new NotFoundException('Showtime not found');
     }

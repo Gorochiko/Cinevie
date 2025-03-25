@@ -18,7 +18,6 @@ export class BookingService {
     private showtimeService: ShowtimeService,
     private readonly mailerService: MailerService,
     private userService: UserService,
-    private foodService: FoodService,
     private filmsService: FlimsService
   ) { }
 

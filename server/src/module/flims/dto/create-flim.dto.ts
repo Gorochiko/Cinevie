@@ -1,5 +1,5 @@
-import { Type } from "class-transformer";
-import { IsString, IsDate, IsNumber, IsNotEmpty, IsOptional } from "class-validator";
+
+import { IsString, IsNotEmpty, IsOptional } from "class-validator";
 
 
 export class CreateFlimDto {

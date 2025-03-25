@@ -15,7 +15,7 @@ import { ResponseUser } from './dto/responses.user.dto';
 import e, { response } from 'express';
 import { plainToInstance } from 'class-transformer';
 export class UserService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<User>) { }
 
   /**
    * Promise return User
@@ -50,7 +50,7 @@ export class UserService {
     email: string;
     firstName: string;
     lastName: string;
-    role:string
+    role: string
     code_id: string;
   }> {
     const emailExist = await this.checEmailExist(createUserDto.email);
@@ -71,7 +71,7 @@ export class UserService {
       });
       return {
         _id: createUser._id,
-        role:createUser.role,
+        role: createUser.role,
         email: createUser.email,
         firstName: createUser.firstName,
         lastName: createUser.lastName,
@@ -82,50 +82,50 @@ export class UserService {
     }
   }
 
-    /**
-   * Find all users with pagination.
-   *
-   * @param page - The page number to retrieve.
-   * @param limitPage - The number of users per page.
-   * Promise User[] or undefined total and totalPage
-   * Step 1: validate page<=0 and limitPage<=0
-   * Step 2: skip Calculate the number of documents to skip based on the current number of pages and the number of documents per page.
-   * Step 3: Find all User with Pagination and select filed core
-   * Step 4: countDocuments is total user
-   * Step 5: Math ceil totalPage
-   * Step 6: return users and total and totalPage
-   * @returns User[] , total , totalPage
-   */
-    async findAll(query: string, current: number, pageSize: number) {
-      const { filter, sort } = aqp(query);
-      //bỏ các tham số không cần thiết
-      if (filter.current) delete filter.current;
-      if (filter.pageSize) delete filter.pageSize;
-      //Gán giá trị mặc định nếu current hoặc pageSize không được truyền
-      if (!current) current = 1;
-      if (!pageSize) pageSize = 10;
-      //Đếm tổng số lượng bản ghi
-      const totalItems = await this.userModel.countDocuments(filter);
-      //Tính toán tổng số trang
-      const totalPage = Math.ceil(totalItems / pageSize);
-      // Tính số bản ghi cần bỏ qua
-      const skip = (current - 1) * pageSize;
-      //Lấy các kết quả theo trang và sắp xếp
-      const results = await this.userModel
-        .find(filter)
-        .limit(pageSize)
-        .skip(skip)
-        .sort(sort as any);
-      return { 
-        meta:{
-          current:current,
-          pageSize:pageSize,
-          pages:totalPage,
-          total:totalItems,
-        },
-        results
-        };
-    }
+  /**
+ * Find all users with pagination.
+ *
+ * @param page - The page number to retrieve.
+ * @param limitPage - The number of users per page.
+ * Promise User[] or undefined total and totalPage
+ * Step 1: validate page<=0 and limitPage<=0
+ * Step 2: skip Calculate the number of documents to skip based on the current number of pages and the number of documents per page.
+ * Step 3: Find all User with Pagination and select filed core
+ * Step 4: countDocuments is total user
+ * Step 5: Math ceil totalPage
+ * Step 6: return users and total and totalPage
+ * @returns User[] , total , totalPage
+ */
+  async findAll(query: string, current: number, pageSize: number) {
+    const { filter, sort } = aqp(query);
+    //bỏ các tham số không cần thiết
+    if (filter.current) delete filter.current;
+    if (filter.pageSize) delete filter.pageSize;
+    //Gán giá trị mặc định nếu current hoặc pageSize không được truyền
+    if (!current) current = 1;
+    if (!pageSize) pageSize = 10;
+    //Đếm tổng số lượng bản ghi
+    const totalItems = await this.userModel.countDocuments(filter);
+    //Tính toán tổng số trang
+    const totalPage = Math.ceil(totalItems / pageSize);
+    // Tính số bản ghi cần bỏ qua
+    const skip = (current - 1) * pageSize;
+    //Lấy các kết quả theo trang và sắp xếp
+    const results = await this.userModel
+      .find(filter)
+      .limit(pageSize)
+      .skip(skip)
+      .sort(sort as any);
+    return {
+      meta: {
+        current: current,
+        pageSize: pageSize,
+        pages: totalPage,
+        total: totalItems,
+      },
+      results
+    };
+  }
 
   ////////////
   findOne(id: number) {

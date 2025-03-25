@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { useState } from "react";
+import {  useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -22,7 +22,6 @@ export default  function LoginForm() {
     setLoading(true)
     setTimeout(async()=>{
     const result = await login(username, password);
-    console.log(result)
     if (result.error) {
       if(result.error==="Account is not activity"){
         router.push("/otp")

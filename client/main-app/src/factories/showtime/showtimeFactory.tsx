@@ -1,23 +1,45 @@
 import { getShowTime, getTheaters } from "@/lib/actions";
-import { CinemaBranch, Showtime } from "@/types";
-import { parseISO } from "date-fns";
-import { toZonedTime } from "date-fns-tz";
+import { CinemaBranch, Film, ScreeningRoom, Seat, Showtime } from "@/types";
 
-import { updateStatus } from "@/lib/actions";
+class CinemaBranchModel implements CinemaBranch {
+  constructor(
+    public _id: string,
+    public name: string,
+    public address: string,
+    public rooms?: ScreeningRoom[]
+  ) {}
+}
 
-const vietnamTimeZone = "Asia/Ho_Chi_Minh";
+class ShowtimeModel implements Showtime {
+  constructor(
+    public _id: string,
+    public films: Film,
+    public theater: CinemaBranch,
+    public rooms: ScreeningRoom,
+    public dateAction: Date,
+    public startTime: string,
+    public endTime: string,
+    public price: string,
+    public seats: Seat[],
+    public availableSeats: number,
+    public status: string
+  ) {}
+}
+
+
 export class ShowtimeFactory {
   static async getTheaterOptions() {
-    const theaters = (await getTheaters()) as CinemaBranch[];
-    return theaters.map((theater) => ({
+    const theaters = await getTheaters() as CinemaBranch[];
+    const theater = theaters.map((theater) => ({
       key: theater._id,
       value: theater._id,
       label: theater.name,
     }));
+    return theater
   }
 
   static async getShowtimes() {
-    return (await getShowTime()) as Showtime[];
+    return await getShowTime() as Showtime[];
   }
 }
 

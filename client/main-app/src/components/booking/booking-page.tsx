@@ -9,8 +9,7 @@ import Payment from "@/components/booking/payment"
 import Confirmation from "@/components/booking/confirmation"
 import { getFoods } from "@/lib/actions"
 import { FoodItem, Ticket, TypeSeat, Showtime, UserType } from "@/types"
-import { redirect, useRouter } from "next/navigation"
-
+import {  useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 
 interface BookingProp {
