@@ -23,7 +23,6 @@ import {
     PaginationItem,
     PaginationPrevious,
     PaginationNext,
-    PaginationEllipsis,
     PaginationLink,
 } from "@/components/ui/pagination";
 import { useMemo } from "react";

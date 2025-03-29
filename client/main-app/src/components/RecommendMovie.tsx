@@ -1,5 +1,6 @@
 "use client"
-import { useState, useEffect } from "react"
+
+import { useState,useLayoutEffect } from "react"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -23,14 +24,17 @@ interface FilmType {
   rating?: number
 }
 
-export function RecommendMovie() {
-  const [films, setFilms] = useState<FilmType[]>([]);
+
+type RecommendMovieProps = {
+  films: FilmType[]
+}
+export function RecommendMovie({ films: initialFilms }: RecommendMovieProps) {
+  const [films, setFilms] = useState<FilmType[]>(initialFilms);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter()
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchFilms = async () => {
-      const data = await FilmFactory.createFilmLoader();
-      setFilms(data);
+      setFilms(films);
       setIsLoading(false);
     };
     fetchFilms();
@@ -64,11 +68,6 @@ export function RecommendMovie() {
             </Badge>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-red-500"></div>
           </div>
-          {/* <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">
-            <span className="bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              Movie Selection
-            </span>
-          </h2> */}
           <p className="text-gray-400 max-w-2xl mx-auto">
             Discover our handpicked selection of the latest and greatest films for your entertainment
           </p>
@@ -94,7 +93,7 @@ export function RecommendMovie() {
                   <Card
                     className="relative overflow-hidden rounded-lg cursor-pointer border-0 bg-transparent shadow-[0_0_20px_rgba(0,0,0,0.3)] group"
                     onClick={() => router.push(`/movies/${film._id}`)}
-                  >
+                  > 
                     <CardContent className="p-0 aspect-[2/3] relative">
                       {/* Movie Poster */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity z-10"></div>

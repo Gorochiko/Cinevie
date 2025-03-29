@@ -7,10 +7,11 @@ import { ShowtimesFilter } from "@/components/dashboard2/Showtime/showtimes-filt
 import { ShowtimeDialog } from "@/components/dashboard2/Showtime/showtime-dialog"
 import { SelectItem } from "@/components/ui/select"
 import { ShowtimeFactory } from "@/factories/showtime/showtimeFactory"
+import { Film } from "@/types"
 
 export default async  function ShowtimesPage() {
   const theaterOptions = await ShowtimeFactory.getTheaterOptions();
-  const showtimes = await ShowtimeFactory.getShowtimes();
+  const showtimes = await ShowtimeFactory.getShowtimes() as Film[];;
 
   return (
     <div className="container mx-auto py-6">

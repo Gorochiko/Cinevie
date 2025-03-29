@@ -3,10 +3,12 @@ import { Slideshow } from "@/components/Slideshow";
 import { RecommendMovie } from "@/components/RecommendMovie";
 import { MovieGenres } from "@/components/MovieGenres";
 import { Promotion } from "@/components/Promotion";
+import { FilmFactory } from "@/factories/films/filmsFactory";
+import { Film } from "@/types";
 
 
-export default function Home() {
- 
+export default async function Home() {
+  const data = await FilmFactory.createFilmLoader() as Film[];
   return (
     
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
@@ -15,7 +17,7 @@ export default function Home() {
           <Slideshow />
         </div>
         <div className="w-full">
-          <RecommendMovie />
+          <RecommendMovie films={data} />
         </div>
         <div className="w-full p-7">
           <MovieGenres />

@@ -8,14 +8,15 @@ import { Input } from "@/components/ui/input"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
-import React from "react"
+import { useState } from "react"
+
 
 interface CinemaProp{
     theaterOptions:React.ReactNode
 }
 
 export function ShowtimesFilter({ theaterOptions }: CinemaProp) {
-    const [date, setDate] = React.useState<Date>()
+    const [date, setDate] = useState<Date>()
    
     return (
         <div className="flex flex-col gap-4 md:flex-row">

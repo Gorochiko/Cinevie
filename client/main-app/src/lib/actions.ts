@@ -115,6 +115,7 @@ export const getFoods = async()=>{
 
 
 
+
 /** 
  * @param films 
  * Step1: Call postData to create films
@@ -339,7 +340,7 @@ export const updateStatus = async(id:string)=>{
   try {
     const res = patchData('/showtime/updateStatus',{_id:id},true)
     return res;
-  } catch (error:any) {
+  } catch (error:any)  {
     throw new error
   }
 }

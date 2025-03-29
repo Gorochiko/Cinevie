@@ -18,7 +18,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { ShowtimeDialog } from "./showtime-dialog"
-import { getShowTime, updateStatus } from "@/lib/actions";
+import { getShowTime } from "@/lib/actions";
 import { Showtime } from "@/types/index"
 import { createShowtime } from "@/factories/showtime/createShơtimeFactory"
 
@@ -27,8 +27,6 @@ export function ShowtimesTable() {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [selectedShowtime, setSelectedShowtime] = useState<string | null>(null)
   const [showtimes, setShowtimes] = useState<Showtime[]>([])
-
- 
     useEffect(() => {
       async function fetchShowtimes(): Promise<void> {
         const data = await getShowTime() as Showtime[];

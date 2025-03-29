@@ -76,7 +76,7 @@ export class BookingService {
  * 2. Populates the showtime, combo.food, and user fields.
  * 3. Returns the list of bookings.
  */
-  async findAll() {
+  async findAll(): Promise<Booking[]> {
     const findBooking = await this.bookingModel.find().populate({
       path: 'showtime',
       populate: {
@@ -126,7 +126,7 @@ export class BookingService {
  * 4. Sends a confirmation email to the user with booking details.
  * 5. Returns a success message and the updated booking.
  */
-  async update(id: string) {
+  async update(id: string): Promise<{ message: string; data?: Booking; }> {
     const updateStatus = await this.bookingModel.findOneAndUpdate(
       { _id: id },
       { status: 'paid' },

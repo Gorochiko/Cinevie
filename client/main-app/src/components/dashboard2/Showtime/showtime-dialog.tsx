@@ -1,7 +1,7 @@
 "use client"
 import type React from "react"
 import { useEffect, useState } from "react"
-import { CalendarIcon, Clock, FileMusic, Save } from "lucide-react"
+import { CalendarIcon, Clock, Save } from "lucide-react"
 import { format } from "date-fns"
 import { vi } from "date-fns/locale"
 import { Button } from "@/components/ui/button"
@@ -28,7 +28,7 @@ import { createShowtimes, getFilms, getTheaters } from "@/lib/actions"
 import { CinemaBranch } from "@/types";
 import { toast } from "@/hooks/use-toast"
 import { Film } from "@/types/index"
-
+import { LoadingCat } from "@/components/loading/loading-cat"
 
 
 
@@ -124,7 +124,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
       endTime: new Date(`${dateString}T${data.endTime}:00`), 
     };
   
-    const res = await createShowtimes(formattedData)
+     await createShowtimes(formattedData)
     
     setOpen(false);
     form.reset()
@@ -133,7 +133,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
   }
     
   }
-
+  if(loading)return <div><LoadingCat/></div>
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -306,7 +306,7 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
                   <FormItem>
                     <FormLabel>Giá vé (VNĐ)</FormLabel>
                     <FormControl>
-                      <Input {...field} type="number" min="0" step="1000" />
+                      <Input {...field} type="number" min="50000" step="5000" />
                     </FormControl>
                     <FormDescription>Nhập giá vé bằng VNĐ (ví dụ: 120000)</FormDescription>
                     <FormMessage />

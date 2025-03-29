@@ -1,12 +1,11 @@
 import { getShowTime, getTheaters } from "@/lib/actions";
 import { CinemaBranch, Film, ScreeningRoom, Seat, Showtime } from "@/types";
 
-class CinemaBranchModel implements CinemaBranch {
+class CinemaBranchModel  {
   constructor(
-    public _id: string,
-    public name: string,
-    public address: string,
-    public rooms?: ScreeningRoom[]
+  public key : string,
+  public value : string,
+  public label : string,
   ) {}
 }
 
@@ -28,7 +27,7 @@ class ShowtimeModel implements Showtime {
 
 
 export class ShowtimeFactory {
-  static async getTheaterOptions() {
+  static async getTheaterOptions():Promise<CinemaBranchModel[]> {
     const theaters = await getTheaters() as CinemaBranch[];
     const theater = theaters.map((theater) => ({
       key: theater._id,
@@ -38,8 +37,8 @@ export class ShowtimeFactory {
     return theater
   }
 
-  static async getShowtimes() {
-    return await getShowTime() as Showtime[];
+  static async getShowtimes():Promise<ShowtimeModel[]|unknown> {
+    return await getShowTime() as ShowtimeModel[];
   }
 }
 

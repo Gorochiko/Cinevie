@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -8,13 +8,14 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { useCallback, useState } from "react";
 
 const bannerImages = ["/2.png", "/natra1.jpg", "/3.png", "/4.jpg"];
 
 export function Slideshow() {
-  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  React.useEffect(() => {
+  useCallback(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
     }, 3000);

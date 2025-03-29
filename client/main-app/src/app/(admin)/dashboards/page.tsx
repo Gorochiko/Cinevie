@@ -1,10 +1,9 @@
 
 import { Mail, Plus } from "lucide-react";
-import { auth } from "@/lib/auth";
 import Statistical from "@/components/dashboard2/Statistical";
 import Chard1 from "../../../components/dashboard2/Chard1";
 import Chard2 from "@/components/dashboard2/chard2";
-import { redirect } from "next/navigation";
+
 
 
 

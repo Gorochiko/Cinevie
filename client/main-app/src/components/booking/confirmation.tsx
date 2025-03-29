@@ -23,9 +23,12 @@ export default function Confirmation({ booking, getTotalPrice }: ConfirmationPro
       setBookingId(storedId);
     }, []);
     useEffect(() => {
-      if (resultCode === "0" && bookingId) {
-        updateticket(bookingId);
-      }
+      const updateBooking = async () => {
+        if (resultCode === "0" && bookingId) {
+          await updateticket(bookingId);
+        }
+      };
+      updateBooking();
     }, [resultCode, bookingId]);
     
     if (resultCode !== "0") {
