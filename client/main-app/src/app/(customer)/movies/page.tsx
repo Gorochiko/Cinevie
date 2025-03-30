@@ -1,18 +1,19 @@
 "use client"
 import { formatDate } from "@/lib/utils"
+import type React from "react"
+
 import { useState, useEffect, useMemo } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Film } from "@/types/index"
+import type { Film } from "@/types/index"
 import { getFilms } from "@/lib/actions"
 import { useRouter } from "next/navigation"
 import { LoadingCatSimple } from "@/components/loading/loadingDot"
 import Image from "next/image"
 import { Search, Clock, Calendar, FilmIcon } from "lucide-react"
-
 
 // Hàm chuẩn hóa chuỗi (bỏ dấu & khoảng trắng)
 const normalizeText = (str: string) => {
@@ -27,7 +28,7 @@ const normalizeText = (str: string) => {
 
 // Hàm escape regex để tránh lỗi khi nhập ký tự đặc biệt
 const escapeRegex = (str: string) => {
-  return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, "\\$&")
+  return str.replace(/[-/\\^$*+?.()|[\]{}]/g, "\\$&")
 }
 
 export default function FilmListPage() {
@@ -37,6 +38,48 @@ export default function FilmListPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [regexError, setRegexError] = useState("")
   const router = useRouter()
+  // Thêm đoạn code này vào phần đầu của component FilmListPage, sau phần khai báo router
+
+  // Decorator Pattern: Đổi màu Badge dựa trên độ tuổi
+  // Bước 1: Định nghĩa kiểu dữ liệu cho props của component gốc và component đã được trang trí
+  type BaseComponentProps = React.ComponentProps<typeof Badge>
+  type WithAgeColorProps = BaseComponentProps & { age: number }
+
+  const withAgeColor = (BaseComponent: React.ComponentType<BaseComponentProps>) => {
+    const EnhancedComponent = ({ age, ...restProps }: WithAgeColorProps) => {
+      let colorClass = ""
+
+      if (age >= 18)
+        colorClass = "bg-red-600" // Người lớn (18+)
+      else if (age >= 13)
+        colorClass = "bg-yellow-500" // Thanh thiếu niên (13+)
+      else if (age >= 7)
+        colorClass = "bg-green-500" // Trẻ nhỏ (7+)
+      else colorClass = "bg-blue-500" // Mọi lứa tuổi (0+)
+
+      return (
+        <BaseComponent
+          {...restProps}
+          className={`${colorClass} ${restProps.className || ""} text-white font-semibold`}
+        />
+      )
+    }
+
+    // Bước 6: Đặt tên hiển thị cho component để dễ debug
+    EnhancedComponent.displayName = `withAgeColor(${BaseComponent.displayName || BaseComponent.name || "Component"})`
+
+    // Bước 7: Trả về component đã được trang trí
+    return EnhancedComponent
+  }
+
+  // Bước 8: Áp dụng decorator để tạo component mới
+  const AgeBadge = withAgeColor(Badge)
+
+  // Bây giờ AgeBadge có thể được sử dụng với prop 'age' để tự động thay đổi màu sắc
+  // Decorator Pattern: Đổi màu Badge dựa trên độ tuổi
+  // Decorator Pattern: Đổi màu Badge dựa trên độ tuổi
+
+  // Tạo Badge hiển thị độ tuổi với màu sắc tự động
 
   // Fetch danh sách phim
   useEffect(() => {
@@ -92,7 +135,6 @@ export default function FilmListPage() {
     }
 
     setFilteredFilms(filterFilms())
- 
   }, [films, regex])
 
   return (
@@ -149,7 +191,6 @@ export default function FilmListPage() {
               />
               {regexError && <p className="text-red-500 text-sm mt-2">{regexError}</p>}
             </div>
-            
           </div>
         </motion.div>
 
@@ -181,12 +222,19 @@ export default function FilmListPage() {
                         className="object-cover transition-transform duration-500 group-hover:scale-110"
                         onError={(e) => {
                           const target = e.target as HTMLImageElement
-                          target.src = `/placeholder.svg?height=600&width=400&text=${encodeURIComponent(film.title)}`
+                          target.src = `/placeholder.svg?height=600&width=40  0&text=${encodeURIComponent(film.title)}`
                         }}
                       />
+                      {/* Badge hiển thị năm phát hành */}
                       <Badge className="absolute top-4 right-4 z-20 bg-red-600 text-white font-semibold">
                         {film.year}
                       </Badge>
+                      {/* Badge độ tuổi với màu tự động */}
+                      {film.age !== undefined && film.age !== null && (
+                        <AgeBadge age={film.age} className="absolute top-4 left-4 z-20">
+                          {film.age}+
+                        </AgeBadge>
+                      )}
                     </div>
                     <CardContent className="p-6 flex flex-col flex-grow bg-gradient-to-b from-gray-800 to-gray-900">
                       <h2 className="text-xl font-bold text-white mb-2 line-clamp-1 group-hover:text-red-400 transition-colors">
@@ -201,9 +249,6 @@ export default function FilmListPage() {
                         <div className="flex items-center gap-1">
                           <Calendar size={14} />
                           <span>{formatDate(film.onStage)}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <span>Độ tuổi: {film.age}+</span>
                         </div>
                       </div>
                       <Button
@@ -224,9 +269,7 @@ export default function FilmListPage() {
           <div className="text-center py-20">
             <FilmIcon size={48} className="mx-auto text-gray-500 mb-4" />
             <h3 className="text-xl font-medium text-gray-300 mb-2">Không tìm thấy phim</h3>
-            <p className="text-gray-400">
-              Không có phim nào phù hợp với tìm kiếm {searchTerm}{" "}
-            </p>
+            <p className="text-gray-400">Không có phim nào phù hợp với tìm kiếm {searchTerm} </p>
             <Button
               variant="outline"
               className="mt-4 border-gray-600 text-gray-300 hover:bg-gray-700"
@@ -242,3 +285,4 @@ export default function FilmListPage() {
     </div>
   )
 }
+
