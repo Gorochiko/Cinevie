@@ -122,3 +122,12 @@ export interface TypeSeat{
   row:string,
   number:number
 }
+
+
+
+export interface SelectSeatAdapter {
+  getRows(): string[];
+  isSeatAvailable(row: string, number: number): boolean;
+  isSeatSold(row: string, number: number): boolean;
+  convertToTypeSeat(row: string, number: number): TypeSeat;
+}

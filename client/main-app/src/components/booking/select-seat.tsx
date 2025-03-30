@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { TypeSeat, Seat, Ticket } from "@/types"
+import { CinemaSeatAdapter } from "@/adapter/SeatAdapter"
 type SelectSeatProps = {
   booking: Ticket
   selectedSeats: TypeSeat[]
@@ -11,12 +12,16 @@ type SelectSeatProps = {
 }
 
 export default function SelectSeat({ booking, selectedSeats, availableSeats, addSeat, removeSeat }: SelectSeatProps) {
+  const seatAdapter = new CinemaSeatAdapter(availableSeats);
+  const rows = seatAdapter.getRows();
+  
   const isSeatSelected = (row: string, number: number) => {
-    return selectedSeats.some((seat) => seat.row === row && seat.number === number);
+    return selectedSeats.some((seat) => 
+      seat.row === row && seat.number === number
+    );
   };
-
   const toggleSeat = (row: string, number: number) => {
-    const seat = { row, number };
+    const seat = seatAdapter.convertToTypeSeat(row, number);
     if (isSeatSelected(row, number)) {
       removeSeat(seat);
     } else {
@@ -24,26 +29,9 @@ export default function SelectSeat({ booking, selectedSeats, availableSeats, add
     }
   };
 
-  const getUniqueRows = (seats: Seat[]): string[] => {
-    const rows = seats.map((seat) => seat.seatNumber.charAt(0).toUpperCase());
-    const uniqueRows = Array.from(new Set(rows));
-    return uniqueRows.sort((a, b) => a.localeCompare(b));
-  };
+  const isSeatSold =seatAdapter.isSeatSold.bind(seatAdapter);
 
-  const isAvailableSeat = (row: string, number: number) => {
-    const seatString = `${row}${number}`.toLowerCase();
-    const seat = availableSeats.find((s) => s.seatNumber.toLowerCase() === seatString);
-    return seat ? seat.status === "available" : true;
-  };
-
-  const isSeatSold = (row: string, number: number) => {
-    const seatString = `${row}${number}`.toLowerCase();
-    const seat = availableSeats.find((s) => s.seatNumber.toLowerCase() === seatString);
-    return !seat || seat.status !== "available";
-  };
-  const rows = getUniqueRows(availableSeats);
-  console.log("Available Seats:", availableSeats);
-  console.log("Selected Seats:", selectedSeats);
+ 
   return (
     <div className="space-y-6 bg-white p-6 rounded-lg text-black border">
       {/* Showtime Selection */}
@@ -59,7 +47,7 @@ export default function SelectSeat({ booking, selectedSeats, availableSeats, add
             <div className="w-8 flex items-center">{row}</div>
             <div className="flex gap-2">
               {Array.from({ length: 10 }, (_, i) => i + 1).map((num) => {
-                const isAvailable = isAvailableSeat(row, num);
+                
                 const isSold = isSeatSold(row, num);
                 const isSelected = isSeatSelected(row, num);
 
