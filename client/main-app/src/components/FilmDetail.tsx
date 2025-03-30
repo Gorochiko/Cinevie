@@ -62,9 +62,9 @@ export default function MoviePage() {
         <div className="w-3/5 relative">
             <CardContent className="p-6 w-full">
             <h1 className="text-2xl font-bold">{movieData.title}</h1>
-            <p className="text-gray-500 mt-2">{movieData.timeLength} phút | {movieData.onStage}</p>
+            <p className="text-gray-400 mt-2">{movieData.timeLength} phút | {movieData.onStage}</p>
             <h2 className="text-xl font-semibold mt-4">Nội Dung Phim</h2>
-            <p className="text-gray-700 mt-2">{movieData.description}</p>
+            <p className="text-gray-200 mt-2">{movieData.description}</p>
             </CardContent>
         </div>
         
