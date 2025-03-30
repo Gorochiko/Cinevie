@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Code by: Truong Vu
 import { signIn } from "next-auth/react";
 import {  APIError, fetchData, patchData, postData } from "@/services/api";
-import { showtimeType, Ticket, TypeTicket } from "@/types";
-import { string } from "zod";
+import { showtimeType, TypeTicket } from "@/types";
+
 /**
  * The mask of user type
  */
@@ -40,9 +41,6 @@ interface flimRes {
 }
 
 
-interface flimResponse {
-  films: any[];
-}
 
 /**
  * 
@@ -107,8 +105,10 @@ export const getFoods = async()=>{
   try {
     const results = await fetchData("/food/findallFood",{})
     return results
-  } catch (error:any) {
-    throw new APIError(error)
+  } catch (error ) {
+    if(error instanceof APIError){
+      throw new APIError(error.message)
+    }
   }
 }
 
@@ -148,8 +148,10 @@ export const createFoods = async(foods:FormData)=>{
       throw new APIError("Lỗi khi thêm thức ăn");
     }
     return response;
-  } catch (error:any) {
-   throw error
+  } catch (error) {
+    if(error instanceof APIError){
+      throw new APIError(error.message)
+    }
   }
 }
 
@@ -190,6 +192,7 @@ export const verify = async (verificationCode:string, email:string) => {
  * Step3: Return success 
  * @returns 
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const updateFilmsAPI = async (id:string,films:any) => {
   try {
     const response = await patchData(`/films/update-films/${id}`, films,true);
@@ -198,8 +201,9 @@ export const updateFilmsAPI = async (id:string,films:any) => {
     }
     return response;
   } catch (error) {
-    console.error("Lỗi khi cập nhật phim:", error);
-    throw error;
+    if(error instanceof APIError){
+      throw new APIError(error.message)
+    }
   }
 }
 
@@ -256,8 +260,9 @@ export const createRoomToTheater = async (room:any, threaterId:string) => {
     }
     return response;
   } catch (error) {
-    throw error
-    
+    if(error instanceof APIError){
+      throw new APIError(error.message)
+    }
   }
 }
 
@@ -270,8 +275,10 @@ export const createShowtimes = async (showtime: showtimeType )=>{
       throw new APIError("Lỗi khi thêm suất chiếu")
     }
     return res;
-  }catch(error:any){
-    throw new Error(error.message)
+  }catch(error){
+    if(error instanceof APIError){
+      throw new APIError(error.message)
+    }
   }
 }
 
@@ -282,8 +289,10 @@ export const getShowTime = async()=>{
   try {
     const res= await fetchData('showtime/findAlltime', {});
     return res ;
-  } catch (error:any) {
-    throw new Error(error)
+  } catch (error) {
+   if(error instanceof APIError){
+    throw new APIError(error.message)
+   }
   }
 }
 
@@ -293,7 +302,9 @@ export const getShowtimeByid = async(id:string)=>{
     const res = await fetchData(`showtime/FindOnetime/${id}`,{})
     return res
   } catch (error) {
-    
+    if(error instanceof APIError){
+      throw new APIError(error.message)
+    }
   }
 }
 
@@ -303,7 +314,9 @@ export const createTicket = async(booking: TypeTicket)=>{
     console.log(results,"dữ lieu action")
     return results
   } catch (error) {
-    
+    if(error instanceof APIError){
+      throw new APIError(error.message)
+    }
   }
 }
 
@@ -311,8 +324,10 @@ export const getTicket = async()=>{
   try {
     const results = await fetchData('booking/findAllticket',{})
     return results
-  } catch (error:any) {
-    throw new error;
+  } catch (error) {
+    if(error instanceof APIError){
+      throw new APIError(error.message)
+    }
   }
 }
 
@@ -322,8 +337,10 @@ export const updateticket = async(id:string)=>{
     const res = patchData('/booking/updateTicket',{_id:id},true)
     console.log(res,"hehehehehhehe")
     return res;
-  } catch (error:any) {
-    throw new error;
+  } catch (error) {
+    if(error instanceof APIError){
+      throw new APIError(error.message)
+    }
   }
 }
 
@@ -340,7 +357,9 @@ export const updateStatus = async(id:string)=>{
   try {
     const res = patchData('/showtime/updateStatus',{_id:id},true)
     return res;
-  } catch (error:any)  {
-    throw new error
+  } catch (error)  {
+    if(error instanceof APIError){
+      throw new APIError(error.message)
+    }
   }
 }
