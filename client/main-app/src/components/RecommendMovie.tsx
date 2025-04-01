@@ -1,6 +1,6 @@
 "use client"
 
-import { useState,useLayoutEffect } from "react"
+import { useState,useEffect } from "react"
 import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -8,7 +8,6 @@ import { LoadingCatSimple } from "./loading/loadingDot"
 import { motion } from "framer-motion"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
 import { Film, Star, Clock } from "lucide-react"
-import { FilmFactory } from "@/factories/films/filmsFactory"
 import { useRouter } from "next/navigation"
 
 interface FilmType {
@@ -32,13 +31,13 @@ export function RecommendMovie({ films: initialFilms }: RecommendMovieProps) {
   const [films, setFilms] = useState<FilmType[]>(initialFilms);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter()
-  useLayoutEffect(() => {
+  useEffect(() => {
     const fetchFilms = async () => {
       setFilms(films);
       setIsLoading(false);
     };
     fetchFilms();
-  }, []);
+  }, [films]);
   
 
   if (isLoading) {

@@ -37,6 +37,7 @@ export default async  function ShowtimesPage() {
         </CardHeader>
         <CardContent className="p-6">
           <ShowtimesFilter 
+           // eslint-disable-next-line @typescript-eslint/no-explicit-any
            theaterOptions={theaterOptions.map((option:any) => (
             <SelectItem key={option.key} value={option.value}>
               {option.label}

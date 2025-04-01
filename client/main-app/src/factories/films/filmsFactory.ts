@@ -22,6 +22,7 @@ export class FilmFactory {
         if (!Array.isArray(response)) {
           throw new Error("Lỗi tải phim");
         }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const uniqueFilms = response.reduce((acc: FilmType[], showtime: any) => {
           if (!acc.some(film => film._id === showtime.films._id)) {
             acc.push(showtime.films);

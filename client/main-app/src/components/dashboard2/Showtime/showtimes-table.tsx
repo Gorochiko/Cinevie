@@ -56,6 +56,7 @@ export function ShowtimesTable() {
         {showtimes.map((showtime) => (
           <Card key={showtime._id} className="overflow-hidden">
             <div className="relative h-48 bg-muted">
+              
               <img
                 src={`http://localhost:8080${showtime.films?.image}`}
                 alt={showtime.films?.title}

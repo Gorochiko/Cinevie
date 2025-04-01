@@ -10,18 +10,12 @@ export class CinemaSeatAdapter implements SelectSeatAdapter {
       return Array.from(new Set(rows)).sort((a, b) => a.localeCompare(b));
     }
   
-    isSeatAvailable(row: string, number: number): boolean {
-      const seatString = `${row}${number}`.toLowerCase();
-      const seat = this.seats.find((s) => 
-        s.seatNumber.toLowerCase() === seatString
-      );
-      return seat ? seat.status === "available" : false;
-    }
+   
   
     isSeatSold(row: string, number: number): boolean {
-      const seatString = `${row}${number}`.toLowerCase();
+      const seatString = `${row}${number}`;
       const seat = this.seats.find((s) => 
-        s.seatNumber.toLowerCase() === seatString
+        s.seatNumber === seatString
       );
       return !seat || seat.status !== "available";
     }

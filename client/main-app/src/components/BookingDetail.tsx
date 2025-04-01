@@ -192,7 +192,7 @@ const ShowtimesList: React.FC = () => {
       {/* Theaters and showtimes */}
       <div className="space-y-8">
         {Object.entries(theaterGroups)
-          .filter(([theaterId, theaterShowtimes]) => {
+          .filter(([, theaterShowtimes]) => {
             const theater = theaterShowtimes[0].theater
             return (
               (selectedLocation === "all" || theater?.address === selectedLocation) &&
