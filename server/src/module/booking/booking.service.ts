@@ -10,6 +10,7 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { UserService } from '../user/user.service';
 import { FoodService } from '../food/food.service';
 import { FlimsService } from '../flims/flims.service';
+import path from 'path';
 
 @Injectable()
 export class BookingService {
@@ -79,9 +80,10 @@ export class BookingService {
   async findAll(): Promise<Booking[]> {
     const findBooking = await this.bookingModel.find().populate({
       path: 'showtime',
-      populate: {
-        path: 'films',
-      },
+      populate: [
+        { path: 'films' },
+        { path: 'theater' }
+      ],
     }).populate('combo.food').populate('user')
     return findBooking;
   }

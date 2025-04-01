@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { FlimsService,FILM_TOKEN } from './flims.service';
 import { FlimsController } from './flims.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { FilmsImplementation } from './responsitories/responsitory-sericeFilms';
+import { FilmsImplementation } from './responsitories/responsitory-serviceFilms';
 import { Flim, FlimSchema } from './schemas/flim.schema';
 
 @Module({

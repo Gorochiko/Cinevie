@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, Req } from '@nestjs/common';
 import { FlimsService } from './flims.service';
 import { CreateFlimDto } from './dto/create-flim.dto';
 import { FileInterceptor } from '@nestjs/platform-express';

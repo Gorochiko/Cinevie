@@ -1,7 +1,7 @@
   import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
   import { CreateFlimDto } from './dto/create-flim.dto';
   import { UpdateFlimDto } from './dto/update-flim.dto';
-  import { FilmsProp } from './responsitories/responsitory-sericeFilms';
+  import { FilmsProp } from './responsitories/responsitory-serviceFilms';
 
 export const FILM_TOKEN = "FILMS-RESPONSITORY"
 

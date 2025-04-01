@@ -1,77 +1,139 @@
+"use client"
 
-import { Mail, Plus } from "lucide-react";
-import Statistical from "@/components/dashboard2/Statistical";
-import Chard1 from "../../../components/dashboard2/Chard1";
-import Chard2 from "@/components/dashboard2/chard2";
+import { useState, useEffect } from "react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Skeleton } from "@/components/ui/skeleton"
 
+import { DashboardHeader } from "@/components/dashboard2/dashboard/dashboard.header"
+import { MovieRevenueChart } from "@/components/dashboard2/dashboard/movie-revenue-chart"
+import { OverviewCards } from "@/components/dashboard2/dashboard/overview-cards"
+import { RecentTransactionsTable } from "@/components/dashboard2/dashboard/recent-transactions-table"
+import { TheaterRevenueChart } from "@/components/dashboard2/dashboard/theater-revenue-chart"
+import { FadeIn } from "@/components/ui/motion"
 
+export default function DashboardPage() {
+  const [isLoading, setIsLoading] = useState(true)
 
+  useEffect(() => {
+    // Simulate loading data
+    const timer = setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
 
+    return () => clearTimeout(timer)
+  }, [])
 
-const recentStudents = [
-  { name: "Samantha William", class: "Class VII A", image: "/images/LongNguyen.jpg" },
-  { name: "Tony Soap", class: "Class VII B", image: "/images/taihocbai.jpg" },
-  { name: "Karen Hope", class: "Web Developer", image: "/images/taihocbai.jpg" },
-  { name: "Jordan Nico", class: "Class VII A", image: "/images/taihocbai.jpg" },
-  { name: "Nadila Adja", class: "Class VII B", image: "/images/taihocbai.jpg" },
-];
-
-
-
-const DashboardPage = async () => {
+  if (isLoading) {
+    return <LoadingDashboard />
+  }
 
   return (
-    <div className="flex flex-col lg:flex-row">
-      <div className="flex-grow space-y-6 p-6">
-        {/* Thống kê */}
-        <Statistical/>
-        {/* Biểu đồ 1 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Chard1/>
-         <Chard2/>
-        </div>
-      </div>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <DashboardHeader />
 
-      {/* Sidebar bên phải */}
-      <div className="w-full lg:w-80 space-y-6">
-        {/* Recent Students */}
-        <div className="bg-white h-full p-4 rounded-2xl shadow-lg justify-between">
-          <div className="flex p-3 justify-between">
-            <div>
-              <h2 className="text-lg font-semibold text-[#303972]">Recent Students</h2>
-              <span className="text-sm text-gray-500 mb-4">You have 456 Students</span>
-            </div>
-            <div>
-              <button className="w-12 h-12 flex items-center justify-center rounded-full border bg-[#4D44B5] ">
-                <Plus className="text-white" />
-              </button>
-            </div>
+      {/* Dashboard content */}
+      <main className="p-4 md:p-6 overflow-x-hidden">
+        <div className="grid gap-4 md:gap-6 max-w-[1600px] mx-auto">
+          {/* Overview cards */}
+          <OverviewCards />
+
+          {/* Charts */}
+          <Tabs defaultValue="movies" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-4">
+              <TabsTrigger
+                value="movies"
+                className="transition-all data-[state=active]:bg-violet-700 data-[state=active]:text-primary-foreground"
+              >
+                Doanh thu theo phim
+              </TabsTrigger>
+              <TabsTrigger
+                value="theaters"
+                className="transition-all data-[state=active]:bg-orange-300 data-[state=active]:text-primary-foreground"
+              >
+                Doanh thu theo rạp
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="movies" className="space-y-4 animate-in fade-in-50 slide-in-from-left-5 duration-300">
+              <Card className="transition-all duration-300 hover:shadow-md">
+                <CardHeader>
+                  <CardTitle>Doanh thu theo phim</CardTitle>
+                  <CardDescription>Top 10 phim có doanh thu cao nhất</CardDescription>
+                </CardHeader>
+                <CardContent className="pl-2">
+                  <MovieRevenueChart />
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent
+              value="theaters"
+              className="space-y-4 animate-in fade-in-50 slide-in-from-right-5 duration-300"
+            >
+              <Card className="transition-all duration-300 hover:shadow-md">
+                <CardHeader>
+                  <CardTitle>Doanh thu theo rạp</CardTitle>
+                  <CardDescription>Phân bổ doanh thu theo các cụm rạp</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <TheaterRevenueChart />
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+
+          {/* Recent transactions */}
+          <FadeIn from="bottom" delay={500}>
+            <Card className="transition-all duration-300 hover:shadow-md">
+              <CardHeader>
+                <CardTitle>Giao dịch gần đây</CardTitle>
+                <CardDescription>Danh sách các giao dịch mua vé gần đây</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <RecentTransactionsTable />
+              </CardContent>
+            </Card>
+          </FadeIn>
+        </div>
+      </main>
+    </div>
+  )
+}
+
+function LoadingDashboard() {
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b bg-card sticky top-0 z-10">
+        <div className="flex h-16 items-center px-4 gap-4">
+          <Skeleton className="h-6 w-48" />
+          <div className="ml-auto flex items-center gap-4">
+            <Skeleton className="h-9 w-[180px]" />
+            <Skeleton className="h-9 w-32 hidden md:block" />
+            <Skeleton className="h-9 w-9" />
           </div>
-          <div className="space-y-3">
-            {recentStudents.map((student, index) => (
-              <div key={index} className="flex items-center space-x-3 p-2 text-[#303972] justify-between">
-                <div className="flex gap-4">
-                  <img src={student.image} alt={student.name} className="w-10 h-10 rounded-full" />
-                  <div>
-                    <p className="font-semibold">{student.name}</p>
-                    <p className="text-xs text-gray-400">{student.class}</p>
-                  </div>
-                </div>
-                <div>
-                  <button className="w-12 h-12 flex items-center justify-center rounded-full border border-gray-300 hover:bg-[#5751e1] ">
-                    <Mail className="text-gray-400 hover:text-white transition-all" />
-                  </button>
-                </div>
-              </div>
+        </div>
+      </header>
+
+      {/* Dashboard content */}
+      <main className="p-4 md:p-6 overflow-x-hidden">
+        <div className="grid gap-4 md:gap-6 max-w-[1600px] mx-auto">
+          {/* Overview cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[...Array(4)].map((_, i) => (
+              <Skeleton key={i} className="h-[104px]" />
             ))}
           </div>
-          <button className="mt-4 w-full bg-[#4d44b51a] border-[#4d44b51a] text-[#4D44B5] py-2 rounded-full hover:bg-[#4D44B5] hover:text-white transition-all">
-            View More
-            </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
-export default DashboardPage;
+          {/* Charts */}
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-[400px] w-full" />
+
+          {/* Recent transactions */}
+          <Skeleton className="h-[400px] w-full" />
+        </div>
+      </main>
+    </div>
+  )
+}
+
