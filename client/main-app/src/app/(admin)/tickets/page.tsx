@@ -26,8 +26,6 @@ export default function AdminDashboardTicket() {
   const [ticketsData, setTicketsData] = useState<Ticket[]>([])
   const [currentPage, setCurrentPage] = useState(1)
 
-    
-
    const fetchTickets = async () => {
       try {
         const tickets = await getTicket()
@@ -54,7 +52,7 @@ export default function AdminDashboardTicket() {
 
     useEffect(() => {
     fetchTickets()
-  }, [])
+  }, [ticketsData.length])
     
 
   const handleRefresh = async () => {
@@ -71,9 +69,7 @@ export default function AdminDashboardTicket() {
         ticket._id.toLowerCase().includes(searchTerm.toLowerCase()) ||
         ticket.user?.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
         ticket.showtime?.films?.title.toLowerCase().includes(searchTerm.toLowerCase());
-
       const matchesStatus = statusFilter === "all" || ticket.status === statusFilter;
-
       return matchesSearch && matchesStatus;
     })
   : [];
@@ -87,7 +83,7 @@ export default function AdminDashboardTicket() {
   const confirmedTickets = ticketsData.filter((t) => t.status === "paid").length
   const pendingTickets = ticketsData.filter((t) => t.status === "pending").length
   const totalRevenue = ticketsData.reduce(
-    (sum, ticket) => (ticket.status !== "cancelled" ? sum + ticket.totalPrice : sum),
+    (sum, ticket) => ( sum + ticket.totalPrice ),
     0,
   )
 

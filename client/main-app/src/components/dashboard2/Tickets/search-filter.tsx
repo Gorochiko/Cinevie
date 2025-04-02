@@ -33,9 +33,7 @@ export const SearchFilter: FC<SearchFilterProps> = ({ searchTerm, setSearchTerm,
           <SelectContent>
             <SelectItem value="all">Tất cả trạng thái</SelectItem>
             <SelectItem value="pending">Chờ xác nhận</SelectItem>
-            <SelectItem value="confirmed">Đã xác nhận</SelectItem>
-            <SelectItem value="used">Đã sử dụng</SelectItem>
-            <SelectItem value="cancelled">Đã hủy</SelectItem>
+            <SelectItem value="paid">Đã xác nhận</SelectItem>
           </SelectContent>
         </Select>
       </div>

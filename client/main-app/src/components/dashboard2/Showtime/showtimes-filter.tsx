@@ -25,8 +25,6 @@ export function ShowtimesFilter({ refreshData, theaterOptions, showtimes,setFilt
     const [search, setSearch] = useState("");
     const [selectedTheater, setSelectedTheater] = useState("all");
    
-  
-    // Lọc dữ liệu khi có thay đổi
     useEffect(() => {
       let filtered = showtimes;
   
@@ -57,9 +55,9 @@ export function ShowtimesFilter({ refreshData, theaterOptions, showtimes,setFilt
         setPending(false);
       }
     };
-    
 
     useEffect(() => {handleRefresh()},[])
+
     return (
         <div className="flex flex-col gap-4 md:flex-row">
           <div className="flex-1 flex gap-2">

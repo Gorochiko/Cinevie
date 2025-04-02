@@ -1,10 +1,6 @@
 import { PlusCircle } from 'lucide-react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ShowtimesTable } from "@/components/dashboard2/Showtime/showtimes-table"
-import { ShowtimesFilter } from "@/components/dashboard2/Showtime/showtimes-filter"
 import { ShowtimeDialog } from "@/components/dashboard2/Showtime/showtime-dialog"
-import { SelectItem } from "@/components/ui/select"
 import { ShowtimeFactory } from "@/factories/showtime/showtimeFactory"
 import { Showtime } from "@/types"
 import { toast } from "@/hooks/use-toast"

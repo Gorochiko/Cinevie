@@ -11,6 +11,7 @@ import { UserService } from '../user/user.service';
 import { FoodService } from '../food/food.service';
 import { FlimsService } from '../flims/flims.service';
 import path from 'path';
+const QRCode = require('qrcode')
 
 @Injectable()
 export class BookingService {
@@ -19,7 +20,8 @@ export class BookingService {
     private showtimeService: ShowtimeService,
     private readonly mailerService: MailerService,
     private userService: UserService,
-    private filmsService: FlimsService
+    private filmsService: FlimsService,
+   
   ) { }
 
 
@@ -112,7 +114,21 @@ export class BookingService {
 
 
 
-
+  async generateQRCode(bookingData: any): Promise<string> {
+    try {
+      const qrContent = JSON.stringify({
+        bookingId: bookingData._id,
+        movie: bookingData.movie,
+        date: bookingData.date,
+        time: bookingData.time,
+        seats: bookingData.seats,
+      });
+      return await QRCode.toDataURL(qrContent);
+    } catch (error) {
+      throw error;
+    }
+  }
+  
 
 
 
@@ -149,6 +165,15 @@ export class BookingService {
     const findFilms = await this.filmsService.findOne(findShowtime?.films?._id.toString())
 
     try {
+      const qrCode = await this.generateQRCode({
+        _id: updateStatus._id,
+        movie: findFilms?.title,
+        date: findShowtime.dateAction instanceof Date ? findShowtime.dateAction.toLocaleDateString() : "N/A",
+        time: findShowtime.startTime instanceof Date ? findShowtime.startTime.toLocaleTimeString() : "N/A",
+        seats: updateStatus.seats ? updateStatus.seats.join(', ') : "N/A",
+      });
+      const base64Image = qrCode.split(';base64,').pop();
+      console.log("QR Code Data URL:", qrCode);
       await this.mailerService.sendMail({
         to: findUser?.email,
         subject: 'Xác nhận đặt vé xem phim',
@@ -160,12 +185,19 @@ export class BookingService {
           time: findShowtime.startTime instanceof Date ? findShowtime.startTime.toLocaleTimeString() : "N/A",
           seats: updateStatus.seats ? updateStatus.seats.join(', ') : "N/A",
           price: updateStatus.totalPrice || 0,
+          
         },
+        attachments: [{
+          filename: 'qrcode.png',
+          content: base64Image,
+          encoding: 'base64',
+          cid: 'qrCode' 
+        }]
       });
 
       return { message: "Cập nhật thành công, email xác nhận đã được gửi!", data: updateStatus };
     } catch (error) {
-          throw new error
+          throw new Error(`Lỗi khi gửi email xác nhận: ${error.message}`);
     }
 
   }

@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { ShowtimesFilter } from "./showtimes-filter";
 import { ShowtimesTable } from "./showtimes-table";
 import { Showtime } from "@/types";
-import { SelectItem } from "@/components/ui/select";
+
 ;
 
 interface ShowtimesContainerProps {

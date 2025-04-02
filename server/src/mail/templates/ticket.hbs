@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,7 @@
             padding: 0;
             text-align: center;
         }
+
         .container {
             max-width: 600px;
             margin: 20px auto;
@@ -24,21 +26,25 @@
             overflow: hidden;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
         }
+
         .header {
             background: linear-gradient(135deg, #ff9a9e, #fad0c4);
             padding: 30px 20px;
             color: #ffffff;
             text-align: center;
         }
+
         .header h2 {
             margin: 0;
             font-size: 28px;
             font-weight: 700;
         }
+
         .content {
             padding: 25px;
             color: #333333;
         }
+
         .ticket-info {
             background-color: #fff5f7;
             padding: 20px;
@@ -46,14 +52,17 @@
             margin: 20px 0;
             text-align: left;
         }
+
         .ticket-info p {
             margin: 10px 0;
             font-size: 14px;
             color: #555555;
         }
+
         .ticket-info strong {
             color: #ff6f61;
         }
+
         .button {
             display: inline-block;
             background: linear-gradient(135deg, #ff6f61, #ff9a9e);
@@ -67,10 +76,12 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 4px 6px rgba(255, 111, 97, 0.2);
         }
+
         .button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 12px rgba(255, 111, 97, 0.3);
         }
+
         .footer {
             font-size: 12px;
             color: #888888;
@@ -79,6 +90,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -92,12 +104,15 @@
                 <p><strong><i class="fas fa-calendar-alt"></i> Ngày:</strong> {{date}}</p>
                 <p><strong><i class="fas fa-clock"></i> Giờ:</strong> {{time}}</p>
                 <p><strong><i class="fas fa-chair"></i> Ghế:</strong> {{seats}}</p>
-                <p><strong><i class="fas fa-tag"></i> Giá vé:</strong> <span style="color: #ff6f61; font-weight: bold;">{{price}} VND</span></p>
+                <p><strong><i class="fas fa-tag"></i> Giá vé:</strong> <span
+                        style="color: #ff6f61; font-weight: bold;">{{price}} VND</span></p>
+                 <img src="cid:qrCode" alt="QR Code" style="width: 200px; height: 200px;">
             </div>
-           
+
         </div>
         <div class="footer">
-            <p><i class="fas fa-map-marker-alt"></i> Rạp chiếu phim ABC | <i class="fas fa-phone"></i> Hotline: 0123 456 789</p>
+            <p><i class="fas fa-map-marker-alt"></i> Rạp chiếu phim ABC | <i class="fas fa-phone"></i> Hotline: 0123 456
+                789</p>
         </div>
     </div>
 
@@ -105,4 +120,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
+
 </html>

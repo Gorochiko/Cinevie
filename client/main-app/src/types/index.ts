@@ -69,7 +69,7 @@ export
   }
 
 
-export type TicketStatus = "pending" | "paid" | "cancelled"
+export type TicketStatus = "pending" | "paid" 
 
 export interface Combo {
   _id?:string
