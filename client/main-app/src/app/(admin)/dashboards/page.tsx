@@ -44,13 +44,13 @@ export default function DashboardPage() {
             <TabsList className="grid w-full grid-cols-2 mb-4">
               <TabsTrigger
                 value="movies"
-                className="transition-all data-[state=active]:bg-violet-700 data-[state=active]:text-primary-foreground"
+                className="transition-all data-[state=active]:bg-[#C68FE6] data-[state=active]:text-primary-foreground"
               >
                 Doanh thu theo phim
               </TabsTrigger>
               <TabsTrigger
                 value="theaters"
-                className="transition-all data-[state=active]:bg-orange-300 data-[state=active]:text-primary-foreground"
+                className="transition-all data-[state=active]:bg-[#C68FE6] data-[state=active]:text-primary-foreground"
               >
                 Doanh thu theo rạp
               </TabsTrigger>

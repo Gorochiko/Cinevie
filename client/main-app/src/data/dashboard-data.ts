@@ -1,43 +1,4 @@
-// Movie revenue data
-import { getTicket } from "@/lib/actions"
-import { Ticket } from "@/types"
 
-
-export async function getTotalRevenueByMovie() {
-  const movieRevenueData = await getTicket() as Ticket[]; 
-  const revenueByMovie = movieRevenueData.reduce((acc, ticket) => {
-    const movieName = ticket.showtime.films?.title ||  "Unknown Movie";
-    if (!acc[movieName]) {
-      acc[movieName] = 0;
-    }
-    acc[movieName] += ticket.totalPrice;
-    return acc;
-  }, {} as Record<string, number>);
-  
-
-  return Object.entries(revenueByMovie).map(([name, revenue]) => ({ name, revenue }));
-}
-
-
-
-export async function getTotalRevenuePercentageByTheater() {
-  const tickets = await getTicket() as Ticket[];
-  const revenueByTheater = tickets.reduce<Record<string, number>>((acc, ticket) => {
-    const theaterName = ticket.showtime?.theater?.name ?? "Unknown Theater";
-    acc[theaterName] = (acc[theaterName] || 0) + (ticket.totalPrice || 0);
-    return acc;
-  }, {});
-
-  // Tính tổng doanh thu
-  const totalRevenue = Object.values(revenueByTheater).reduce((sum, revenue) => sum + revenue, 0);
-
-  // Tính phần trăm doanh thu của từng rạp
-  return Object.entries(revenueByTheater).map(([name, revenue]) => ({
-    name,
-    revenue,
-    percentage: totalRevenue ? (revenue / totalRevenue) * 100 : 0 // Trả về number thay vì string
-  }));
-}
 
   // Recent transactions data
   export const recentTransactions = [

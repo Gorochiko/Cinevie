@@ -27,8 +27,8 @@ export default function AdminDashboardTicket() {
   const [currentPage, setCurrentPage] = useState(1)
 
     
-  useEffect(() => {
-    const fetchTickets = async () => {
+
+   const fetchTickets = async () => {
       try {
         const tickets = await getTicket()
         console.log(tickets)
@@ -52,12 +52,14 @@ export default function AdminDashboardTicket() {
       }
     }
 
+    useEffect(() => {
     fetchTickets()
   }, [])
     
 
-  const handleRefresh = () => {
+  const handleRefresh = async () => {
     setIsRefreshing(true)
+  await fetchTickets();
     setTimeout(() => {
       setIsRefreshing(false)
     }, 800)

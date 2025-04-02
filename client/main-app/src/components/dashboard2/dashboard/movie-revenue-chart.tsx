@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { getTotalRevenueByMovie } from "@/data/dashboard-data"
+import { getTotalRevenueByMovie } from "@/factories/dashboards/data.dashboards.films"
 import { FadeIn } from "@/components/ui/motion"
 
 
