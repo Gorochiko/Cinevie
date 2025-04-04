@@ -6,11 +6,12 @@ import { Button } from "./ui/button";
 import { Calendar, Play, Clock } from 'lucide-react';
 import { getFilms } from "@/lib/actions";
 import { Film } from "@/types";
+import { useRouter } from "next/navigation";
 
 export function Slideshow() {
   const [films, setFilms] = useState<Film[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  
+  const router = useRouter(); // Assuming you're using Next.js or a similar framework
   const handleFetchData = async () => {
     setIsLoading(true);
     try {
@@ -147,6 +148,7 @@ export function Slideshow() {
               >
                 <Button 
                   size="lg" 
+                  onClick={() => router.push(`/movies/${currentFilm._id}`)}
                   className="bg-red-600 hover:bg-red-700 text-lg px-8 py-6 rounded-xl shadow-lg shadow-red-600/30 transition-all duration-300 hover:scale-105"
                 >
                   Đặt vé ngay

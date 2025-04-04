@@ -10,7 +10,6 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { UserService } from '../user/user.service';
 import { FoodService } from '../food/food.service';
 import { FlimsService } from '../flims/flims.service';
-import path from 'path';
 const QRCode = require('qrcode')
 
 @Injectable()
@@ -67,9 +66,6 @@ export class BookingService {
 
 
 
-
-
-
   /**
  * Retrieves all bookings from the database.
  * @returns {Promise<Booking[]>} - List of all bookings with populated showtime, combo, and user details.
@@ -108,7 +104,6 @@ export class BookingService {
   findOne(id: number) {
     return `This action returns a #${id} booking`;
   }
-
 
 
 
@@ -185,7 +180,6 @@ export class BookingService {
           time: findShowtime.startTime instanceof Date ? findShowtime.startTime.toLocaleTimeString() : "N/A",
           seats: updateStatus.seats ? updateStatus.seats.join(', ') : "N/A",
           price: updateStatus.totalPrice || 0,
-          
         },
         attachments: [{
           filename: 'qrcode.png',

@@ -9,12 +9,16 @@ export async function middleware(request: NextRequest) {
     if (session?.user.role) {
         switch (session.user.role) {
             case 'Admin':
-                if (pathname.startsWith('/dashboards') || pathname.startsWith('/showtimes') || pathname.startsWith('/flims') || pathname.startsWith('/tickets') || pathname.startsWith('/customers') || pathname.startsWith('/foods') || pathname.startsWith('/theaters')) {
+                if (pathname.startsWith('/dashboards') || pathname.startsWith('/showtimes') || pathname.startsWith('/flims') 
+                    || pathname.startsWith('/tickets') || pathname.startsWith('/customers') || pathname.startsWith('/foods')
+                 || pathname.startsWith('/theaters')) {
                     return NextResponse.next()
                 }
                 return NextResponse.redirect(new URL('/dashboards', request.url))
             case 'client':
-                if (pathname.startsWith('/dashboards') || pathname.startsWith('/showtimes') || pathname.startsWith('/flims') || pathname.startsWith('/tickets') || pathname.startsWith('/customers') || pathname.startsWith('/foods') || pathname.startsWith('/theaters')) {
+                if (pathname.startsWith('/dashboards') || pathname.startsWith('/showtimes') || 
+                pathname.startsWith('/flims') || pathname.startsWith('/tickets') || pathname.startsWith('/customers') ||
+                 pathname.startsWith('/foods') || pathname.startsWith('/theaters')) {
                     return NextResponse.redirect(new URL('/', request.url))
                 }
                 return NextResponse.next()
