@@ -71,7 +71,8 @@ export default function FilmListPage() {
     // Bước 7: Trả về component đã được trang trí
     return EnhancedComponent
   }
-
+  const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN
+  // Bước 8: Tạo component gốc (Badge) với props cần thiết
   // Bước 8: Áp dụng decorator để tạo component mới
   const AgeBadge = withAgeColor(Badge)
 
@@ -215,7 +216,7 @@ export default function FilmListPage() {
                     <div className="relative aspect-[2/3] overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10" />
                       <Image
-                        src={`http://localhost:8080${film.image}`}
+                        src={`${path}${film.image}`}
                         alt={film.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

@@ -25,13 +25,13 @@ interface FoodCardProps {
 
 export function FoodCard({ food, onEdit, onDelete }: FoodCardProps) {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
-
+  const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN
 
   return (
     <>
       <Card className="overflow-hidden">
         <div className="relative h-48 w-full">
-          <Image src={`http://localhost:8080${food.imageFood}`} alt={food.titleFood}  fill className="object-cover" />
+          <Image src={`${path}${food.imageFood}`} alt={food.titleFood}  fill className="object-cover" />
         </div>
         <CardContent className="p-4">
           <div className="flex justify-between items-start">

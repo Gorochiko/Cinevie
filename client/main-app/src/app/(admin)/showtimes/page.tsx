@@ -12,6 +12,7 @@ async function refreshData() {
   try {
     revalidatePath("/admin/showtimes")
   } catch (error) {
+    console.error('Refresh data error:', error);
     toast({
       title: "Lỗi",
       variant: "destructive",

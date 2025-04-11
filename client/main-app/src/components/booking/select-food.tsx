@@ -17,7 +17,7 @@ export default function SelectFood({ foodItems,selectedFood, updateFoodQuantity 
     const item = selectedFood.find((f) => f.food._id === foodId)
     return item ? item.quantity : 0
   }
-
+  const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN 
   return (
     <div className="bg-white p-6 rounded-lg text-black border">
       <h1 className="text-2xl font-bold mb-6">Chọn thức ăn</h1>
@@ -26,7 +26,7 @@ export default function SelectFood({ foodItems,selectedFood, updateFoodQuantity 
         {foodItems.map((food) => (
           <div key={food._id} className="flex border rounded-lg p-3">
             <Image
-              src={`http:localhost:8080${food.imageFood}`}
+              src={`${path}${food.imageFood}`}
               alt={food.titleFood}
               width={80}
               height={80}

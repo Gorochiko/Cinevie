@@ -30,7 +30,7 @@ export function ShowtimesTable( {data}: ShowtimeTableProps) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [selectedShowtime, setSelectedShowtime] = useState<string | null>(null)
   const showtimes = data.map(createShowtime)
- 
+ const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN  
   const handleDelete = (id: string) => {
     setSelectedShowtime(id)
     setShowDeleteDialog(true)
@@ -44,7 +44,7 @@ export function ShowtimesTable( {data}: ShowtimeTableProps) {
     const date = parseISO(isoString);
     return toZonedTime(date, vietnamTimeZone);
   };
-
+  
   return (
     <>
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -53,7 +53,7 @@ export function ShowtimesTable( {data}: ShowtimeTableProps) {
             <div className="relative h-48 bg-muted">
               
               <img
-                src={`http://localhost:8080${showtime.films?.image}`}
+                src={`${path}${showtime.films?.image}`}
                 alt={showtime.films?.title}
                 className="w-full h-full object-cover"
               />

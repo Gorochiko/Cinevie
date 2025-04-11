@@ -43,13 +43,13 @@ export default function BookingSummary({
       prevStep(); 
     }
   };
-
+  const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN ;
   return (
     <div className="border rounded-lg p-4 bg-white text-black h-full">
       <div className="border-b border-orange-500 pb-4 mb-4">
         <div className="flex gap-4">
           <Image
-            src={`http://localhost:8080${booking.showtime.films?.image}` || "/placeholder-image.png"}
+            src={`${path}${booking.showtime.films?.image}` || "/placeholder-image.png"}
             alt={booking.showtime.films?.title || "Movie"}
             width={120}
             height={180}

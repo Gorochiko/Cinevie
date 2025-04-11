@@ -5,9 +5,9 @@ const nextConfig: NextConfig = {
     domains: ["localhost"],
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost",
-        port: "8080", 
+        protocol: "https",
+        hostname: "cinevie.onrender.com",
+        port: "",
         pathname: "/uploads/**",
       },
       {

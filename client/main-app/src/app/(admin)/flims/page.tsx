@@ -34,7 +34,7 @@ export default function FilmManagement() {
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const filmsPerPage = 5;
-
+    const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN ;
     useEffect(() => {
         const fetchFilms = async () => {
             setLoading(true);
@@ -114,7 +114,7 @@ export default function FilmManagement() {
                                         <TableRow key={film._id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
                                             <TableCell>
                                                 <Image
-                                                   src={`http://localhost:8080${film.image}`}
+                                                   src={`${path}${film.image}`}
 
                                                     alt={`${film.title} poster`}
                                                     width={67}

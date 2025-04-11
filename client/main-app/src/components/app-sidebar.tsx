@@ -3,7 +3,7 @@ import {
     Sidebar,
     SidebarContent,
 } from "@/components/ui/sidebar";
-import { ChevronRight, type LucideIcon, Popcorn,Ticket } from "lucide-react";
+import {  Popcorn,Ticket } from "lucide-react";
 import { User } from 'lucide-react';
 import { Video } from 'lucide-react';
 import { Theater } from 'lucide-react';

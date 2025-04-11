@@ -29,7 +29,7 @@ interface Film {
 export default function SlidedownFilm() {
   const [films, setFilms] = useState<Film[]>([]);
   const router = useRouter();
-
+  const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN;
   useEffect(() => {
     const fetchFilms = async () => {
       try {
@@ -59,7 +59,7 @@ export default function SlidedownFilm() {
                 >
                   <CardContent className="p-0 relative">
                     <Image
-                      src={`http://localhost:8080${film.image}`}
+                      src={`${path}${film.image}`}
                       alt={film.title}
                       width={800}
                       height={450}

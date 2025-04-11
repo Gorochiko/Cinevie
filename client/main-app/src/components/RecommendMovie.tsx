@@ -28,6 +28,7 @@ type RecommendMovieProps = {
   films: FilmType[]
 }
 export function RecommendMovie({ films: initialFilms }: RecommendMovieProps) {
+  const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN ;
   const [films, setFilms] = useState<FilmType[]>(initialFilms);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter()
@@ -97,7 +98,7 @@ export function RecommendMovie({ films: initialFilms }: RecommendMovieProps) {
                       {/* Movie Poster */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity z-10"></div>
                       <Image
-                        src={`http://localhost:8080${film.image}`}
+                        src={`${path}${film.image}`}
                         alt={film.title}
                         fill
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

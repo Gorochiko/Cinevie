@@ -1,8 +1,7 @@
   import { Card} from "@/components/ui/card";
   import OTPCardHeader from "@/components/OTPCardHeader";
   import OTPCardContent from "@/components/OTPCardContent";
-  import OTPFormButton from "@/components/OTPFormButton";
-import { getSession } from "next-auth/react";
+
 
 
   export default function InputOTPDemo() {

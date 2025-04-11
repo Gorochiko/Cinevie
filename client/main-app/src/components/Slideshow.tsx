@@ -23,7 +23,7 @@ export function Slideshow() {
       setIsLoading(false);
     }
   };
-  
+  const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN; // Ensure this is defined in your environment variables
   useEffect(() => {
     handleFetchData();
   }, []); // Empty dependency array to fetch only once
@@ -45,7 +45,7 @@ export function Slideshow() {
   const getOptimizedImageUrl = (imageUrl: string) => {
     // If you need to transform the image URL to ensure landscape orientation, do it here
     // For now, we'll just use the original URL
-    return `http://localhost:8080${imageUrl}`;
+    return `${path}${imageUrl}`;
   };
 
   return (

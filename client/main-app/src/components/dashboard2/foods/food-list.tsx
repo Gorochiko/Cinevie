@@ -30,7 +30,7 @@ export function FoodList({ foods, onEdit, onDelete }: FoodListProps) {
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [sortField, setSortField] = useState<SortField>("title")
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc")
-
+  const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN
 
   const handleSort = (field: SortField) => {
     if (sortField === field) {
@@ -93,7 +93,7 @@ export function FoodList({ foods, onEdit, onDelete }: FoodListProps) {
               <TableRow key={food._id}>
                 <TableCell>
                   <div className="relative h-12 w-12 overflow-hidden rounded-md">
-                    <Image src={`http://localhost:8080${food.imageFood}`} alt={food.titleFood} fill className="object-cover" />
+                    <Image src={`${path}${food.imageFood}`} alt={food.titleFood} fill className="object-cover" />
                   </div>
                 </TableCell>
                 <TableCell className="font-medium">{food.titleFood}</TableCell>

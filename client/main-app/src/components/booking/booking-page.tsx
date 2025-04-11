@@ -96,7 +96,7 @@ export default function BookingPage({ getShowtime: getShowtime }: BookingProp) {
         },
       }));
     }
-  }, []);
+  }, [session.data?.user]);
 
 
 

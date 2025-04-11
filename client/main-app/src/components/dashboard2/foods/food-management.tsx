@@ -16,7 +16,7 @@ export function FoodManagement({ initialFoods }: FoodManagementProps) {
   const [foods, setFoods] = useState<FoodItem[]>(initialFoods)
   const [editingFood, setEditingFood] = useState<FoodItem | null>(null)
   const [viewMode, setViewMode] = useState<"cards" | "list">("cards")
-
+ 
   const handleAddFood = (food: Omit<FoodItem, "id">) => {
     const newFood = {
       ...food

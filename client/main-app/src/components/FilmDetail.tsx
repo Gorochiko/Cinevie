@@ -19,10 +19,10 @@ interface Film {
 
 export default function MoviePage() {
   const { id } = useParams();
-  const router = useRouter();
+
   const [movieData, setMovieData] = useState<Film | null>(null);
   const [loading, setLoading] = useState(true);
-
+  const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN;
   useEffect(() => {
     if (!id) return;
     async function fetchMovie() {
@@ -53,7 +53,7 @@ export default function MoviePage() {
             </h2>
       <Card className="flex flex-col md:flex-row shadow-lg rounded-2xl">
           <Image
-            src={`http://localhost:8080${movieData.image}`}
+            src={`${path}${movieData.image}`}
             alt={`${movieData.title} Poster`}
             width={300}
             height={400}

@@ -7,7 +7,7 @@ import type { Ticket } from "@/types"
 import { useSearchParams } from "next/navigation"
 import { updateticket } from "@/lib/actions"
 import { useEffect, useState } from "react"
-
+import { TypeSeat } from "@/types"
 interface ConfirmationProps  {
   booking: Ticket
   getTotalPrice: () => number
@@ -107,7 +107,7 @@ export default function Confirmation({ booking, getTotalPrice }: ConfirmationPro
           <div>
             <h2 className="font-medium mb-2">Ghế đã đặt</h2>
             <div className="flex flex-wrap gap-2">
-              {booking.seats.map((seat:any, index:any) => (
+              {booking.seats.map((seat:TypeSeat, index:number) => (
                 <span key={index} className="text-sm bg-orange-100 text-orange-800 px-2 py-1 rounded">
                   {seat.row}{seat.number}
                 </span>

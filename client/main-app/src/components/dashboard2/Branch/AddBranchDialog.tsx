@@ -8,6 +8,7 @@ import { useState } from "react";
 import { createTheater } from "@/lib/actions";
 import { toast } from "@/hooks/use-toast";
 
+
 const AddBranchDialog = ({ addBranchOpen, setAddBranchOpen,onBranchAdded  }:any) => {
 
   const [newBranch, setNewBranch] = useState({

@@ -67,7 +67,7 @@ const isPublicRoute = (url: string): boolean => {
  * Axios instance configured with a base URL and default headers.
  */
 export const API: AxiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_BACKEND_DOMAIN || 'http://localhost:8080/api',
+    baseURL: process.env.NEXT_PUBLIC_BACKEND_DOMAIN+'/api' || 'https://cinevie.onrender.com/api',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -251,7 +251,7 @@ export const postData = async <T>(endpoint: string, data: Record<string, any>, r
  * @returns {Promise<T>} - The data returned by the API.
  * @throws {APIError} - If the request fails.
  */
-export const patchData = async <T>(endpoint: string, data: Record<string, any>, requireAuth = true): Promise<T> => {
+export const patchData = async <T, D = Record<string, unknown>>(endpoint: string, data: D, requireAuth = true): Promise<T> => {
     try {
         const response: AxiosResponse<ApiResponse<T>> = await API.patch(endpoint, data, {
             headers: {
