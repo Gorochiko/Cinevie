@@ -21,7 +21,7 @@ export default function MoviePage() {
   const { id } = useParams();
 
   const [movieData, setMovieData] = useState<Film | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [, setLoading] = useState(true);
   const path = process.env.NEXT_PUBLIC_BACKEND_DOMAIN;
   useEffect(() => {
     if (!id) return;

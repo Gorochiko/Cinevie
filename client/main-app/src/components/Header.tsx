@@ -16,7 +16,7 @@ export default function Header() {
 
   const navItems = [
     { name: "Movies", icon: <Film size={18} />, href: "/movies" },
-    { name: "Branches", icon: <MapPin size={18} />, href: "/branches" },
+   
     { name: "Promotion", icon: <Ticket size={18} />, href: "/promotion" },
     { name: "Support", icon: <HelpCircle size={18} />, href: "/support" },
   ]
@@ -34,7 +34,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const toggleProfile = () => setIsProfileOpen(!isProfileOpen)
+  // const toggleProfile = () => setIsProfileOpen(!isProfileOpen)
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen)
 
   // Close dropdowns when clicking outside
