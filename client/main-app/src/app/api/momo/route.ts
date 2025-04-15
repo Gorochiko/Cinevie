@@ -5,7 +5,7 @@ export async function POST(request:Request) {
   const Request = await request.json()
   const partnerCode = 'MOMO';
   const accessKey =  process.env.ACCESSKEY;
-  const secretKey = process.env.SECRETKEY;
+  const secretKey = process.env.SECRETKEY ?? '';
   const requestId = partnerCode + new Date().getTime();
   const orderId = requestId;
   const orderInfo = 'Payment with Momo';
