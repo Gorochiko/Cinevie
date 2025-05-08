@@ -8,7 +8,9 @@ import { useEffect, useState } from "react"
 
 export default function BookingticketPage() {
   const getParams = useParams()
-const idShowtime = getParams?.id as string
+  console.log("All params:", getParams); // Kiểm tra toàn bộ params
+  const idShowtime = getParams?.id as string;
+  console.log("Extracted ID:", idShowtime); // Xem ID có tồn tại không
 const [showtime, setShowtime] = useState<Showtime | null>(null);
 
 useEffect(() => {

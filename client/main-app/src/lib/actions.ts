@@ -302,6 +302,7 @@ export const getShowTime = async()=>{
 
 
 export const getShowtimeByid = async(id:string)=>{
+  
   try {
     const res = await fetchData(`showtime/FindOnetime/${id}`,{})
     return res
