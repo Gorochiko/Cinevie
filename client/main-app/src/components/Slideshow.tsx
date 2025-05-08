@@ -16,7 +16,7 @@ export function Slideshow() {
     setIsLoading(true);
     try {
       const res = await getFilms(); 
-      setFilms(res.results || []);
+      setFilms(res || []);
     } catch (error) {
       console.error("Error fetching films:", error);
     } finally {
