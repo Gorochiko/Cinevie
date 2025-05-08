@@ -1,11 +1,27 @@
 import { createTicket } from '@/lib/actions';
 import { FoodItem, Ticket, TypeTicket } from '@/types';
 import crypto from 'crypto';
+import { auth } from "@/lib/auth";
+import { NextResponse } from "next/server";
+export const dynamic = 'force-dynamic';
 export async function POST(request:Request) {
+  try {
+  const session = await auth();
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  // Validate environment variables
+  if (!process.env.ACCESSKEY || !process.env.SECRETKEY) {
+    return NextResponse.json(
+      { error: "Missing Momo configuration" }, 
+      { status: 500 }
+    );
+  }
   const Request = await request.json()
   const partnerCode = 'MOMO';
   const accessKey =  process.env.ACCESSKEY;
-  const secretKey = process.env.SECRETKEY;
+  const secretKey = process.env.SECRETKEY as string;
   const requestId = partnerCode + new Date().getTime();
   const orderId = requestId;
   const orderInfo = 'Payment with Momo';
@@ -49,28 +65,41 @@ export async function POST(request:Request) {
     lang: 'en',
   };
 
-  try {
-    const momoResponse = await fetch('https://test-payment.momo.vn/v2/gateway/api/create', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    });
-    const data = await momoResponse.json();
-    if(data.resultCode ===0){
-      
-     const dataTicket= await createTicket(ticketData) as Ticket
-      Request._id = dataTicket?._id;
-     
-    }
-    
-    return new Response(JSON.stringify({
-       bookingId: Request?._id, 
-       momoResponse:data,   
-    }), { status: 200 });
-  } catch (error) {
+  
+  const momoResponse = await fetch('https://test-payment.momo.vn/v2/gateway/api/create', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+    // Add timeout configuration
+    signal: AbortSignal.timeout(60000), // 60 second timeout
+  });
+
+  if (!momoResponse.ok) {
+    throw new Error(`HTTP error! status: ${momoResponse.status}`);
+  }
+
+  const data = await momoResponse.json();
+  
+  if (data.resultCode === 0) {
+    const dataTicket = await createTicket(ticketData) as Ticket;
+    Request._id = dataTicket?._id;
+  } else {
+    throw new Error(data.message || 'Momo payment creation failed');
+  }
+
+  return NextResponse.json({
+    bookingId: Request?._id,
+    momoResponse: data,
+  }, { status: 200 });
+
+  } catch (error: any) {
     console.error('Error creating Momo payment:', error);
-    return new Response(JSON.stringify({ error: 'Failed to create payment' }), { status: 500 });
+    return NextResponse.json({ 
+      error: error.message || 'Failed to create payment'
+    }, { 
+      status: error.status || 500 
+    });
   }
 }

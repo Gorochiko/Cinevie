@@ -40,7 +40,7 @@ export default function FilmManagement() {
             setLoading(true);
             try {
                 const response = await getFilms();
-                setFilms(response.results || []);
+                setFilms(response || []);
             } catch (error) {
                 console.error("❌ Lỗi khi lấy danh sách phim:", error);
             }

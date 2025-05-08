@@ -16,17 +16,16 @@ export
 
 
 export
-  interface showtimeType {
-  films: string
-  theater: string,
-  rooms: string,
-  price: string,
-  dateAction: Date,
-  startTime: Date,
-  endTime: Date,
-  status: string
+ interface ShowtimeType {
+  films: string;
+  price: string;
+  theater: string;
+  rooms: string;
+  dateAction: Date;
+  startTime: string;
+  endTime: string;
+  status?: string;
 }
-
 
 
 export

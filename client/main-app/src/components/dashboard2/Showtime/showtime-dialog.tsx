@@ -5,7 +5,7 @@ import { CalendarIcon, Clock, Save } from "lucide-react"
 import { format } from "date-fns"
 import { vi } from "date-fns/locale"
 import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
+// import { Calendar } from "@/components/ui/calendar"
 import {
   Dialog,
   DialogContent,
@@ -23,33 +23,36 @@ import { cn } from "@/lib/utils"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { showtimeType } from "@/types"
+import { ShowtimeType } from "@/types"
 import { createShowtimes, getFilms, getTheaters } from "@/lib/actions"
 import { CinemaBranch } from "@/types";
 import { toast } from "@/hooks/use-toast"
 import { Film } from "@/types/index"
 import { LoadingCat } from "@/components/loading/loading-cat"
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 
 
-
-
-const formSchema = z.object({
-  films: z.string({ required_error: "Vui lòng chọn phim" }), 
-  theater: z.string({ required_error: "Vui lòng chọn rạp" }), 
-    rooms: z.string({ required_error: "Vui lòng chọn phòng" }),
-  dateAction: z.date({ required_error: "Vui lòng chọn ngày chiếu" }),
-  startTime: z.string({ required_error: "Vui lòng nhập giờ bắt đầu" }),
-  endTime: z.string({ required_error: "Vui lòng nhập giờ kết thúc" }), 
-  price: z.string().min(1, "Vui lòng nhập giá vé"), 
-  status: z.string().optional(), 
+export const showtimeFormSchema = z.object({
+  films: z.string().min(1, "Vui lòng chọn phim"),
+  price: z.string().min(1, "Vui lòng nhập giá vé"),
+  theater: z.string().min(1, "Vui lòng chọn rạp"),
+  rooms: z.string().min(1, "Vui lòng chọn phòng"),
+  dateAction: z.date({
+    required_error: "Vui lòng chọn ngày chiếu",
+  }),
+  startTime: z.string().min(1, "Vui lòng chọn giờ bắt đầu"),
+  endTime: z.string().min(1, "Vui lòng chọn giờ kết thúc"),
+  status: z.string().optional()
 });
 
 
+export type ShowtimeFormValues = z.infer<typeof showtimeFormSchema>;
 
 interface ShowtimeDialogProps {
   children: React.ReactNode
-  showtime?: any 
+  showtime?: any
 }
 
 export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
@@ -69,33 +72,52 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
   const [selectedTheaterId, setSelectedTheaterId] = useState<string>("")
   const isEditing = !!showtime
   const [films, setFilms] = useState<Film[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
+  const [loadingFilms, setLoadingFilms] = useState(false);
+  const [errorFilms, setErrorFilms] = useState<string | null>(null);
   useEffect(() => {
     const fetchFilms = async () => {
-      setLoading(true);
+      setLoadingFilms(true);
+      setErrorFilms(null);
       try {
         const response = await getFilms();
-        setFilms(response.results || []);
-      } catch (error:any) {
-        throw new Error(error);
+        console.log("Films data:", response); // Thêm log để kiểm tra dữ liệu
+
+        // Đảm bảo response là mảng và có dữ liệu
+        const filmsData = Array.isArray(response) ? response : [];
+        setFilms(filmsData);
+
+        if (filmsData.length === 0) {
+          setErrorFilms("Không có phim nào trong hệ thống");
+        }
+      } catch (error: any) {
+        console.error('Error fetching films:', error);
+        setErrorFilms(error.message || 'Không thể tải danh sách phim');
+        toast({
+          variant: "destructive",
+          title: "Lỗi",
+          description: "Không thể tải danh sách phim",
+        });
+      } finally {
+        setLoadingFilms(false);
       }
-      setLoading(false);
     };
+
     fetchFilms();
   }, []);
-  const form = useForm<showtimeType>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<ShowtimeFormValues>({
+    resolver: zodResolver(showtimeFormSchema),
     defaultValues: showtime || {
       films: "",
       theater: "",
       rooms: "",
-      price: "", // Giá trị mặc định là số
-      dateAction: new Date(), // Ngày mặc định là ngày hiện tại
-      startTime: "00:00",// Giờ mặc định (ví dụ: "00:00")
-      endTime: "00:00", // Giờ mặc định (ví dụ: "00:00")
-      status: 'active', // Trạng thái mặc định
-    },
+      price: "",
+      startTime: "",
+      endTime: "",
+      status: "active"
+    }
   });
+
 
 
   const availableRooms = branches.find((theater) => theater._id === selectedTheaterId)?.rooms || []
@@ -113,27 +135,27 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
     }
   })
 
- async function onSubmit (data: showtimeType)  {
-  try {
-    const dateString = data.dateAction.toISOString().split('T')[0];
-    console.log(availableRooms);
-    const formattedData = {
-      ...data,
-      rooms:data.rooms,
-      startTime: new Date(`${dateString}T${data.startTime}:00`), 
-      endTime: new Date(`${dateString}T${data.endTime}:00`), 
-    };
-  
-     await createShowtimes(formattedData)
-    
-    setOpen(false);
-    form.reset()
-  } catch (error:any) {
-    toast({variant:"destructive", title:"Error", description:error.message})
+  async function onSubmit(data: ShowtimeType) {
+    try {
+      const dateString = data.dateAction.toISOString().split('T')[0];
+      console.log(availableRooms);
+      const formattedData = {
+        ...data,
+        rooms: data.rooms,
+        startTime: new Date(`${dateString}T${data.startTime}:00`).toISOString(),
+        endTime: new Date(`${dateString}T${data.endTime}:00`).toISOString(),
+      };
+
+      await createShowtimes(formattedData)
+
+      setOpen(false);
+      form.reset()
+    } catch (error: any) {
+      toast({ variant: "destructive", title: "Error", description: error.message })
+    }
+
   }
-    
-  }
-  if(loading)return <div><LoadingCat/></div>
+  if (loading) return <div><LoadingCat /></div>
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -161,11 +183,25 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {films.map((movie) => (
-                          <SelectItem key={movie._id} value={movie._id}>
-                            {movie.title}
-                          </SelectItem>
-                        ))}
+                        {loadingFilms ? (
+                          <div className="p-2 text-center">
+                            <LoadingCat />
+                          </div>
+                        ) : errorFilms ? (
+                          <div className="p-2 text-center text-red-500 text-sm">
+                            {errorFilms}
+                          </div>
+                        ) : films.length === 0 ? (
+                          <div className="p-2 text-center text-gray-500 text-sm">
+                            Không có phim nào
+                          </div>
+                        ) : (
+                          films.map((movie) => (
+                            <SelectItem key={movie._id} value={movie._id}>
+                              {movie.title}
+                            </SelectItem>
+                          ))
+                        )}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -238,24 +274,25 @@ export function ShowtimeDialog({ children, showtime }: ShowtimeDialogProps) {
                     <Popover>
                       <PopoverTrigger asChild>
                         <FormControl>
-                          <Button
-                            variant={"outline"}
-                            className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
-                          >
-                            {field.value ? format(field.value, "PPP", { locale: vi }) : <span>Chọn ngày</span>}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
+                          <DatePicker
+                            selected={field.value}
+                            onChange={field.onChange}
+                            minDate={new Date()}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText="Chọn ngày"
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                          />
                         </FormControl>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
+                        {/* <Calendar
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
                           disabled={(date) => date < new Date()}
                           initialFocus
                           locale={vi}
-                        />
+                        /> */}
                       </PopoverContent>
                     </Popover>
                     <FormMessage />

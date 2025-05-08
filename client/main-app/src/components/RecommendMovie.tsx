@@ -32,13 +32,28 @@ export function RecommendMovie({ films: initialFilms }: RecommendMovieProps) {
   const [films, setFilms] = useState<FilmType[]>(initialFilms);
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter()
+ 
   useEffect(() => {
-    const fetchFilms = async () => {
-      setFilms(films);
+    // Chỉ chạy 1 lần khi nhận initialFilms
+    if (initialFilms?.length > 0) {
+      // Lọc phim hợp lệ và loại bỏ trùng lặp
+      const uniqueFilms = initialFilms
+        .filter(film => film?._id && film.image) // Chỉ lấy phim có _id và image
+        .filter((film, index, self) => 
+          index === self.findIndex(f => f._id === film._id) // Loại bỏ trùng _id
+        );
+      
+      setFilms(uniqueFilms);
       setIsLoading(false);
-    };
-    fetchFilms();
-  }, [films]);
+    }
+  }, [initialFilms]); // Chỉ phụ thuộc vào initialFilms
+  // useEffect(() => {
+  //   const fetchFilms = async () => {
+  //     setFilms(films);
+  //     setIsLoading(false);
+  //   };
+  //   fetchFilms();
+  // }, [films]);
   
 
   if (isLoading) {
@@ -83,7 +98,7 @@ export function RecommendMovie({ films: initialFilms }: RecommendMovieProps) {
         >
           <CarouselContent className="-ml-2 md:-ml-4">
             {films.map((film, index) => (
-              <CarouselItem key={film._id} className="pl-2 md:pl-4 md:basis-1/3 lg:basis-1/4">
+              <CarouselItem key={film._id|| `film-${index}`} className="pl-2 md:pl-4 md:basis-1/3 lg:basis-1/4">
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}

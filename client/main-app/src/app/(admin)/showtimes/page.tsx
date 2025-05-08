@@ -6,7 +6,11 @@ import { Showtime } from "@/types"
 import { toast } from "@/hooks/use-toast"
 import { revalidatePath } from "next/cache"
 import { ShowtimesContainer } from '@/components/dashboard2/Showtime/showtime-container'
+import { getFilms, getTheaters } from '@/lib/actions'
 
+export const dynamic = 'force-dynamic';
+export const fetchCache = 'force-no-store';
+export const revalidate = 0;
 async function refreshData() {
   "use server"
   try {
@@ -24,6 +28,18 @@ async function refreshData() {
 
 
 export default async function ShowtimesPage() {
+  try {
+    // Add error boundaries and loading states
+    const [theaters, films] = await Promise.all([
+      getTheaters().catch(error => {
+        console.error('Error fetching theaters:', error);
+        return [];
+      }),
+      getFilms().catch(error => {
+        console.error('Error fetching films:', error);
+        return [];
+      })
+    ]);
   const theaterOptions = await ShowtimeFactory.getTheaterOptions();
   const showtimes = await ShowtimeFactory.getShowtimes() as Showtime[];
 
@@ -48,5 +64,9 @@ export default async function ShowtimesPage() {
       />
     </div>
 
-  )
+  );
+}catch (error) {
+  console.error('Error in ShowtimesPage:', error);
+  return <div>Error loading showtimes. Please try again later.</div>;
+}
 }

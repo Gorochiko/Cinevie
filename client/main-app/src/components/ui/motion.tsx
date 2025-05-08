@@ -3,7 +3,7 @@
 import React from "react"
 
 import { cn } from "@/lib/utils"
-import { useEffect, useState } from "react"
+import { useEffect, useState ,ReactElement} from "react"
 
 interface FadeInProps extends React.HTMLAttributes<HTMLDivElement> {
   delay?: number
@@ -13,7 +13,10 @@ interface FadeInProps extends React.HTMLAttributes<HTMLDivElement> {
   once?: boolean
   asChild?: boolean
 }
-
+interface WithStyle {
+  style?: React.CSSProperties
+  className?: string
+}
 export function FadeIn({
   children,
   delay = 0,
@@ -64,12 +67,13 @@ export function FadeIn({
 
   // If asChild is true, clone the child and pass the animation styles
   if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children, {
+    const child = children as ReactElement<WithStyle>
+    return React.cloneElement(child, {
       style: {
         ...styles,
-        ...(children.props.style  || {}),
+        ...(child.props.style || {}),
       },
-      className: cn(className, children.props.className),
+      className: cn(className, child.props.className),
       ...props,
     })
   }

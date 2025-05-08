@@ -2,7 +2,7 @@
 // Code by: Truong Vu
 import { signIn } from "next-auth/react";
 import {  APIError, fetchData, patchData, postData } from "@/services/api";
-import { showtimeType, TypeTicket } from "@/types";
+import { ShowtimeType, TypeTicket, Film } from "@/types";
 
 /**
  * The mask of user type
@@ -91,7 +91,11 @@ export const register = async (user: usertype) => {
 export const getFilms = async () => {
   try {
    const results = await fetchData<flimRes>("/films/getFilms", {})
-   return results
+   if (!results) {
+      throw new APIError("Lỗi khi lấy danh sách phim");
+    }
+    return results.results;
+
   } catch (error) {
     throw error;
   }
@@ -268,7 +272,7 @@ export const createRoomToTheater = async (room:any, threaterId:string) => {
 
 
 
-export const createShowtimes = async (showtime: showtimeType )=>{
+export const createShowtimes = async (showtime: ShowtimeType )=>{
   try{
     const res = await postData<response>('showtime/addShowtime',showtime,true);
     if(!res){
