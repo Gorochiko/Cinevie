@@ -35,7 +35,8 @@ const PUBLIC_ROUTES = [
     '/films/getfilms/:id',
     'showtime/FindOnetime/:id',
     'showtime/findAlltime',
-    '/theaters/findtheater'
+    '/theaters/findtheater',
+    '/food/findallFood'
 ] as const;
 
 
