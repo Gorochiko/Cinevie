@@ -34,7 +34,7 @@ export default function SlidedownFilm() {
     const fetchFilms = async () => {
       try {
         const response = await getFilms();
-        setFilms(response.results || []);
+        setFilms(response || []);
       } catch (error:any) {
       toast({variant:"destructive", title:"Error", description:error.message})
       }
