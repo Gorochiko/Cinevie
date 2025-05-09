@@ -1,5 +1,4 @@
 
-
 import {  getShowTime } from "@/lib/actions"
 interface FilmType {
     _id: string
@@ -25,7 +24,6 @@ interface FilmType {
         }
   
         const uniqueFilms = response.reduce((acc: FilmType[], showtime: any) => {
-          // Add null checks for showtime and showtime.films
           if (showtime?.films?._id && !acc.some(film => film._id === showtime.films._id)) {
             acc.push(showtime.films);
           }

@@ -88,7 +88,7 @@ export default function FilmListPage() {
       try {
         setIsLoading(true)
         const response = await getFilms()
-        const filmData = response.results || []
+        const filmData = response || []
         setFilms(filmData)
         setFilteredFilms(filmData)
       } catch (error) {
