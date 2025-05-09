@@ -18,6 +18,7 @@ export async function POST(request:Request) {
       { status: 500 }
     );
   }
+const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_DOMAIN;
   const Request = await request.json()
   const partnerCode = 'MOMO';
   const accessKey =  process.env.ACCESSKEY;
@@ -25,7 +26,7 @@ export async function POST(request:Request) {
   const requestId = partnerCode + new Date().getTime();
   const orderId = requestId;
   const orderInfo = 'Payment with Momo';
-  const redirectUrl = `http://localhost:3000/booking/${Request.showtime._id}`; 
+  const redirectUrl = `${frontendUrl}/booking/${Request.showtime._id}`||`http://localhost:3000/booking/${Request.showtime._id}`; 
   const ipnUrl = 'http://localhost:3000/api/momo/ipn'; 
   const amount = Request.totalPrice; 
   const requestType = 'payWithMethod';
