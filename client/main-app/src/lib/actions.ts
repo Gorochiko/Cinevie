@@ -315,7 +315,7 @@ export const getShowtimeByid = async(id:string)=>{
 
 export const createTicket = async(booking: TypeTicket)=>{
   try {
-    const results = await postData('booking/addBooking',booking,true)
+    const results = await postData('/booking/addBooking',booking,true)
     console.log(results,"dữ lieu action")
     return results
   } catch (error) {
@@ -327,7 +327,7 @@ export const createTicket = async(booking: TypeTicket)=>{
 
 export const getTicket = async()=>{
   try {
-    const results = await fetchData('booking/findAllticket',{})
+    const results = await fetchData('/booking/findAllticket',{})
     return results
   } catch (error) {
     if(error instanceof APIError){
