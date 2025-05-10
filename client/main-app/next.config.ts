@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
-
+const path = require('path');
 const nextConfig: NextConfig = {
-   output: 'standalone', // or 'export' if you're doing static export
+ webpack: (config) => {
+    config.resolve.alias['@'] = path.resolve(__dirname, 'src');
+    return config;
+  },
   images: {
     domains: ['localhost', 'cinevie.onrender.com', 'img.youtube.com'],
     remotePatterns: [
