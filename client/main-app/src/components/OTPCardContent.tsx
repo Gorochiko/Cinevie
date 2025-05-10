@@ -8,7 +8,7 @@ import {
   InputOTPSeparator,
   InputOTPSlot,
 } from "../components/ui/input-otp";
-import { verify } from "../lib/actions";
+import { verify } from "../lib/authActions";
 import { toast } from "../hooks/use-toast";
 import OTPFormButton from "./OTPFormButton";
 import { useRouter,useSearchParams } from "next/navigation";
