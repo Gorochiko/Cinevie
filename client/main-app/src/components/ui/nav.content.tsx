@@ -10,16 +10,16 @@ import {
     SidebarMenuSub,
     SidebarMenuSubButton,
     SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
+} from "../../components/ui/sidebar";
 
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+} from "../../components/ui/collapsible";
 import Link from "next/link";
 import Image from "next/image";
-import { useSidebar } from "@/components/ui/sidebar";
+import { useSidebar } from "../../components/ui/sidebar";
 import React from "react";
 export default function NavContent({
     items,
