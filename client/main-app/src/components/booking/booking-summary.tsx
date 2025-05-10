@@ -4,7 +4,8 @@ import { Button } from "../ui/button"
 import { formatCurrency } from "../../lib/utils"
 import { Ticket } from "../../types"
 import { redirect } from "next/navigation"
-
+import { format, parseISO } from "date-fns";
+import { useMemo } from "react"
 
 type BookingSummaryProps = {
   booking: Ticket
@@ -35,7 +36,17 @@ export default function BookingSummary({
       nextStep();
     }
   };
- 
+ const formattedDate = useMemo(() => {
+    try {
+      const date = typeof booking.showtime.dateAction === 'string' 
+        ? parseISO(booking.showtime.dateAction)
+        : booking.showtime.dateAction;
+      return format(date, 'dd/MM/yyyy');
+    } catch (error) {
+      console.error('Date formatting error:', error);
+      return '';
+    }
+  }, [booking.showtime.dateAction]);
   const handleBack = () => {
     if (booking.currentStep === 4) {
       redirect("/"); 
@@ -69,7 +80,7 @@ export default function BookingSummary({
             {booking.showtime.theater?.name} - {booking.showtime.rooms?.name}
           </p>
           <p className="text-sm mt-1">
-            Suất: <span className="font-medium">{booking.showtime.startTime}</span> - {booking.showtime.dateAction.toLocaleDateString()}
+            Suất: <span className="font-medium">{booking.showtime.startTime}</span> - {formattedDate}
           </p>
         </div>
       </div>
