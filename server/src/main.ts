@@ -12,7 +12,7 @@ async function bootstrap() {
   app.use('/uploads', express.static(path.join(__dirname, '..', 'public', 'uploads')));
   app.use('/uploads', express.static(join(__dirname, '..', 'public/uploads')));
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://cinevie.onrender.com'],
+    origin: ['http://localhost:3000', 'https://cinevie-two.vercel.app'],
   });
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   app.enableShutdownHooks();
