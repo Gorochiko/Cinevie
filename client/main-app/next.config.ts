@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+   output: 'standalone', // or 'export' if you're doing static export
   images: {
     domains: ['localhost', 'cinevie.onrender.com', 'img.youtube.com'],
     remotePatterns: [
