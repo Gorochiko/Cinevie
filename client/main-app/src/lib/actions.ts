@@ -1,7 +1,7 @@
 "use server";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Code by: Truong Vu
-import { signIn } from "next-auth/react";
+
 import {  APIError, fetchData, patchData, postData } from "../services/api";
 import { ShowtimeType, TypeTicket,  } from "../types";
 import { revalidateTag } from "next/cache";
@@ -269,7 +269,7 @@ export const getShowTime = async()=>{
 export const getShowtimeByid = async(id:string)=>{
   
   try {
-    const res = await fetchData(`showtime/FindOnetime/${id}`,{})
+    const res = await fetchData(`/showtime/FindOnetime/${id}`,{})
     return res
   } catch (error) {
     if(error instanceof APIError){
