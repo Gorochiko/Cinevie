@@ -274,7 +274,7 @@ export const createRoomToTheater = async (room:any, threaterId:string) => {
 
 export const createShowtimes = async (showtime: ShowtimeType )=>{
   try{
-    const res = await postData<response>('showtime/addShowtime',showtime,true);
+    const res = await postData<response>('/showtime/addShowtime',showtime,true);
     if(!res){
       throw new APIError("Lỗi khi thêm suất chiếu")
     }
@@ -291,7 +291,7 @@ export const createShowtimes = async (showtime: ShowtimeType )=>{
 
 export const getShowTime = async()=>{
   try {
-    const res= await fetchData('showtime/findAlltime', {});
+    const res= await fetchData('/showtime/findAlltime', {});
     return res ;
   } catch (error) {
    if(error instanceof APIError){
@@ -304,7 +304,7 @@ export const getShowTime = async()=>{
 export const getShowtimeByid = async(id:string)=>{
   
   try {
-    const res = await fetchData(`showtime/FindOnetime/${id}`,{})
+    const res = await fetchData(`/showtime/FindOnetime/${id}`,{})
     return res
   } catch (error) {
     if(error instanceof APIError){

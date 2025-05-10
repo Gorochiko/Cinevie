@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     config.resolve.alias['@'] = path.resolve(__dirname, 'src');
     return config;
   },
+  
   images: {
     domains: ['localhost', 'cinevie.onrender.com', 'img.youtube.com'],
     remotePatterns: [
@@ -35,9 +36,10 @@ const nextConfig: NextConfig = {
       bodySizeLimit: "1mb",
       allowedOrigins: ["*"],
     },
+     
   },
-  // Thêm cấu hình để xử lý các route động
-
+   serverExternalPackages: ['axios'],
+ 
 };
 
 export default nextConfig;
