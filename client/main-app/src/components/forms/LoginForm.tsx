@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import {  useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useToast } from "@/hooks/use-toast";
-import { login } from "@/lib/actions";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
+import { useToast } from "../../hooks/use-toast";
+import { login } from "../../lib/actions";
 import  Link  from "next/link";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
@@ -51,7 +51,7 @@ export default  function LoginForm() {
         <Input
             id="email"
             type="email"
-            placeholder="m@example.com"
+            placeholder="m../..example.com"
             required
             value={username}
             onChange={(e) => setUsername(e.target.value)}

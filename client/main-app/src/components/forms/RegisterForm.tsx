@@ -2,14 +2,14 @@
 
 import type React from "react"
 import Link from "next/link"
-import { CardTitle, CardHeader, CardContent, Card } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { CardTitle, CardHeader, CardContent, Card } from "../../components/ui/card"
+import { Label } from "../../components/ui/label"
+import { Input } from "../../components/ui/input"
+import { Button } from "../../components/ui/button"
 import { useState } from "react"
-import { register } from "@/lib/actions"
+import { register } from "../../lib/actions"
 import { useRouter } from "next/navigation"
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from "../../hooks/use-toast"
 import { motion } from "framer-motion"
 
 export function RegisterForm() {
