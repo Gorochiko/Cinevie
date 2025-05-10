@@ -1,6 +1,6 @@
 // Movie revenue data
-import { getTicket } from "@/lib/actions"
-import { Ticket } from "@/types"
+import { getTicket } from "../../lib/actions"
+import { Ticket } from "../../types"
 
 
 export async function getTotalRevenueByMovie() {

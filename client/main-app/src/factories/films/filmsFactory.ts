@@ -1,5 +1,5 @@
 
-import {  getShowTime } from "@/lib/actions"
+import {  getShowTime } from "../../lib/actions"
 interface FilmType {
     _id: string
     title: string

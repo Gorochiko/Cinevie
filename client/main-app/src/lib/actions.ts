@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Code by: Truong Vu
 import { signIn } from "next-auth/react";
-import {  APIError, fetchData, patchData, postData } from "@/services/api";
-import { ShowtimeType, TypeTicket, Film } from "@/types";
+import {  APIError, fetchData, patchData, postData } from "../services/api";
+import { ShowtimeType, TypeTicket, Film } from "../types";
 
 /**
  * The mask of user type

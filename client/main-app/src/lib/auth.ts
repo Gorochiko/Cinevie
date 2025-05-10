@@ -1,6 +1,6 @@
 import NextAuth, { DefaultSession, CredentialsSignin, User } from "next-auth";
-import { APIError } from "@/services/api";
-import { postData, fetchData } from "@/services/api";
+import { APIError } from "../services/api";
+import { postData, fetchData } from "../services/api";
 import Credentials from "next-auth/providers/credentials";
 import  "next-auth/jwt";
 

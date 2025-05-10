@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { AxiosError, AxiosResponse, AxiosInstance } from 'axios';
 import { getSession, signOut } from 'next-auth/react';
-import { auth } from "@/lib/auth";
+import { auth } from "../lib/auth";
 
 /**
  * Custom error class for API-related errors.

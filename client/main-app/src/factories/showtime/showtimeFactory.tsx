@@ -1,5 +1,5 @@
-import { getShowTime, getTheaters } from "@/lib/actions";
-import { CinemaBranch,   Showtime } from "@/types";
+import { getShowTime, getTheaters } from "../../lib/actions";
+import { CinemaBranch,   Showtime } from "../../types";
 
 class CinemaBranchFactory  {
   constructor(
