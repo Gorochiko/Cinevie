@@ -1,8 +1,10 @@
+"use server";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Code by: Truong Vu
 import { signIn } from "next-auth/react";
 import {  APIError, fetchData, patchData, postData } from "../services/api";
-import { ShowtimeType, TypeTicket, Film } from "../types";
+import { ShowtimeType, TypeTicket,  } from "../types";
+import { revalidateTag } from "next/cache";
 
 /**
  * The mask of user type
@@ -90,7 +92,7 @@ export const register = async (user: usertype) => {
  */
 export const getFilms = async () => {
   try {
-   const results = await fetchData<flimRes>("/films/getFilms", {})
+   const results = await fetchData<flimRes>("/films/getFilms", {next: { tags: ['films'], revalidate: 600 }});
    if (!results) {
       throw new APIError("Lỗi khi lấy danh sách phim");
     }
@@ -107,7 +109,7 @@ export const getFilms = async () => {
 
 export const getFoods = async()=>{
   try {
-    const results = await fetchData("/food/findallFood",{})
+    const results = await fetchData("/food/findallFood",{next: { tags: ['food'], revalidate: 600 }});
     return results
   } catch (error ) {
     if(error instanceof APIError){
@@ -133,6 +135,7 @@ export const createFilms = async (films:FormData) => {
     if (!response) {
       throw new APIError("Lỗi khi thêm phim");
     }
+    revalidateTag('films')
     return response;
   } catch (error) {
     console.error("Lỗi khi thêm phim:", error);
@@ -151,6 +154,7 @@ export const createFoods = async(foods:FormData)=>{
     if (!response) {
       throw new APIError("Lỗi khi thêm thức ăn");
     }
+    revalidateTag('food')
     return response;
   } catch (error) {
     if(error instanceof APIError){
@@ -203,6 +207,7 @@ export const updateFilmsAPI = async (id:string,films:any) => {
     if (!response) {
       throw new APIError("Lỗi khi cập nhật phim");
     }
+    revalidateTag('films')
     return response;
   } catch (error) {
     if(error instanceof APIError){
@@ -227,6 +232,7 @@ export const createTheater = async (theater:theater) => {
     if (!response) {
       throw new APIError("Lỗi khi thêm rạp");
     }
+    revalidateTag('theater')
     return response;
   } catch (error) {
     console.error("Lỗi khi thêm rạp:", error);
@@ -241,7 +247,7 @@ export const createTheater = async (theater:theater) => {
 
 export const getTheaters = async () => {
   try {
-   const results = await fetchData("/theaters/findtheater", {})
+   const results = await fetchData("/theaters/findtheater", {next: { tags: ['theater'], revalidate: 600 }});
    return results
   } catch (error) {
     console.error("Lỗi khi lấy danh sách rạp:", error);
@@ -262,6 +268,7 @@ export const createRoomToTheater = async (room:any, threaterId:string) => {
     if (!response) {
       throw new APIError("Lỗi khi thêm phòng");
     }
+    revalidateTag('theater')
     return response;
   } catch (error) {
     if(error instanceof APIError){
@@ -278,6 +285,7 @@ export const createShowtimes = async (showtime: ShowtimeType )=>{
     if(!res){
       throw new APIError("Lỗi khi thêm suất chiếu")
     }
+    revalidateTag('showtime')
     return res;
   }catch(error){
     if(error instanceof APIError){
@@ -291,7 +299,13 @@ export const createShowtimes = async (showtime: ShowtimeType )=>{
 
 export const getShowTime = async()=>{
   try {
-    const res= await fetchData('/showtime/findAlltime', {});
+    const res= await fetchData('/showtime/findAlltime', {
+      next: { tags: ['showtime'],
+         revalidate: 3600
+       },
+    });
+    
+    
     return res ;
   } catch (error) {
    if(error instanceof APIError){
@@ -304,7 +318,7 @@ export const getShowTime = async()=>{
 export const getShowtimeByid = async(id:string)=>{
   
   try {
-    const res = await fetchData(`/showtime/FindOnetime/${id}`,{})
+    const res = await fetchData(`showtime/FindOnetime/${id}`,{})
     return res
   } catch (error) {
     if(error instanceof APIError){
@@ -315,7 +329,7 @@ export const getShowtimeByid = async(id:string)=>{
 
 export const createTicket = async(booking: TypeTicket)=>{
   try {
-    const results = await postData('/booking/addBooking',booking,true)
+    const results = await postData('booking/addBooking',booking,true)
     console.log(results,"dữ lieu action")
     return results
   } catch (error) {
@@ -327,7 +341,7 @@ export const createTicket = async(booking: TypeTicket)=>{
 
 export const getTicket = async()=>{
   try {
-    const results = await fetchData('/booking/findAllticket',{})
+    const results = await fetchData('booking/findAllticket',{})
     return results
   } catch (error) {
     if(error instanceof APIError){
@@ -361,6 +375,7 @@ export const updateticket = async(id:string)=>{
 export const updateStatus = async(id:string)=>{
   try {
     const res = patchData('/showtime/updateStatus',{_id:id},true)
+    revalidateTag('showtime')
     return res;
   } catch (error)  {
     if(error instanceof APIError){

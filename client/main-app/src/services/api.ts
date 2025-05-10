@@ -1,3 +1,4 @@
+
 /**
  * Custom error class for API-related errors.
  */
@@ -24,11 +25,18 @@ const PUBLIC_ROUTES = [
   '/auth/signout',
   '/films/getFilms',
   '/films/getfilms/:id',
-  '/showtime/FindOnetime/:id',
-  '/showtime/findAlltime',
+  'showtime/FindOnetime/:id',
+  'showtime/findAlltime',
   '/theaters/findtheater',
   '/food/findallFood'
 ] as const;
+
+interface NextFetchOptions {
+  next?: {
+    tags?: string[];
+    revalidate?: number;
+  };
+}
 
 /**
  * Checks if a given URL is a public route.
@@ -119,12 +127,19 @@ const addAuthHeader = async (config: RequestInit, url: string): Promise<RequestI
  */
 export const fetchData = async <T>(
   endpoint: string,
-  config: RequestInit = {}
+  config: RequestInit & NextFetchOptions = {}
 ): Promise<T> => {
   try {
     const url = `${getBaseUrl()}/api${endpoint}`;
-    const finalConfig = await addAuthHeader(config, endpoint);
-    const response = await fetch(url, finalConfig);
+    const { next, ...fetchConfig } = config;
+
+    const finalConfig = await addAuthHeader(fetchConfig, endpoint);
+
+    const response = await fetch(url, {
+      ...finalConfig,
+      next: next // Chỉ cần truyền next options ở đây
+    });
+
     return handleResponse<T>(response);
   } catch (error) {
     if (error instanceof APIError) {
@@ -142,7 +157,7 @@ export const fetchData = async <T>(
 export const postData = async <T>(
   endpoint: string,
   data: Record<string, any> | FormData,
-  requireAuth = true
+  requireAuth = true,
 ): Promise<T> => {
   try {
     const isFormData = data instanceof FormData;
@@ -175,16 +190,18 @@ export const postData = async <T>(
 export const patchData = async <T>(
   endpoint: string,
   data: Record<string, any>,
-  requireAuth = true
+  requireAuth = true,
+
 ): Promise<T> => {
   try {
-    const config: RequestInit = {
+    const config: RequestInit & NextFetchOptions = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         ...(!requireAuth && { Authorization: '' }),
       },
       body: JSON.stringify(data),
+     
     };
 
     const url = `${getBaseUrl()}/api${endpoint}`;
@@ -206,17 +223,19 @@ export const patchData = async <T>(
  */
 export const deleteData = async <T>(
   endpoint: string,
-  requireAuth = true
+  requireAuth = true,
+
 ): Promise<T> => {
   try {
-    const config: RequestInit = {
+    const config: RequestInit & NextFetchOptions = {
       method: 'DELETE',
       headers: {
         ...(!requireAuth && { Authorization: '' }),
       },
+    
     };
 
-    const url = `${getBaseUrl()}/api/${endpoint}`;
+    const url = `${getBaseUrl()}/api${endpoint}`;
     const finalConfig = requireAuth ? await addAuthHeader(config, endpoint) : config;
     const response = await fetch(url, finalConfig);
     return handleResponse<T>(response);
