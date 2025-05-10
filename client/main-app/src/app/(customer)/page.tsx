@@ -4,7 +4,8 @@ import { RecommendMovie } from "@/components/RecommendMovie";
 import { MovieGenres } from "@/components/MovieGenres";
 import { Promotion } from "@/components/Promotion";
 import { FilmFactory } from "@/factories/films/filmsFactory";
-
+export const dynamic = 'force-dynamic'
+export const fetchCache = 'force-no-store'
 
 export default async function Home() {
   try {
