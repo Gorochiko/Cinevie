@@ -1,10 +1,10 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { Calendar, Clock, Edit, MapPin, MoreHorizontal, Trash2, Users } from "lucide-react"
 import { format, parseISO } from "date-fns"
 import { toZonedTime } from "date-fns-tz"
-import { Button } from "@/components/ui/button"
+import { Button } from "../../../components/ui/button"
 import {
   Dialog,
   DialogClose,
@@ -13,13 +13,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
+} from "../../../components/ui/dialog"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "../../../components/ui/dropdown-menu"
+import { Badge } from "../../../components/ui/badge"
+import { Card, CardContent, CardFooter } from "../../../components/ui/card"
 import { ShowtimeDialog } from "./showtime-dialog"
-import { Showtime } from "@/types/index"
-import { createShowtime } from "@/factories/showtime/createShơtimeFactory"
+import { Showtime } from "../../../types/index"
+import { createShowtime } from "../../../factories/showtime/createShơtimeFactory"
 
 
 interface ShowtimeTableProps {

@@ -2,8 +2,8 @@
 
 import type { FC } from "react"
 import { MoreHorizontal } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from "../../../components/ui/button"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../components/ui/table"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,10 +11,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "../../../components/ui/dropdown-menu"
 import { StatusBadge } from "./status-badge"
 import { TableSkeleton } from "./table-skeleton"
-import type { Ticket } from "@/types/index"
+import type { Ticket } from "../../../types/index"
 
 interface TicketTableProps {
   tickets: Ticket[]

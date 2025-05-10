@@ -1,14 +1,14 @@
 "use client"
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Button } from "../../components/ui/button"
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "../../components/ui/dialog"
+import { Input } from "../../components/ui/input"
+import { Label } from "../../components/ui/label"
+import { Textarea } from "../../components/ui/textarea"
 import { PlusCircle, Upload, X } from "lucide-react"
 import Image from "next/image"
-import { createFilms } from "@/lib/actions"
-import { toast, useToast } from "@/hooks/use-toast"
+import { createFilms } from "../../lib/actions"
+import {  useToast } from "../../hooks/use-toast"
 
 export default function FormAddMovie() {
     const [title, setTitle] = useState("")

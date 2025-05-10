@@ -2,9 +2,9 @@
 
 import { useState } from "react"
 import { Edit, Trash2, ChevronUp, ChevronDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import  { FoodItem} from"@/types"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Button } from "../../../components/ui/button"
+import  { FoodItem} from"../../../types"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../components/ui/table"
 // import {
 //   AlertDialog,
 //   AlertDialogAction,
@@ -14,7 +14,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 //   AlertDialogFooter,
 //   AlertDialogHeader,
 //   AlertDialogTitle,
-// } from "@/components/ui/alert-dialog"
+// } from "../../../components/ui/alert-dialog"
 import Image from "next/image"
 
 interface FoodListProps {

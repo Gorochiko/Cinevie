@@ -3,7 +3,7 @@
 import Link from "next/link"
 import Image from "next/image"
 import { signOut, useSession } from "next-auth/react"
-import { Button } from "@/components/ui/button"
+import { Button } from "../components/ui/button"
 import { useState, useEffect } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 import { ChevronDown, CircleUserIcon, Menu, X, Film, MapPin, Ticket, HelpCircle, LogOut, User } from "lucide-react"

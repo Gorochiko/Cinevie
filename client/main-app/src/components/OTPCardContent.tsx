@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { CardContent } from "@/components/ui/card";
+import { CardContent } from "../components/ui/card";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSeparator,
   InputOTPSlot,
-} from "@/components/ui/input-otp";
-import { verify } from "@/lib/actions";
-import { toast } from "@/hooks/use-toast";
+} from "../components/ui/input-otp";
+import { verify } from "../lib/actions";
+import { toast } from "../hooks/use-toast";
 import OTPFormButton from "./OTPFormButton";
 import { useRouter,useSearchParams } from "next/navigation";
 

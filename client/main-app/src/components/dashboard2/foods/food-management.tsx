@@ -1,11 +1,11 @@
 "use client"
 import { useState } from "react"
 import { Plus } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { Button } from "../../../components/ui/button"
 import { FoodCard } from "./food-card"
-import  { FoodItem } from "@/types"
+import  { FoodItem } from "../../../types"
 import { FoodList } from "./food-list"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsList, TabsTrigger } from "../../../components/ui/tabs"
 import FormAddFood from "./form.addFood"
 
 interface FoodManagementProps {

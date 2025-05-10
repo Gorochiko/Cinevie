@@ -1,7 +1,7 @@
 "use client"
 
 import type { FC } from "react"
-import { Button } from "@/components/ui/button"
+import { Button } from "../../../components/ui/button"
 
 interface PaginationProps {
   currentPage: number

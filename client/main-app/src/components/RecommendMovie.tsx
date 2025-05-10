@@ -2,11 +2,11 @@
 
 import { useState,useEffect } from "react"
 import Image from "next/image"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "../components/ui/card"
+import { Badge } from "../components/ui/badge"
 import { LoadingCatSimple } from "./loading/loadingDot"
 import { motion } from "framer-motion"
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../components/ui/carousel"
 import { Film, Star, Clock } from "lucide-react"
 import { useRouter } from "next/navigation"
 

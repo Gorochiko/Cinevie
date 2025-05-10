@@ -2,9 +2,9 @@
 
 import Image from "next/image"
 import { Edit, Trash2 } from "lucide-react"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import type { FoodItem } from "@/types"
+import { Card, CardContent, CardFooter } from "../../../components/ui/card"
+import { Button } from "../../../components/ui/button"
+import type { FoodItem } from "../../../types"
 import { useState } from "react"
 // import {
 //   AlertDialog,
@@ -15,7 +15,7 @@ import { useState } from "react"
 //   AlertDialogFooter,
 //   AlertDialogHeader,
 //   AlertDialogTitle,
-// } from "@/components/ui/alert-dialog"
+// } from "../../../components/ui/alert-dialog"
 
 interface FoodCardProps {
   food: FoodItem

@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import * as React from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
-import { getFilms } from "@/lib/actions";
+import { Card, CardContent } from "../components/ui/card";
+import { getFilms } from "../lib/actions";
 
 import {
   Carousel,
@@ -12,8 +12,8 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
-import { toast } from "@/hooks/use-toast";
+} from "../components/ui/carousel";
+import { toast } from "../hooks/use-toast";
 
 interface Film {
   _id: string;

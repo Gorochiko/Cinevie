@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card";
 import { ShowtimesFilter } from "./showtimes-filter";
 import { ShowtimesTable } from "./showtimes-table";
-import { Showtime } from "@/types";
+import { Showtime } from "../../../types";
 
 ;
 

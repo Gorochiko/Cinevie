@@ -1,9 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { getTotalRevenuePercentageByTheater } from "@/factories/dashboards/data.dasboards.theater"
+import { getTotalRevenuePercentageByTheater } from "../../../factories/dashboards/data.dasboards.theater"
 import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts"
-import { CountUp, FadeIn } from "@/components/ui/motion"
+import { CountUp, FadeIn } from "../../../components/ui/motion"
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28DFF", "#FF6666"]
 

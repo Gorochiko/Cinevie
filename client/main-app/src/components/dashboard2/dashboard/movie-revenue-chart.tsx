@@ -1,8 +1,8 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { getTotalRevenueByMovie } from "@/factories/dashboards/data.dashboards.films"
-import { FadeIn } from "@/components/ui/motion"
+import { getTotalRevenueByMovie } from "../../../factories/dashboards/data.dashboards.films"
+import { FadeIn } from "../../../components/ui/motion"
 
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A28DFF", "#FF6666"]

@@ -2,8 +2,8 @@
 
 import type { FC } from "react"
 import { Calendar, ChevronDown, Filter, RefreshCw, Loader2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { CardDescription, CardTitle } from "@/components/ui/card"
+import { Button } from "../../../components/ui/button"
+import { CardDescription, CardTitle } from "../../../components/ui/card"
 
 interface TableActionsProps {
   isRefreshing: boolean

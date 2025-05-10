@@ -1,9 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { getTicket } from "@/lib/actions"
-import { Ticket } from "@/types"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../components/ui/table"
+import { getTicket } from "../../../lib/actions"
+import { Ticket } from "../../../types"
 
 export function RecentTransactionsTable() {
   const [visibleRows, setVisibleRows] = useState<number[]>([])

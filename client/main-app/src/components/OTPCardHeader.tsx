@@ -1,5 +1,5 @@
 
-import {CardHeader,  CardTitle} from "@/components/ui/card";
+import {CardHeader,  CardTitle} from "../components/ui/card";
 export default function OTPCardHeader() {
     return (
         <CardHeader className="text-center">

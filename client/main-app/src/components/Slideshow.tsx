@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
 import { Calendar, Play, Clock } from 'lucide-react';
-import { getFilms } from "@/lib/actions";
-import { Film } from "@/types";
+import { getFilms } from "../lib/actions";
+import { Film } from "../types";
 import { useRouter } from "next/navigation";
 
 export function Slideshow() {

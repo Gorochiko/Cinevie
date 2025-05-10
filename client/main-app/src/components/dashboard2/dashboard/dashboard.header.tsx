@@ -1,8 +1,8 @@
 import { Calendar } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ThemeToggle } from "@/components/theme-toggle"
-import { FadeIn } from "@/components/ui/motion"
+import { Button } from "../../../components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select"
+import { ThemeToggle } from "../../../components/theme-toggle"
+import { FadeIn } from "../../../components/ui/motion"
 
 export function DashboardHeader() {
   return (

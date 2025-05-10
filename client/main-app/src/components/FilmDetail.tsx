@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import * as React from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
-import { fetchData } from "@/services/api";
+import { Card, CardContent } from "../components/ui/card";
+import { fetchData } from "../services/api";
 
 interface Film {
   _id: string;

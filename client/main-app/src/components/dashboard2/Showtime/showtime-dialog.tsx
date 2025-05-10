@@ -1,12 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable ../../..typescript-eslint/no-explicit-any */
 "use client"
 import type React from "react"
 import { useEffect, useState } from "react"
-import { CalendarIcon, Clock, Save } from "lucide-react"
-import { format } from "date-fns"
-import { vi } from "date-fns/locale"
-import { Button } from "@/components/ui/button"
-// import { Calendar } from "@/components/ui/calendar"
+import {  Clock, Save } from "lucide-react"
+
+import { Button } from "../../../components/ui/button"
+
 import {
   Dialog,
   DialogContent,
@@ -15,21 +14,21 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { cn } from "@/lib/utils"
+} from "../../../components/ui/dialog"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../../../components/ui/form"
+import { Input } from "../../../components/ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select"
+
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ShowtimeType } from "@/types"
-import { createShowtimes, getFilms, getTheaters } from "@/lib/actions"
-import { CinemaBranch } from "@/types";
-import { toast } from "@/hooks/use-toast"
-import { Film } from "@/types/index"
-import { LoadingCat } from "@/components/loading/loading-cat"
+import { ShowtimeType } from "../../../types"
+import { createShowtimes, getFilms, getTheaters } from "../../../lib/actions"
+import { CinemaBranch } from "../../../types";
+import { toast } from "../../../hooks/use-toast"
+import { Film } from "../../../types/index"
+import { LoadingCat } from "../../../components/loading/loading-cat"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 

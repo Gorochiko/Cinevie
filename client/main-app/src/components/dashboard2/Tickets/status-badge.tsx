@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import { Badge } from "@/components/ui/badge"
+import { Badge } from "../../../components/ui/badge"
 
 type TicketStatus = "pending"  | "paid" | "cancelled"
 

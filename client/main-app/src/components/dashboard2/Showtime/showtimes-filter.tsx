@@ -2,15 +2,15 @@
 import { Loader2, RefreshCw, Search } from "lucide-react"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-// import { Calendar } from "@/components/ui/calendar"
-import { Input } from "@/components/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { cn } from "@/lib/utils"
-import { use, useEffect, useState } from "react"
-import { ShowtimesTable } from "./showtimes-table"
-import { Showtime } from "@/types"
+import { Button } from "../../../components/ui/button"
+
+import { Input } from "../../../components/ui/input"
+import { Popover, PopoverContent, PopoverTrigger } from "../../../components/ui/popover"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select"
+import { cn } from "../../../lib/utils"
+import {  useEffect, useState } from "react"
+
+import { Showtime } from "../../../types"
 
 interface CinemaProp {
     theaterOptions: Array<{ key: string; value: string; label: string }>

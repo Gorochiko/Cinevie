@@ -1,10 +1,10 @@
 "use client"
 
 import type { FC } from "react"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { Button } from "../../../components/ui/button"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../../../components/ui/dialog"
 import { StatusBadge } from "./status-badge"
-import type { Ticket } from "@/types/index"
+import type { Ticket } from "../../../types/index"
 
 interface TicketDetailsDialogProps {
   ticket: Ticket | null

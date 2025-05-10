@@ -1,6 +1,6 @@
 
-import { Button } from "@/components/ui/button";
-import { CardContent, CardTitle } from "@/components/ui/card";
+import { Button } from "../components/ui/button";
+import { CardContent, CardTitle } from "../components/ui/card";
 interface OTPFormButtonProps {
   handleVerify: () => void;
   isLoading: boolean;

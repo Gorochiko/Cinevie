@@ -1,5 +1,5 @@
 import type { FC } from "react"
-import { TableRow, TableCell } from "@/components/ui/table"
+import { TableRow, TableCell } from "../../../components/ui/table"
 
 interface TableSkeletonProps {
   rowCount: number

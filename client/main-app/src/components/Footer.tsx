@@ -1,9 +1,9 @@
 "use client"
 
-import HeadFooter from "@/components/headFooter"
-import Line from "@/components/Line"
-import BodyFooter from "@/components/bodyFooter"
-import EndFooter from "@/components/endFooter"
+import HeadFooter from "./headFooter"
+import Line from "./Line"
+import BodyFooter from "./bodyFooter"
+import EndFooter from "./endFooter"
 
 export default function Footer() {
   return (
