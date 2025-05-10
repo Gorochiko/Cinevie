@@ -25,8 +25,8 @@ const PUBLIC_ROUTES = [
   '/auth/signout',
   '/films/getFilms',
   '/films/getfilms/:id',
-  'showtime/FindOnetime/:id',
-  'showtime/findAlltime',
+  '/showtime/FindOnetime/:id',
+  '/showtime/findAlltime',
   '/theaters/findtheater',
   '/food/findallFood'
 ] as const;
