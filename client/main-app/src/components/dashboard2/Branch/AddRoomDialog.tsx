@@ -1,9 +1,9 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import {createRoomToTheater} from "@/lib/actions";
-import { toast } from "@/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "../../../components/ui/dialog";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
+import { Button } from "../../../components/ui/button";
+import {createRoomToTheater} from "../../../lib/actions";
+import { toast } from "../../../hooks/use-toast";
 
 const AddRoomDialog = ({ addRoomOpen,theaterId, setAddRoomOpen, selectedBranch, newRoom, setNewRoom, handleAddRoom }:any) => {
   handleAddRoom = async () => {

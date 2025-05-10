@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { getTheaters } from "@/lib/actions"; // Import API
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
+import { getTheaters } from "../../../lib/actions"; // Import API
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "../../../components/ui/card";
+import { Button } from "../../../components/ui/button";
+import { Badge } from "../../../components/ui/badge";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "../../../components/ui/dropdown-menu";
 import { MoreHorizontal, MapPin, Film } from "lucide-react";
-import { CinemaBranch } from "@/types";
-import { toast } from "@/hooks/use-toast";
+import { CinemaBranch } from "../../../types";
+import { toast } from "../../../hooks/use-toast";   
 
 
 const BranchList = ({ openBranchDetails, openAddRoomDialog }: any) => {

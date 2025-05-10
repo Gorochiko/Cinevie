@@ -1,12 +1,12 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
+import { Input } from "../../../components/ui/input";
+import { Textarea } from "../../../components/ui/textarea";
+import { Label } from "../../../components/ui/label";
+import { Button } from "../../../components/ui/button";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-import { createTheater } from "@/lib/actions";
-import { toast } from "@/hooks/use-toast";
+import { createTheater } from "../../../lib/actions";
+import { toast } from "../../../hooks/use-toast";
 
 
 const AddBranchDialog = ({ addBranchOpen, setAddBranchOpen,onBranchAdded  }:any) => {

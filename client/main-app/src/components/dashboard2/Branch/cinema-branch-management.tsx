@@ -2,22 +2,22 @@
 
 import { useState } from "react"
 import { Plus, MapPin, Film, Building2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "../../../components/ui/button"
+import { Badge } from "../../../components/ui/badge"
+import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui/card"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+} from "../../../components/ui/dialog"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs"
 import AddRoomDialog from "./AddRoomDialog";
 import AddBranchDialog from "./AddBranchDialog"
 import BranchList from "./BranchList"
-import { CinemaBranch, ScreeningRoom } from "@/types"
-import { toast } from "@/hooks/use-toast"
+import { CinemaBranch, ScreeningRoom } from "../../../types"
+import { toast } from "../../../hooks/use-toast"
 import { Clapperboard } from "lucide-react";
 
 export default function CinemaBranchManagement() {

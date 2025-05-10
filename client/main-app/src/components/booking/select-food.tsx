@@ -2,9 +2,9 @@
 
 import Image from "next/image"
 import { Plus, Minus } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { formatCurrency } from "@/lib/utils"
-import { FoodItem, Combo } from "@/types"
+import { Button } from "../../components/ui/button"
+import { formatCurrency } from "../../lib/utils"
+import { FoodItem, Combo } from "../../types"
 
 type SelectFoodProps = {
   selectedFood: Combo[]

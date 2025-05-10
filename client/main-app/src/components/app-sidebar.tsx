@@ -2,7 +2,7 @@
 import {
     Sidebar,
     SidebarContent,
-} from "@/components/ui/sidebar";
+} from "../components/ui/sidebar";
 import {  Popcorn,Ticket } from "lucide-react";
 import { User } from 'lucide-react';
 import { Video } from 'lucide-react';

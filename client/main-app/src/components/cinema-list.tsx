@@ -1,12 +1,12 @@
 "use client"
 
-import type { CinemaBranch } from "@/types/index"
+import type { CinemaBranch } from "../types/index"
 import { useSearchParams, useRouter } from "next/navigation"
 import { MapPin, Film, Search, X } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import { Input } from "../components/ui/input"
+import { Button } from "../components/ui/button"
 import { useState, useEffect, useCallback } from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "../lib/utils"
 import { motion } from "framer-motion"
 
 interface CinemaListProps {

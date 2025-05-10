@@ -1,10 +1,10 @@
 
-import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
-import AdminHeader from '@/components/dashboard2/headerAdmin'
-import { Toaster } from "@/components/ui/toaster"
+import { SidebarProvider } from "../../components/ui/sidebar"
+import { AppSidebar } from "../../components/app-sidebar"
+import AdminHeader from '../../components/dashboard2/headerAdmin'
+import { Toaster } from "../../components/ui/toaster"
 import { SessionProvider } from "next-auth/react"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "../../components/theme-provider"
 export default async function Layout({ children }: { children: React.ReactNode }) {
 
 

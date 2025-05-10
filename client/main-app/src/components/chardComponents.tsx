@@ -1,7 +1,7 @@
 "use client";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
-import { ChartConfig, ChartContainer, ChartLegend,ChartLegendContent ,ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { ChartConfig, ChartContainer, ChartLegend,ChartLegendContent ,ChartTooltip, ChartTooltipContent } from "../components/ui/chart"
 export default function chartData(){
   const chartData = [
     { month: "January", desktop: 186, mobile: 80 },

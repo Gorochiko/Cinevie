@@ -1,8 +1,8 @@
 "use client"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { formatCurrency } from "@/lib/utils"
-import { Ticket } from "@/types"
+import { Button } from "../ui/button"
+import { formatCurrency } from "../../lib/utils"
+import { Ticket } from "../../types"
 import { redirect } from "next/navigation"
 
 

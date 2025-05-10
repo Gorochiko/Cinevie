@@ -3,11 +3,11 @@
 import type React from "react"
 import { useEffect, useState } from "react"
 import { useParams } from "next/navigation"
-import { getShowTime } from "@/lib/actions"
-import type { Showtime } from "@/types"
+import { getShowTime } from "../lib/actions"
+import type { Showtime } from "../types"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../components/ui/select"
 import { LoadingCatSimple } from "./loading/loadingDot" 
 
 const ShowtimesList: React.FC = () => {

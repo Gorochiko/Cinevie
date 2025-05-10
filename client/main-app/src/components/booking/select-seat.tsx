@@ -1,8 +1,8 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
-import { TypeSeat, Seat, Ticket } from "@/types"
-import { CinemaSeatAdapter } from "@/adapter/SeatAdapter"
+import { Button } from "../../components/ui/button"
+import { TypeSeat, Seat, Ticket } from "../../types"
+import { CinemaSeatAdapter } from "../../adapter/SeatAdapter"
 type SelectSeatProps = {
   booking: Ticket
   selectedSeats: TypeSeat[]

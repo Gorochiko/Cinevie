@@ -1,7 +1,7 @@
 "use client"
 
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label"
+import { RadioGroup, RadioGroupItem } from "../../components/ui/radio-group"
+import { Label } from "../../components/ui/label"
 import { CreditCard, Wallet, BanknoteIcon } from "lucide-react"
 
 type PaymentProps = {

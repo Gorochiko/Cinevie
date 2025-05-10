@@ -1,13 +1,13 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "../../components/ui/button"
 import { CheckCircle, XCircle } from "lucide-react"
-import { formatCurrency } from "@/lib/utils"
-import type { Ticket } from "@/types"
+import { formatCurrency } from "../../lib/utils"
+import type { Ticket } from "../../types"
 import { useSearchParams } from "next/navigation"
-import { updateticket } from "@/lib/actions"
+import { updateticket } from "../../lib/actions"
 import { useEffect, useState } from "react"
-import { TypeSeat } from "@/types"
+import { TypeSeat } from "../../types"
 interface ConfirmationProps  {
   booking: Ticket
   getTotalPrice: () => number
