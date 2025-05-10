@@ -1,16 +1,16 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Skeleton } from "@/components/ui/skeleton"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs"
+import { Skeleton } from "../../../components/ui/skeleton"
 
-import { DashboardHeader } from "@/components/dashboard2/dashboard/dashboard.header"
-import { MovieRevenueChart } from "@/components/dashboard2/dashboard/movie-revenue-chart"
-import { OverviewCards } from "@/components/dashboard2/dashboard/overview-cards"
-import { RecentTransactionsTable } from "@/components/dashboard2/dashboard/recent-transactions-table"
-import { TheaterRevenueChart } from "@/components/dashboard2/dashboard/theater-revenue-chart"
-import { FadeIn } from "@/components/ui/motion"
+import { DashboardHeader } from "../../../components/dashboard2/dashboard/dashboard.header"
+import { MovieRevenueChart } from "../../../components/dashboard2/dashboard/movie-revenue-chart"
+import { OverviewCards } from "../../../components/dashboard2/dashboard/overview-cards"
+import { RecentTransactionsTable } from "../../../components/dashboard2/dashboard/recent-transactions-table"
+import { TheaterRevenueChart } from "../../../components/dashboard2/dashboard/theater-revenue-chart"
+import { FadeIn } from "../../../components/ui/motion"
 
 export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true)
