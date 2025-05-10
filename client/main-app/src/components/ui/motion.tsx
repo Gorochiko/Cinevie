@@ -2,7 +2,7 @@
 
 import React from "react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "../../lib/utils"
 import { useEffect, useState ,ReactElement} from "react"
 
 interface FadeInProps extends React.HTMLAttributes<HTMLDivElement> {
