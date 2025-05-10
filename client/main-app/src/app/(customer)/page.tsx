@@ -1,9 +1,9 @@
 
-import { Slideshow } from "@/components/Slideshow";
-import { RecommendMovie } from "@/components/RecommendMovie";
-import { MovieGenres } from "@/components/MovieGenres";
-import { Promotion } from "@/components/Promotion";
-import { FilmFactory } from "@/factories/films/filmsFactory";
+import { Slideshow } from "../../components/Slideshow";
+import { RecommendMovie } from "../../components/RecommendMovie";
+import { MovieGenres } from "../../components/MovieGenres";
+import { Promotion } from "../../components/Promotion";
+import { FilmFactory } from "../../factories/films/filmsFactory";
 
 
 export default async function Home() {

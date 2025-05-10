@@ -2,10 +2,10 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
+import { Card, CardContent } from "../../../components/ui/card"
+import { Button } from "../../../components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs"
+import { Badge } from "../../../components/ui/badge"
 import { Calendar, Clock, Tag, Ticket } from "lucide-react"
 
 // Promotion data with added categories

@@ -1,18 +1,18 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "../../../components/ui/card"
 
-import { StatisticsCards } from "@/components/dashboard2/Tickets/statistics-cards"
-import { SearchFilter } from "@/components/dashboard2/Tickets/search-filter"
-import { TableActions } from "@/components/dashboard2/Tickets/table-actions"
-import { TicketTable } from "@/components/dashboard2/Tickets/ticket-table"
-import { TicketDetailsDialog } from "@/components/dashboard2/Tickets/ticket-details-dialog"
-import { Pagination } from "@/components/dashboard2/Tickets/pagination"
+import { StatisticsCards } from "../../../components/dashboard2/Tickets/statistics-cards"
+import { SearchFilter } from "../../../components/dashboard2/Tickets/search-filter"
+import { TableActions } from "../../../components/dashboard2/Tickets/table-actions"
+import { TicketTable } from "../../../components/dashboard2/Tickets/ticket-table"
+import { TicketDetailsDialog } from "../../../components/dashboard2/Tickets/ticket-details-dialog"
+import { Pagination } from "../../../components/dashboard2/Tickets/pagination"
 
-import { formatCurrency } from "@/lib/utils"
-import type { Ticket } from "@/types/index"
-import { getTicket } from "@/lib/actions"
+import { formatCurrency } from "../../../lib/utils"
+import type { Ticket } from "../../../types/index"
+import { getTicket } from "../../../lib/actions"
 import { format } from "date-fns"
 
 

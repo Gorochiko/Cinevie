@@ -1,7 +1,7 @@
 
-import LoginForm from '@/components/forms/LoginForm';
-import Animation from '@/components/Animation';
-import AuthCard from "@/components/forms/AuthCards";
+import LoginForm from '../../../components/forms/LoginForm';
+import Animation from '../../../components/Animation';
+import AuthCard from "../../../components/forms/AuthCards";
 
 
 export default async function LoginPage() {

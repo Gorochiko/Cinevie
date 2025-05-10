@@ -1,8 +1,8 @@
 "use client"
 
-import BookingPage from "@/components/booking/booking-page"
-import { getShowtimeByid } from "@/lib/actions"
-import { Showtime } from "@/types"
+import BookingPage from "../../../../components/booking/booking-page"
+import { getShowtimeByid } from "../../../../lib/actions"
+import { Showtime } from "../../../../types"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 

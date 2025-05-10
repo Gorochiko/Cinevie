@@ -1,5 +1,5 @@
-import CinemaBranchManagement from "@/components/dashboard2/Branch/cinema-branch-management"
-import { Card, CardContent } from "@/components/ui/card"
+import CinemaBranchManagement from "../../../components/dashboard2/Branch/cinema-branch-management"
+import { Card, CardContent } from "../../../components/ui/card"
 
 
 export default function TheaterPage() {

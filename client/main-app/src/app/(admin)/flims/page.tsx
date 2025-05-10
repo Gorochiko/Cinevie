@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Button } from "../../../components/ui/button";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../../components/ui/table";
 import Image from "next/image";
 import { Edit, Trash2, Search } from "lucide-react";
-import FormAddMovie from "@/components/dashboard2/form.addFlims";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
+import FormAddMovie from "../../../components/dashboard2/form.addFlims";
+import { Input } from "../../../components/ui/input";
+import { Badge } from "../../../components/ui/badge";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -16,7 +16,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { getFilms } from "@/lib/actions";
+import { getFilms } from "../../../lib/actions";
 import {
     Pagination,
     PaginationContent,
@@ -24,9 +24,9 @@ import {
     PaginationPrevious,
     PaginationNext,
     PaginationLink,
-} from "@/components/ui/pagination";
+} from "../../../components/ui/pagination";
 import { useMemo } from "react";
-import {Film} from "@/types/index"
+import {Film} from "../../../types/index"
 
 export default function FilmManagement() {
     const [searchTerm, setSearchTerm] = useState("");

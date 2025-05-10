@@ -1,5 +1,5 @@
-import { Toaster } from "@/components/ui/toaster" 
-import { auth } from "@/lib/auth";
+import { Toaster } from "../../components/ui/toaster" 
+import { auth } from "../../lib/auth";
 import { redirect } from "next/navigation";
 export default async function AuthLayout({ children }: {
   readonly children: React.ReactNode;

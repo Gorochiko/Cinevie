@@ -1,6 +1,6 @@
-  import { Card} from "@/components/ui/card";
-  import OTPCardHeader from "@/components/OTPCardHeader";
-  import OTPCardContent from "@/components/OTPCardContent";
+  import { Card} from "../../../components/ui/card";
+  import OTPCardHeader from "../../../components/OTPCardHeader";
+  import OTPCardContent from "../../../components/OTPCardContent";
 
 
 

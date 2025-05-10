@@ -1,12 +1,12 @@
 import { PlusCircle } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { ShowtimeDialog } from "@/components/dashboard2/Showtime/showtime-dialog"
-import { ShowtimeFactory } from "@/factories/showtime/showtimeFactory"
-import { Showtime } from "@/types"
-import { toast } from "@/hooks/use-toast"
+import { Button } from "../../../components/ui/button"
+import { ShowtimeDialog } from "../../../components/dashboard2/Showtime/showtime-dialog"
+import { ShowtimeFactory } from "../../../factories/showtime/showtimeFactory"
+import { Showtime } from "../../../types"
+import { toast } from "../../../hooks/use-toast"
 import { revalidatePath } from "next/cache"
-import { ShowtimesContainer } from '@/components/dashboard2/Showtime/showtime-container'
-import { getFilms, getTheaters } from '@/lib/actions'
+import { ShowtimesContainer } from '../../../components/dashboard2/Showtime/showtime-container'
+import { getFilms, getTheaters } from '../../../lib/actions'
 
 export const dynamic = 'force-dynamic';
 export const fetchCache = 'force-no-store';
